@@ -7,7 +7,7 @@ data:
     use=web, web=ifconfig.me/ip
     protocol=namecheap
     server=dynamicdns.park-your-domain.com
-    login=loeffelmeister.com
+    login=loeffelmeister.de
     password_env=NAMECHEAP_PASSWORD
     internal
 ---

@@ -1,0 +1,47 @@
+# ddclient-config.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ddclient-config
+data:
+  ddclient.conf: |
+    protocol=namecheap,                \
+    login_env=NAMECHEAP_LOGIN,         \
+    password_env=NAMECHEAP_PASSWORD,   \
+    internal.loeffelmeister.de
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ddclient
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ddclient
+  template:
+    metadata:
+      labels:
+        app: ddclient
+    spec:
+      containers:
+        - name: ddclient
+          image: lscr.io/linuxserver/ddclient:4.0.0
+          volumeMounts:
+            - name: config
+              mountPath: /config
+          env:
+            - name: NAMECHEAP_LOGIN
+              valueFrom:
+                secretKeyRef:
+                  name: namecheap-creds
+                  key: login
+            - name: NAMECHEAP_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: namecheap-creds
+                  key: password
+      volumes:
+        - name: config
+          configMap:
+            name: ddclient-config

@@ -4,7 +4,7 @@ metadata:
   name: ddclient-config
 data:
   ddclient.conf: |
-    use=ip
+    use=web, web=ifconfig.me/ip
     protocol=namecheap
     login_env=NAMECHEAP_LOGIN
     password_env=NAMECHEAP_PASSWORD

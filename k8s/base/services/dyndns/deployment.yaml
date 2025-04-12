@@ -5,9 +5,10 @@ metadata:
   name: ddclient-config
 data:
   ddclient.conf: |
-    protocol=namecheap,                \
-    login_env=NAMECHEAP_LOGIN,         \
-    password_env=NAMECHEAP_PASSWORD,   \
+    use=ip
+    protocol=namecheap
+    login_env=NAMECHEAP_LOGIN
+    password_env=NAMECHEAP_PASSWORD
     internal.loeffelmeister.de
 ---
 apiVersion: apps/v1
@@ -29,7 +30,8 @@ spec:
           image: lscr.io/linuxserver/ddclient:4.0.0
           volumeMounts:
             - name: config
-              mountPath: /config
+              mountPath: /config/ddclient.conf
+              subPath: ddclient.conf
           env:
             - name: NAMECHEAP_LOGIN
               valueFrom:

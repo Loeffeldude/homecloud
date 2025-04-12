@@ -3,3 +3,4 @@ kind: Kustomization
 namespace: homecloud
 resources:
   - ./services/dyndns/
+  - ./services/test

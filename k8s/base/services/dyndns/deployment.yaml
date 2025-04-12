@@ -1,4 +1,3 @@
-# ddclient-config.yaml
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -25,13 +24,24 @@ spec:
       labels:
         app: ddclient
     spec:
+      # https://github.com/linuxserver/docker-ddclient/issues/70
+      # :(
+      initContainers:
+        - name: config-init
+          image: busybox
+          command:
+            ["sh", "-c", "cp /configmap/ddclient.conf /config/ddclient.conf"]
+          volumeMounts:
+            - name: config-map
+              mountPath: /configmap
+            - name: config
+              mountPath: /config
       containers:
         - name: ddclient
           image: lscr.io/linuxserver/ddclient:4.0.0
           volumeMounts:
             - name: config
-              mountPath: /config/ddclient.conf
-              subPath: ddclient.conf
+              mountPath: /config
           env:
             - name: NAMECHEAP_LOGIN
               valueFrom:
@@ -44,6 +54,8 @@ spec:
                   name: namecheap-creds
                   key: password
       volumes:
-        - name: config
+        - name: config-map
           configMap:
             name: ddclient-config
+        - name: config
+          emptyDir: {}

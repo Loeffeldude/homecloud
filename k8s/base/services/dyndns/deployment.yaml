@@ -4,7 +4,7 @@ metadata:
   name: ddclient-config
 data:
   ddclient.conf: |
-    use=web, web=dynamicdns.park-your-domain.com/getip
+    use=web, web=ifconfig.me/ip
     protocol=namecheap
     server=dynamicdns.park-your-domain.com
     login=loeffelmeister.com

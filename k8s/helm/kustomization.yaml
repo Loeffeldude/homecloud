@@ -3,3 +3,4 @@ kind: Kustomization
 resources:
   - repositories.yaml
   - releases/secrets/release.yml
+  - releases/longhorn/release.yml

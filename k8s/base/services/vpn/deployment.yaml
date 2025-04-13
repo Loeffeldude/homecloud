@@ -1,4 +1,3 @@
----
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
@@ -40,6 +39,14 @@ spec:
             - name: modules
               mountPath: /lib/modules
               readOnly: true
+      volumes:
+        - name: wireguard-config
+          secret:
+            secretName: wireguard-config
+        - name: modules
+          hostPath:
+            path: /lib/modules
+            type: Directory
   volumeClaimTemplates:
     - metadata:
         name: config
@@ -48,11 +55,6 @@ spec:
         resources:
           requests:
             storage: 1Gi
-  volumes:
-    - name: wireguard-config
-      secret:
-        secretName: wireguard-config
-
 ---
 kind: PersistentVolume
 apiVersion: v1

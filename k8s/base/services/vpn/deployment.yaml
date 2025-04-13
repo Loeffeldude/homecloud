@@ -14,7 +14,6 @@ spec:
       labels:
         app: wireguard-homecloud
     spec:
-      hostNetwork: true
       securityContext:
         sysctls:
           - name: net.ipv4.conf.all.src_valid_mark

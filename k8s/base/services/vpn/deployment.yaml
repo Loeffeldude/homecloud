@@ -15,6 +15,12 @@ spec:
         app: wireguard-homecloud
     spec:
       hostNetwork: true
+      securityContext:
+        sysctls:
+          - name: net.ipv4.conf.all.src_valid_mark
+            value: "1"
+          - name: net.ipv4.ip_forward
+            value: "1"
       containers:
         - name: wireguard
           image: linuxserver/wireguard
@@ -42,9 +48,6 @@ spec:
             - name: modules
               mountPath: /lib/modules
               readOnly: true
-            - name: sysctl
-              mountPath: /proc/sys
-              readOnly: false
       volumes:
         - name: wireguard-config
           secret:
@@ -53,10 +56,6 @@ spec:
         - name: modules
           hostPath:
             path: /lib/modules
-            type: Directory
-        - name: sysctl                  # Add this volume
-          hostPath:
-            path: /proc/sys
             type: Directory
   volumeClaimTemplates:
     - metadata:

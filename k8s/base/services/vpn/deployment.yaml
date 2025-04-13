@@ -54,6 +54,10 @@ spec:
           hostPath:
             path: /lib/modules
             type: Directory
+        - name: sysctl                  # Add this volume
+          hostPath:
+            path: /proc/sys
+            type: Directory
   volumeClaimTemplates:
     - metadata:
         name: config

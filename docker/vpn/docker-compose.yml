@@ -25,3 +25,11 @@ services:
     ports:
       - 51820:51820/udp
     restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.tunnel.rule=HostRegexp(`{subdomain:[a-z0-9-]+}.internal.loeffelmeister.de`) || Host(`internal.loeffelmeister.de`)"
+      - "traefik.http.services.tunnel.loadbalancer.server.url=http://10.13.13.2"
+
+networks:
+  web:
+    external: true

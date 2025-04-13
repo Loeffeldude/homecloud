@@ -112,6 +112,30 @@ def install_flux():
     verify_flux_install()
 
 
+@app.command("update-now")
+def update_now():
+    subprocess.run(
+        [
+            "flux",
+            "reconcile",
+            "source",
+            "git",
+            "flux-system",
+        ],
+        check=True,
+    )
+
+    subprocess.run(
+        [
+            "flux",
+            "reconcile",
+            "kustomization",
+            "flux-system",
+        ],
+        check=True,
+    )
+
+
 @app.command("init")
 def init_flux(dev: bool = False):
     """Initialize flux"""
@@ -130,25 +154,24 @@ def init_flux(dev: bool = False):
     username = typer.prompt("Enter GitHub username", default=repo_info.username)
     token = typer.prompt("Enter GitHub personal access token")
 
-    # subprocess.run(
-    #     [
-    #         "flux",
-    #         "bootstrap",
-    #         "github",
-    #         "--token-auth",
-    #         f"--owner={username}",
-    #         f"--repository={repo_info.name}",
-    #         f"--branch={repo_info.main_branch_name}",
-    #         "--path=k8s",
-    #         "--personal",
-    #         "--reconcile=false",
-    #     ],
-    #     env={
-    #         **env,
-    #         "GITHUB_TOKEN": token,
-    #     },
-    #     check=True,
-    # )
+    subprocess.run(
+        [
+            "flux",
+            "bootstrap",
+            "github",
+            "--token-auth",
+            f"--owner={username}",
+            f"--repository={repo_info.name}",
+            f"--branch={repo_info.main_branch_name}",
+            "--path=k8s",
+            "--personal",
+        ],
+        env={
+            **env,
+            "GITHUB_TOKEN": token,
+        },
+        check=True,
+    )
 
     git_resource_res = subprocess.run(
         [

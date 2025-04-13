@@ -59,7 +59,7 @@ metadata:
     traefik.ingress.kubernetes.io/router.middlewares: default-redirect-https@kubernetescrd
 spec:
   rules:
-    - host: internal.loeffelmeister.de
+    - host: test.internal.loeffelmeister.de
       http:
         paths:
           - path: /

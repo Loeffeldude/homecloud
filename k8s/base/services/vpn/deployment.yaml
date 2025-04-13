@@ -23,11 +23,14 @@ spec:
               add:
                 - NET_ADMIN
                 - SYS_MODULE
+            privileged: true
+            runAsUser: 0
+            runAsGroup: 0
           env:
             - name: PUID
-              value: "1000"
+              value: "0"
             - name: PGID
-              value: "1000"
+              value: "0"
             - name: TZ
               value: "UTC"
           volumeMounts:
@@ -39,10 +42,14 @@ spec:
             - name: modules
               mountPath: /lib/modules
               readOnly: true
+            - name: sysctl
+              mountPath: /proc/sys
+              readOnly: false
       volumes:
         - name: wireguard-config
           secret:
             secretName: wireguard-config
+            defaultMode: 0600
         - name: modules
           hostPath:
             path: /lib/modules

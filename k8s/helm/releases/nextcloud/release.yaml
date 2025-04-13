@@ -1,0 +1,30 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: nextcloud-release
+  namespace: nextcloud
+spec:
+  chart:
+    spec:
+      chart: nextcloud
+      reconcileStrategy: ChartVersion
+      sourceRef:
+        kind: HelmRepository
+        name: nextcloud-repo
+      version: ">=6.6.9"
+  interval: 1m0s
+  values:
+    nextcloud:
+      host: nextcloud.internal.loeffelmeister.de
+      existingSecret:
+        enabled: true
+        secretName: nextcloud-secrets
+        usernameKey: nextcloud-username
+        passwordKey: nextcloud-password
+    persistence:
+      # Nextcloud Data (/var/www/html)
+      enabled: true
+      storageClass: "longhorn"
+      accessMode: ReadWriteOnce
+      size: 500Gi

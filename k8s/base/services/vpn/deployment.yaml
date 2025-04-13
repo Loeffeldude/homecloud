@@ -1,3 +1,12 @@
+apiVersion: node.k8s.io/v1
+kind: RuntimeClass
+metadata:
+  name: privileged
+handler: runc
+scheduling:
+  nodeSelector:
+    kubernetes.io/os: linux
+---
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
@@ -14,6 +23,9 @@ spec:
       labels:
         app: wireguard-homecloud
     spec:
+      runtimeClassName: privileged
+      hostNetwork: true
+      dnsPolicy: ClusterFirstWithHostNet
       securityContext:
         sysctls:
           - name: net.ipv4.conf.all.src_valid_mark

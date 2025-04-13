@@ -4,6 +4,7 @@ metadata:
   name: nextcloud-ingress
   namespace: nextcloud
   annotations:
+    kubernetes.io/ingress.class: "traefik"
     traefik.ingress.kubernetes.io/router.entrypoints: web
 spec:
   rules:
@@ -16,4 +17,4 @@ spec:
               service:
                 name: nextcloud-release
                 port:
-                  number: 80
+                  number: 8080

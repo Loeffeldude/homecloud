@@ -79,6 +79,14 @@ def seal(
             output_file_path / f"{input_file_path.stem}-sealed{input_file_path.suffix}"
         )
 
+    if output_file_path.exists():
+        should_overwrite = typer.confirm(
+            f"[red]file at {str(output_file_path.absolute())} exists. Do you want to override it?"
+        )
+
+        if not should_overwrite:
+            raise typer.Exit(1)
+
     with input_file_path.open() as input_file:
         with output_file_path.open("w") as output_file:
             subprocess.run(

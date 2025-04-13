@@ -24,7 +24,6 @@ spec:
         app: wireguard-homecloud
     spec:
       runtimeClassName: privileged
-      hostNetwork: true
       dnsPolicy: ClusterFirstWithHostNet
       securityContext:
         sysctls:

@@ -1,0 +1,68 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: wireguard-homecloud
+  namespace: homecloud
+spec:
+  serviceName: wireguard-homecloud
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wireguard-homecloud
+  template:
+    metadata:
+      labels:
+        app: wireguard-homecloud
+    spec:
+      hostNetwork: true
+      containers:
+        - name: wireguard
+          image: linuxserver/wireguard
+          securityContext:
+            capabilities:
+              add:
+                - NET_ADMIN
+                - SYS_MODULE
+          env:
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "1000"
+            - name: TZ
+              value: "UTC"
+          volumeMounts:
+            - name: config
+              mountPath: /config
+            - name: wireguard-config
+              mountPath: /config/wg_confs/vps_tunnel.conf
+              subPath: config
+            - name: modules
+              mountPath: /lib/modules
+              readOnly: true
+  volumeClaimTemplates:
+    - metadata:
+        name: config
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 1Gi
+  volumes:
+    - name: wireguard-config
+      secret:
+        secretName: wireguard-config
+
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: modules
+spec:
+  capacity:
+    storage: 1Gi
+  hostPath:
+    path: /lib/modules
+    type: Directory
+  accessModes:
+    - ReadOnlyMany

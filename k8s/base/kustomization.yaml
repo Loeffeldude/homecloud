@@ -4,4 +4,5 @@ namespace: homecloud
 resources:
   # disabled because isp does not allow port forwarding :(
   # - ./services/dyndns/
+  - ./services/vpn
   - ./services/test

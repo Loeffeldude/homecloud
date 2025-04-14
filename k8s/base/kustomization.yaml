@@ -6,3 +6,4 @@ resources:
   # - ./services/dyndns/
   - ./services/vpn
   - ./services/test
+  - ./services/paperless

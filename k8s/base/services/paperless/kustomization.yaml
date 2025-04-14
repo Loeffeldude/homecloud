@@ -3,6 +3,7 @@ kind: Kustomization
 namespace: paperless
 resources:
   - secrets.yaml
+  - namespace.yaml
   - pvc.yaml
   - redis.yaml
   - deployment.yaml

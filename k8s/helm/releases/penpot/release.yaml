@@ -28,7 +28,7 @@ spec:
 
     config:
       publicUri: "http://penpot.internal.loeffelmeister.de"
-      flags: "disable-email-verification"
+      flags: "disable-email-verification enable-login-with-oidc disable-registratio disable-login-with-password"
       existingSecret: penpot
       secretKeys:
         apiSecretKey: apiSecretKey

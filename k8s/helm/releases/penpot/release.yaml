@@ -48,6 +48,7 @@ spec:
           enabled: true
           baseURI: "https://auth.loeffelmeister.de"
           roles: ""
+          scopes: "openid profile roles"
         existingSecret: "penpot"
         secretKeys:
           oidcClientIDKey: "oidcClientID"

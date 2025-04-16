@@ -46,7 +46,7 @@ spec:
       providers:
         oidc:
           enabled: true
-          baseURI: "https://auth.loeffelmeister.de"
+          baseURI: "https://auth.loeffelmeister.de/realms/loeffel"
           roles: ""
           scopes: "openid profile roles"
         existingSecret: "penpot"

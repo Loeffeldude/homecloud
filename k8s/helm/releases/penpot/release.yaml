@@ -47,6 +47,7 @@ spec:
         oidc:
           enabled: true
           baseURI: "https://auth.loeffelmeister.de"
+          roles: ""
         existingSecret: "penpot"
         secretKeys:
           oidcClientIDKey: "oidcClientID"
@@ -58,13 +59,15 @@ spec:
         storageClass: "longhorn"
         size: 20Gi
         accessModes:
-          - ReadWriteOnce
+          # rolling rollouts
+          - ReadWriteMany
       exporter:
         enabled: true
         storageClass: "longhorn"
         size: 10Gi
         accessModes:
-          - ReadWriteOnce
+          # rolling rollouts
+          - ReadWriteMany
 
     ingress:
       enabled: true

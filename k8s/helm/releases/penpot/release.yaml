@@ -1,0 +1,94 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: penpot
+  namespace: penpot
+spec:
+  chart:
+    spec:
+      chart: penpot
+      reconcileStrategy: ChartVersion
+      sourceRef:
+        kind: HelmRepository
+        name: penpot-repo
+      version: "0.17.0"
+  interval: 1m0s
+  values:
+    # yaml-language-server: $schema=values.schema.json
+    ## Default values for Penpot
+
+    global:
+      # -- Whether to deploy the Bitnami PostgreSQL chart as subchart. Check [the official chart](https://artifacthub.io/packages/helm/bitnami/postgresql) for configuration.
+      # @section -- Global parameters
+      postgresqlEnabled: true
+      # -- Whether to deploy the Bitnami Redis chart as subchart. Check [the official chart](https://artifacthub.io/packages/helm/bitnami/redis) for configuration.
+      # @section -- Global parameters
+      redisEnabled: true
+
+    config:
+      publicUri: "http://penpot.internal.loeffelmeister.de"
+      flags: "disable-email-verification"
+      existingSecret: penpot
+      secretKeys:
+        apiSecretKey: apiSecretKey
+      telemetryEnabled: false
+
+      assets:
+        # -- The storage backend for assets to use. Use `assets-fs` for filesystem, and `assets-s3` for S3.
+        # @section -- Configuration parameters
+        storageBackend: "assets-fs"
+        filesystem:
+          # -- The storage directory to use if you chose the filesystem storage backend.
+          # @section -- Configuration parameters
+          directory: "/opt/data/assets"
+
+      providers:
+        oidc:
+          enabled: true
+          baseURI: "https://auth.loeffelmeister.de"
+        existingSecret: "penpot"
+        secretKeys:
+          oidcClientIDKey: "oidcClientID"
+          oidcClientSecretKey: "oidcClientSecret"
+
+    persistence:
+      assets:
+        enabled: true
+        storageClass: "longhorn"
+        size: 20Gi
+        accessModes:
+          - ReadWriteOnce
+      exporter:
+        enabled: true
+        storageClass: "longhorn"
+        size: 10Gi
+        accessModes:
+          - ReadWriteOnce
+
+    ingress:
+      enabled: true
+      className: "traefik"
+      annotations:
+        traefik.ingress.kubernetes.io/router.entrypoints: web
+      path: "/"
+      hosts:
+        - "penpot.internal.loeffelmeister.de"
+
+    # PostgreSQL configuration (Check for [more parameters here](https://artifacthub.io/packages/helm/bitnami/postgresql))
+    postgresql:
+      auth:
+        username: "penpot"
+        password: "penpot"
+        database: "penpot"
+
+    # Redis configuration (Check for [more parameters here](https://artifacthub.io/packages/helm/bitnami/redis))
+    redis:
+      global:
+        compatibility:
+          openshift:
+            adaptSecurityContext: "auto"
+      auth:
+        enabled: false
+
+      architecture: standalone

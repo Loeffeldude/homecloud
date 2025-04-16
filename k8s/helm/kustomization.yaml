@@ -5,3 +5,4 @@ resources:
   - releases/secrets/release.yml
   - releases/longhorn
   - releases/nextcloud
+  - releases/penpot

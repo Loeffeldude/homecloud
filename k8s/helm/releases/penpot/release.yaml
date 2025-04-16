@@ -27,7 +27,7 @@ spec:
       redisEnabled: true
 
     config:
-      publicUri: "http://penpot.internal.loeffelmeister.de"
+      publicUri: "https://penpot.internal.loeffelmeister.de"
       flags: "disable-email-verification enable-login-with-oidc disable-registratio disable-login-with-password"
       existingSecret: penpot
       secretKeys:

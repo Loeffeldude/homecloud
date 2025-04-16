@@ -49,6 +49,9 @@ spec:
           baseURI: "https://auth.loeffelmeister.de/realms/loeffel"
           roles: ""
           scopes: "openid profile roles"
+          authURI: "https://auth.loeffelmeister.de/realms/loeffel/protocol/openid-connect/auth"
+          tokenURI: "https://auth.loeffelmeister.de/realms/loeffel/protocol/openid-connect/token"
+          userURI: "https://auth.loeffelmeister.de/realms/loeffel/protocol/openid-connect/userinfo"
         existingSecret: "penpot"
         secretKeys:
           oidcClientIDKey: "oidcClientID"

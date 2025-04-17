@@ -1,0 +1,16 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: monitoring-release
+  namespace: monitoring
+spec:
+  chart:
+    spec:
+      chart: monitoring
+      reconcileStrategy: ChartVersion
+      sourceRef:
+        kind: HelmRepository
+        name: monitoring-repo
+      version: v1.8.1
+  interval: 1m0s
+  values: {}

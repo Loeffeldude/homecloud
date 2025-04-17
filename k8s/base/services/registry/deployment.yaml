@@ -35,14 +35,14 @@ spec:
           #   initialDelaySeconds: 30
           #   timeoutSeconds: 10
           env:
-            - name: REDIS_ADDRS_0
+            - name: REGISTRY_REDIS_ADDRS_0
               value: redis:6379
-            - name: HTTP_SECRET
+            - name: REGISTRY_HTTP_SECRET
               valueFrom:
                 secretKeyRef:
                   key: httpSecret
                   name: registry-secrets
-            - name: LOG_HOOKS_0_OPTIONS_SMTP_PASSWORD
+            - name: REGISTRY_LOG_HOOKS_0_OPTIONS_SMTP_PASSWORD
               valueFrom:
                 secretKeyRef:
                   key: smtpPassword

@@ -2,7 +2,7 @@
 # REDIS_ADDRS_0=service
 # HTTP_SECRET=secret
 # LOG_HOOKS_0_OPTIONS_SMTP_PASSWORD=
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   namespace: registry

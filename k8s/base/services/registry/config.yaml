@@ -1,0 +1,81 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: registry-config
+  namespace: registry
+data:
+  config.yml: |
+    version: 0.1
+    log:
+      level: debug
+      formatter: text
+      fields:
+        service: registry
+        environment: staging
+      hooks:
+        - type: mail
+          disabled: true
+          levels:
+            - panic
+          options:
+            smtp:
+              addr: smtp.eu.mailgun.org:2525
+              username: noreply@mail.loeffelmeister.de
+              # TODO: override with env var
+              password: password
+              insecure: true
+            from: noreply@mail.loeffelmeister.de
+            to:
+              - kraetschmerni@gmail.com
+    storage:
+      filesystem:
+        rootdirectory: /var/lib/registry
+        maxthreads: 100
+      tag:
+        concurrencylimit: 8
+      delete:
+        enabled: false
+      redirect:
+        disable: false
+      cache:
+        blobdescriptor: redis
+        blobdescriptorsize: 10000
+      maintenance:
+        uploadpurging:
+          enabled: true
+          age: 168h
+          interval: 24h
+          dryrun: false
+        readonly:
+          enabled: false
+    auth:
+      token:
+          autoredirect: true
+          realm: loeffel
+          service: docker-registry
+          issuer: https://id.loeffelmeister.de/realms/loeffel
+          rootcertbundle: /root/certs/bundle
+          # Remove jwks line - Keycloak provides its own JWKS endpoint
+          signingalgorithms:
+              - RS256
+    http:
+      addr: localhost:5000
+      prefix: /
+      host: https://registry.internal.loeffelmeister.de
+      relativeurls: false
+      draintimeout: 60s
+      http2:
+        disabled: false
+      h2c:
+        enabled: false
+    redis:
+      addrs: []
+      db: 0
+      dialtimeout: 10ms
+      readtimeout: 10ms
+      writetimeout: 10ms
+      maxidleconns: 16
+      poolsize: 64
+      connmaxidletime: 300s
+      tls:
+        enabled: false

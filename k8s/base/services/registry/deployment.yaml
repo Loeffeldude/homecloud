@@ -62,7 +62,6 @@ spec:
         - name: registry-config
           configMap:
             name: registry-config
-      restartPolicy: Always
 ---
 kind: Service
 apiVersion: v1

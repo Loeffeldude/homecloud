@@ -41,18 +41,20 @@ spec:
               valueFrom:
                 secretKeyRef:
                   key: httpSecret
-                  name: registry-secret
+                  name: registry-secrets
             - name: LOG_HOOKS_0_OPTIONS_SMTP_PASSWORD
               valueFrom:
                 secretKeyRef:
                   key: smtpPassword
-                  name: registry-secret
+                  name: registry-secrets
           ports:
             - containerPort: 5000
           volumeMounts:
             - name: registry-config
               mountPath: /etc/distribution/config.yml
               subPath: config.yml
+            - name: registry-data
+              mountPath: /var/lib/registry
       volumes:
         - name: registry-data
           persistentVolumeClaim:

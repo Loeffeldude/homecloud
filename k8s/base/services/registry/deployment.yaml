@@ -67,7 +67,7 @@ spec:
             name: registry-config
         - name: registry-secrets
           secret:
-            name: registry-secrets
+            secretName: registry-secrets
 
 ---
 kind: Service

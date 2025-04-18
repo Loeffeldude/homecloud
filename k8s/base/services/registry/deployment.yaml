@@ -53,6 +53,9 @@ spec:
             - name: registry-config
               mountPath: /etc/distribution/config.yml
               subPath: config.yml
+            - name: registry-secrets
+              mountPath: /etc/distribution/certbundle.pem
+              subPath: certbundle.pem
             - name: registry-data
               mountPath: /var/lib/registry
       volumes:
@@ -62,6 +65,10 @@ spec:
         - name: registry-config
           configMap:
             name: registry-config
+        - name: registry-secrets
+          secret:
+            name: registry-secrets
+
 ---
 kind: Service
 apiVersion: v1

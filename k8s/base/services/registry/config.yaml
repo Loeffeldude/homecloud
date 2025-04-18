@@ -50,14 +50,10 @@ data:
           enabled: false
     auth:
       token:
-          autoredirect: true
-          realm: loeffel
+          realm: http://auth.loeffelmeister.de/loeffel/protocol/docker-v2/auth
           service: docker-registry
-          issuer: https://id.loeffelmeister.de/realms/loeffel
-          rootcertbundle: /root/certs/bundle
-          # Remove jwks line - Keycloak provides its own JWKS endpoint
-          signingalgorithms:
-              - RS256
+          issuer: https://auth.loeffelmeister.de/realms/loeffel
+          rootcertbundle: /etc/distribution/certbundle.pem
     http:
       addr: localhost:5000
       prefix: /
@@ -69,13 +65,14 @@ data:
       h2c:
         enabled: false
     redis:
-      addrs: []
+      addrs: [redis:6379]
       db: 0
       dialtimeout: 10ms
       readtimeout: 10ms
       writetimeout: 10ms
       maxidleconns: 16
       poolsize: 64
+      password: password
       connmaxidletime: 300s
       tls:
         enabled: false

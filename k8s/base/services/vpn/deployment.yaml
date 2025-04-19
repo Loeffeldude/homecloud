@@ -25,24 +25,27 @@ spec:
               add:
                 - NET_ADMIN
                 - SYS_MODULE
-          lifecycle:
-            postStart:
-              exec:
-                command:
-                  - /bin/sh
-                  - -c
-                  - |
-                    ip route add 10.13.13.0/24 dev wg0
-            preStop:
-              exec:
-                command:
-                  - /bin/sh
-                  - -c
-                  - |
-                    ip route del 10.13.13.0/24
           env:
             - name: INTERNAL_SUBNET
               value: "10.13.13.0/24"
+          livenessProbe:
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - "ping -c 1 10.13.13.1" # ping VPN peer
+            initialDelaySeconds: 30
+            periodSeconds: 30
+            timeoutSeconds: 5
+          readinessProbe:
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - "ping -c 1 10.13.13.1 && wg show wg0 | grep -q 'latest handshake'"
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            timeoutSeconds: 5
           volumeMounts:
             - name: config
               mountPath: /config

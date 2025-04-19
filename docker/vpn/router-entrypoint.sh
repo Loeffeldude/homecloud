@@ -38,7 +38,7 @@ trap cleanup SIGTERM SIGINT SIGQUIT
 
 # Wait for container to be ready
 while true; do
-  CONTAINER_IP=$(get_container_ip)
+  CONTAINER_IP=$(get_container_ip || echo "")
 
   if [ -n "$CONTAINER_IP" ]; then
     echo "Found container IP: $CONTAINER_IP"
@@ -58,13 +58,14 @@ echo "Route established. Monitoring container..."
 while true; do
   sleep 10
 
-  # Get current IP
-  NEW_IP=$(get_container_ip)
+  # Get current IP (with error handling)
+  NEW_IP=$(get_container_ip || echo "")
 
-  # If container disappeared, exit
+  # If container disappeared, wait but don't exit
   if [ -z "$NEW_IP" ]; then
-    echo "Container $CONTAINER_NAME not found!"
-    cleanup
+    echo "Container $CONTAINER_NAME not found! Waiting..."
+    sleep 10
+    continue
   fi
 
   # If IP changed, update route
@@ -75,3 +76,7 @@ while true; do
     add_route "$CONTAINER_IP"
   fi
 done
+
+# This should never be reached - critical error
+echo "CRITICAL ERROR: Infinite loop exited unexpectedly!"
+exit 1

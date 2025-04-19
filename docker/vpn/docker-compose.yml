@@ -11,6 +11,12 @@ services:
       - /lib/modules:/lib/modules:ro
     sysctls:
       - net.ipv4.conf.all.src_valid_mark=1
+    healthcheck:
+      test: ["CMD", "ping", "-c1", "10.13.13.1"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
     labels:
       # reverse proxy config for traefik
       - "traefik.enable=true"
@@ -39,9 +45,36 @@ services:
     ports:
       - 51820:51820/udp
     restart: unless-stopped
-    networks:
-      - homecloud-vpn
 
-networks:
-  homecloud-vpn:
-    external: true
+  route-setup:
+    image: alpine
+    network_mode: "host"
+    cap_add:
+      - NET_ADMIN
+    depends_on:
+      wireguard-homecloud:
+        condition: service_healthy
+    command: |
+      sh -c "
+        # Get WireGuard IP
+        WIREGUARD_IP=$$(getent hosts wireguard-homecloud | awk '{ print $$1 }')
+        echo 'Adding route via $$WIREGUARD_IP'
+
+        # Add route
+        ip route add 10.13.13.0/24 via $$WIREGUARD_IP
+        echo 'Route added'
+
+        # Handle shutdown signals
+        cleanup() {
+          echo 'Removing route'
+          ip route del 10.13.13.0/24 via $$WIREGUARD_IP
+          exit 0
+        }
+
+        # Trap signals
+        trap cleanup SIGTERM SIGINT SIGQUIT
+
+        # Wait indefinitely (until signal)
+        while true; do sleep 1; done
+      "
+    restart: unless-stopped

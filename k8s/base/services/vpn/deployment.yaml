@@ -56,7 +56,7 @@ spec:
               command:
                 - /bin/sh
                 - -c
-                - "ping -c 1 10.13.13.1 && wg show wg0 | grep -q 'latest handshake'"
+                - "ping -c 1 10.13.13.1 && wg show vps_tunnel | grep -q 'latest handshake'"
             initialDelaySeconds: 10
             periodSeconds: 10
             timeoutSeconds: 5

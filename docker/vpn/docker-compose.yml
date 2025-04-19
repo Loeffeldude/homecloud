@@ -55,19 +55,26 @@ services:
       wireguard-homecloud:
         condition: service_healthy
     command: |
-      sh -c "
-        # Get WireGuard IP
-        WIREGUARD_IP=$$(getent hosts wireguard-homecloud | awk '{ print $$1 }')
-        echo 'Adding route via $$WIREGUARD_IP'
+      sh -c '
+        # Install net tools
+        apk add --no-cache iproute2 bind-tools
+
+        # Get WireGuard IP - retry if needed
+        while ! WIREGUARD_IP=$(getent hosts wireguard-homecloud | awk "{ print \$1 }"); do
+          echo "Waiting for wireguard-homecloud DNS resolution..."
+          sleep 2
+        done
+
+        echo "Found WireGuard IP: $WIREGUARD_IP"
 
         # Add route
-        ip route add 10.13.13.0/24 via $$WIREGUARD_IP
-        echo 'Route added'
+        ip route add 10.13.13.0/24 via $WIREGUARD_IP
+        echo "Route added"
 
         # Handle shutdown signals
         cleanup() {
-          echo 'Removing route'
-          ip route del 10.13.13.0/24 via $$WIREGUARD_IP
+          echo "Removing route"
+          ip route del 10.13.13.0/24 via $WIREGUARD_IP || true
           exit 0
         }
 
@@ -76,5 +83,6 @@ services:
 
         # Wait indefinitely (until signal)
         while true; do sleep 1; done
-      "
+      '
+
     restart: unless-stopped

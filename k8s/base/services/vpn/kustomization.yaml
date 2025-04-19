@@ -4,3 +4,4 @@ namespace: homecloud
 resources:
   - secrets.yaml
   - deployment.yaml
+  - service.yaml

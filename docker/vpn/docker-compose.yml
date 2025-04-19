@@ -11,6 +11,18 @@ services:
       - /lib/modules:/lib/modules:ro
     sysctls:
       - net.ipv4.conf.all.src_valid_mark=1
+    labels:
+      # reverse proxy config for traefik
+      - "traefik.enable=true"
+      - "traefik.http.routers.internal.rule=HostRegexp(`{subdomain:[a-z0-9-]+}.internal.loeffelmeister.de`) || Host(`internal.loeffelmeister.de`)"
+      - "traefik.http.routers.internal.entrypoints=web,websecure"
+      - "traefik.http.routers.internal.tls=true"
+      - "traefik.http.routers.internal.tls.certresolver=myresolver"
+      - "traefik.http.routers.internal.tls.domains[0].main=internal.loeffelmeister.de"
+      - "traefik.http.routers.internal.tls.domains[0].sans=*.internal.loeffelmeister.de"
+      - "traefik.http.routers.internal.tls.domains[1].main=loeffelmeister.de"
+      - "traefik.http.routers.internal.tls.domains[1].sans=*.loeffelmeister.de"
+      - "traefik.http.services.internal.loadbalancer.servers.url=http://10.13.13.2"
     environment:
       - PUID=1000
       - PGID=1000
@@ -27,3 +39,9 @@ services:
     ports:
       - 51820:51820/udp
     restart: unless-stopped
+    networks:
+      - homecloud-vpn
+
+networks:
+  homecloud-vpn:
+    external: true

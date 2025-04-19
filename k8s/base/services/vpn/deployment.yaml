@@ -16,7 +16,22 @@ spec:
     spec:
       # nodeSelector:
       #   role: ingress
-      hostNetwork: true
+      hostNetwork: false
+      initContainers:
+        - name: copy-config
+          image: busybox
+          command:
+            - /bin/sh
+            - -c
+            - |
+              mkdir -p /config/wg_confs
+              cp /secret/config /config/wg_confs/vps_tunnel.conf
+              chmod 600 /config/wg_confs/vps_tunnel.conf
+          volumeMounts:
+            - name: config
+              mountPath: /config
+            - name: wireguard-config
+              mountPath: /secret
       containers:
         - name: wireguard
           image: linuxserver/wireguard
@@ -24,7 +39,6 @@ spec:
             capabilities:
               add:
                 - NET_ADMIN
-                - SYS_MODULE
           env:
             - name: INTERNAL_SUBNET
               value: "10.13.13.0/24"
@@ -49,9 +63,6 @@ spec:
           volumeMounts:
             - name: config
               mountPath: /config
-            - name: wireguard-config
-              mountPath: /config/wg_confs/vps_tunnel.conf
-              subPath: config
             - name: modules
               mountPath: /lib/modules
               readOnly: true

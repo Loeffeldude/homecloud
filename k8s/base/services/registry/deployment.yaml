@@ -34,6 +34,7 @@ spec:
           #     port: 5000
           #   initialDelaySeconds: 30
           #   timeoutSeconds: 10
+          command: ["tail", "-f", "/dev/null"]
           env:
             - name: REGISTRY_REDIS_ADDRS_0
               value: redis:6379

@@ -50,7 +50,7 @@ data:
           enabled: false
     auth:
       token:
-          realm: http://auth.loeffelmeister.de/loeffel/protocol/docker-v2/auth
+          realm: https://auth.loeffelmeister.de/loeffel/protocol/docker-v2/auth
           service: docker-registry
           issuer: https://auth.loeffelmeister.de/realms/loeffel
           rootcertbundle: /etc/distribution/certbundle.pem

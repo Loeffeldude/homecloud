@@ -50,9 +50,11 @@ services:
       - 51820:51820/udp
     restart: unless-stopped
     networks:
-      - vpn-homecloud
+      vpn-homecloud:
+        ipv4_address: 172.20.0.2
 
 networks:
+  # any service in that newtork will hop over this network
   vpn-homecloud:
     name: vpn-homecloud
     driver: bridge
@@ -60,4 +62,5 @@ networks:
     ipam:
       driver: default
       config:
-        - subnet: 10.13.13.0/24
+        - subnet: 172.20.0.0/24
+          gateway: 172.20.0.2

@@ -25,8 +25,11 @@ spec:
       labels:
         app: ddclient
     spec:
+      nodeSelector:
+        role: ingress
       # https://github.com/linuxserver/docker-ddclient/issues/70
-      # :(
+      # the config needs read write for some reason
+      # so we just copy it over...
       initContainers:
         - name: config-init
           image: busybox

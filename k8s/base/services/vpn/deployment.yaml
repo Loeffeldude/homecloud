@@ -66,7 +66,18 @@ spec:
             - name: modules
               mountPath: /lib/modules
               readOnly: true
+        # i am behind 7 proxies kiddo B-)
+        - name: proxy
+          image: nginx:alpine
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: nginx-conf
+              mountPath: /etc/nginx/conf.d/
       volumes:
+        - name: nginx-conf
+          configMap:
+            name: wireguard-proxy-config
         - name: wireguard-config
           secret:
             secretName: wireguard-config
@@ -96,3 +107,19 @@ spec:
     type: Directory
   accessModes:
     - ReadOnlyMany
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: wireguard-proxy-config
+data:
+  default.conf: |
+    server {
+      listen 80;
+
+      location / {
+        proxy_pass http://traefik.kube-system.svc.cluster.local;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+      }
+    }

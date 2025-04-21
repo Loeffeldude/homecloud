@@ -55,7 +55,7 @@ data:
           issuer: https://auth.loeffelmeister.de/realms/loeffel
           rootcertbundle: /etc/distribution/certbundle.pem
     http:
-      addr: localhost:5000
+      addr: 0.0.0.0:5000
       prefix: /
       host: https://registry.internal.loeffelmeister.de
       relativeurls: false

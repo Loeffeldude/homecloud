@@ -53,7 +53,7 @@ data:
           realm: https://auth.loeffelmeister.de/realms/loeffel/protocol/docker-v2/auth
           service: docker-registry
           issuer: https://auth.loeffelmeister.de/realms/loeffel
-          # rootcertbundle: /etc/distribution/certbundle.pem
+          rootcertbundle: /etc/distribution/certbundle.pem
     http:
       addr: 0.0.0.0:5000
       prefix: /

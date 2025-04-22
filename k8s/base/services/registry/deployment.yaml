@@ -56,6 +56,9 @@ spec:
             - name: registry-secrets
               mountPath: /etc/distribution/certbundle.pem
               subPath: keycloakPublicKey
+            - name: registry-config
+              mountPath: /etc/distribution/jwks.json
+              subPath: jwks.json
             - name: registry-data
               mountPath: /var/lib/registry
       volumes:

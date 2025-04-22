@@ -8,7 +8,7 @@ metadata:
     traefik.ingress.kubernetes.io/router.entrypoints: web
 spec:
   rules:
-    - host: registry.internal.loeffelmeister.de
+    - host: cr.lffl.me
       http:
         paths:
           - path: /

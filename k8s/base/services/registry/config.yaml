@@ -53,12 +53,12 @@ data:
           realm: https://auth.loeffelmeister.de/realms/loeffel/protocol/docker-v2/auth
           service: docker-registry
           issuer: https://auth.loeffelmeister.de/realms/loeffel
-          rootcertbundle: /etc/distribution/certbundle.pem
+          # rootcertbundle: /etc/distribution/certbundle.pem
           jwks: /etc/distribution/jwks.json
     http:
       addr: 0.0.0.0:5000
       prefix: /
-      host: https://registry.internal.loeffelmeister.de
+      host: https://cr.lffl.me
       relativeurls: false
       draintimeout: 60s
       http2:

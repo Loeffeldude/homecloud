@@ -17,6 +17,7 @@ services:
       - "./config/dynamic:/etc/traefik/dynamic"
     networks:
       - web
+
 networks:
   web:
     external: true

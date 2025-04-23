@@ -26,7 +26,7 @@ services:
       - "traefik.http.routers.internal.tls.domains[0].main=internal.loeffelmeister.de"
       - "traefik.http.routers.internal.tls.domains[0].sans=*.internal.loeffelmeister.de"
       - "traefik.http.routers.internal.priority=100"
-      - "traefik.http.services.internal.loadbalancer.servers.url=http://10.13.13.2"
+      - "traefik.http.services.internal.loadbalancer.server.url=http://10.13.13.2"
       # Router 2: other loeffelmeister.de and lffl.me (lower priority)
       - "traefik.http.routers.otherloeffelmeister.rule=HostRegexp(`{subdomain:[a-z0-9-]+}.loeffelmeister.de`) || Host(`loeffelmeister.de`) || HostRegexp(`{subdomain:[a-z0-9-]+}.lffl.me`) || Host(`lffl.me`)"
       - "traefik.http.routers.otherloeffelmeister.entrypoints=web,websecure"
@@ -37,7 +37,7 @@ services:
       - "traefik.http.routers.otherloeffelmeister.tls.domains[1].main=lffl.me"
       - "traefik.http.routers.otherloeffelmeister.tls.domains[1].sans=*.lffl.me"
       - "traefik.http.routers.otherloeffelmeister.priority=10"
-      - "traefik.http.services.otherloeffelmeister.loadbalancer.servers.url=http://10.13.13.2" # Replace with your actual backend for this router
+      - "traefik.http.services.otherloeffelmeister.loadbalancer.server.url=http://10.13.13.2" # Replace with your actual backend for this router
 
     environment:
       - PUID=1000

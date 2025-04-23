@@ -54,7 +54,7 @@ data:
           service: docker-registry
           issuer: https://auth.loeffelmeister.de/realms/loeffel
           rootcertbundle: /etc/distribution/certbundle.pem
-          # jwks: /etc/distribution/jwks.json
+          jwks: /etc/distribution/jwks.json
     http:
       addr: 0.0.0.0:5000
       prefix: /

@@ -60,16 +60,16 @@ spec:
       type: postgresql
       host: nextcloud-release-postgresql.nextcloud.svc.cluster.local
       database: nextcloud
-      username: nextcloud
       existingSecret:
         enabled: true
         secretName: nextcloud-secrets
+        usernameKey: nextcloud-psql-user
         passwordKey: nextcloud-psql-user-password
-
     postgresql:
       enabled: true
       global:
         postgresql:
+          # global.postgresql.auth overrides postgresql.auth
           auth:
             username: nextcloud
             database: nextcloud

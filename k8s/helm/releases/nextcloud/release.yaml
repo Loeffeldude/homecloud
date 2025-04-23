@@ -14,6 +14,13 @@ spec:
         name: nextcloud-repo
       version: ">=6.6.9"
   interval: 1m0s
+  cronjob:
+    enabled: true
+    resources: {}
+    lifecycle: {}
+    securityContext: {}
+    command:
+      - /cron.sh
   values:
     nextcloud:
       host: nextcloud.internal.loeffelmeister.de
@@ -28,3 +35,36 @@ spec:
       storageClass: "longhorn"
       accessMode: ReadWriteOnce
       size: 500Gi
+
+    redis:
+      enabled: true
+      auth:
+        enabled: true
+        existingSecret: nextcloud-secrets
+        existingSecretPasswordKey: nextcloud-redis-password
+      global:
+        storageClass: longhorn
+      master:
+        persistence:
+          enabled: true
+      replica:
+        persistence:
+          enabled: true
+    postgresql:
+      enabled: true
+      global:
+        postgresql:
+          # global.postgresql.auth overrides postgresql.auth
+          auth:
+            username: nextcloud
+            database: nextcloud
+            existingSecret: nextcloud-secrets
+            # Names of keys in existing secret to use for PostgreSQL credentials
+            secretKeys:
+              adminPasswordKey: "nextcloud-psql-admin-password"
+              userPasswordKey: "nextcloud-psql-user-password"
+              replicationPasswordKey: "nextcloud-psql-replication-password"
+            primary:
+              persistence:
+                enabled: true
+                storageClass: longhorn

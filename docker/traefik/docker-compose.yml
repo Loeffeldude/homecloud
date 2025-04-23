@@ -1,0 +1,22 @@
+services:
+  traefik:
+    image: traefik:v2.5
+    command:
+      - "--configFile=/etc/traefik/traefik.yaml"
+    environment:
+      - "CF_API_EMAIL=kraetschmerni@gmail.com"
+      - "CF_DNS_API_TOKEN=${CF_DNS_API_TOKEN}"
+    ports:
+      - "80:80"
+      - "443:443"
+      - "25565:25565"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "./acme.json:/acme.json"
+      - "./config/traefik.yml:/etc/traefik/traefik.yaml"
+      - "./config/dynamic:/etc/traefik/dynamic"
+    networks:
+      - web
+networks:
+  web:
+    external: true

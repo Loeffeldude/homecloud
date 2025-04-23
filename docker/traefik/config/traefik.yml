@@ -1,0 +1,49 @@
+log:
+  level: DEBUG # Set log level to DEBUG for detailed logs
+
+api:
+  insecure: true # Enables the Traefik dashboard without authentication (not recommended for production)
+  dashboard: true
+
+providers:
+  docker:
+    endpoint: "unix:///var/run/docker.sock" # Docker socket endpoint
+    exposedByDefault: false # Containers must explicitly expose services to Traefik
+    network: web # Docker network to attach Traefik and services
+    watch: true # Watches for Docker changes in real-time
+  file:
+    directory: /etc/traefik/dynamic # Directory for dynamic configurations
+    watch: true # Watches the directory for changes
+
+entryPoints:
+  web:
+    address: ":80" # HTTP entrypoint
+    http:
+      redirections:
+        entryPoint:
+          to: websecure # Redirects HTTP to HTTPS
+          scheme: https
+  websecure:
+    address: ":443" # HTTPS entrypoint
+    http:
+      tls:
+        certResolver: myresolver # Uses the certificate resolver defined below
+  mc:
+    address: ":25565" # Minecraft entrypoint
+  # metrics:
+  #   address: ":8082"  # Prometheus metrics entrypoint
+
+certificatesResolvers:
+  myresolver:
+    acme:
+      email: kraetschmerni@gmail.com # Email for Let's Encrypt notifications
+      storage: /acme.json # Storage file for certificates
+      dnsChallenge:
+        provider: cloudflare # DNS provider for DNS-01 challenge
+        delayBeforeCheck: "30" # Waits 30 seconds before checking DNS records
+
+# metrics:
+#   prometheus:
+#     entryPoint: metrics  # Exposes metrics on the 'metrics' entrypoint
+#     addEntryPointsLabels: true  # Adds entrypoint labels to metrics
+#     addServicesLabels: true  # Adds service labels to metrics

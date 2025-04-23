@@ -16,9 +16,8 @@ services:
       retries: 3
       start_period: 15s
     labels:
-      # reverse proxy config for traefik
       - "traefik.enable=true"
-      # Router 1: internal.loeffelmeister.de (higher priority)
+      # Router 1: internal.loeffelmeister.de
       - "traefik.http.routers.internal.rule=HostRegexp(`{subdomain:[a-z0-9-]+}.internal.loeffelmeister.de`) || Host(`internal.loeffelmeister.de`)"
       - "traefik.http.routers.internal.entrypoints=web,websecure"
       - "traefik.http.routers.internal.tls=true"
@@ -26,18 +25,19 @@ services:
       - "traefik.http.routers.internal.tls.domains[0].main=internal.loeffelmeister.de"
       - "traefik.http.routers.internal.tls.domains[0].sans=*.internal.loeffelmeister.de"
       - "traefik.http.routers.internal.priority=100"
-      - "traefik.http.services.internal.loadbalancer.server.url=http://10.13.13.2:80"
-      # Router 2: other loeffelmeister.de and lffl.me (lower priority)
+      - "traefik.http.routers.internal.service=internal"
+      - "traefik.http.services.internal.loadbalancer.server.address=10.13.13.2:80"
+
+      # Router 2: other loeffelmeister.de and lffl.me
       - "traefik.http.routers.otherloeffelmeister.rule=HostRegexp(`{subdomain:[a-z0-9-]+}.loeffelmeister.de`) || Host(`loeffelmeister.de`) || HostRegexp(`{subdomain:[a-z0-9-]+}.lffl.me`) || Host(`lffl.me`)"
       - "traefik.http.routers.otherloeffelmeister.entrypoints=web,websecure"
       - "traefik.http.routers.otherloeffelmeister.tls=true"
       - "traefik.http.routers.otherloeffelmeister.tls.certresolver=myresolver"
-      - "traefik.http.routers.otherloeffelmeister.tls.domains[0].main=loeffelmeister.de"
-      - "traefik.http.routers.otherloeffelmeister.tls.domains[0].sans=*.loeffelmeister.de"
-      - "traefik.http.routers.otherloeffelmeister.tls.domains[1].main=lffl.me"
-      - "traefik.http.routers.otherloeffelmeister.tls.domains[1].sans=*.lffl.me"
+      - "traefik.http.routers.otherloeffelmeister.tls.domains[0].main=lffl.me"
+      - "traefik.http.routers.otherloeffelmeister.tls.domains[0].sans=*.lffl.me"
       - "traefik.http.routers.otherloeffelmeister.priority=10"
-      - "traefik.http.services.otherloeffelmeister.loadbalancer.server.url=http://10.13.13.2:80" # Replace with your actual backend for this router
+      - "traefik.http.routers.otherloeffelmeister.service=otherloeffelmeister"
+      - "traefik.http.services.otherloeffelmeister.loadbalancer.server.address=10.13.13.2:80"
 
     environment:
       - PUID=1000

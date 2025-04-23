@@ -6,3 +6,4 @@ resources:
   - releases/longhorn
   - releases/nextcloud
   - releases/penpot
+  - releases/jenkins

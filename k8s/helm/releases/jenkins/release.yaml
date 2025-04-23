@@ -1,0 +1,57 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: jenkins
+  namespace: jenkins
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: jenkins
+      version: "5.8.36"
+      sourceRef:
+        kind: HelmRepository
+        name: jenkins
+        namespace: jenkins
+  values:
+    jenkinsUrlProtocol: https
+    usePodSecurityContext: true
+
+    installLatestPlugins: true
+    # -- Set to true to download the latest version of any plugin that is requested to have the latest version
+    installLatestSpecifiedPlugins: false
+
+    # -- List of plugins to install in addition to those listed in controller.installPlugins
+    additionalPlugins: []
+
+    # -- Name of default cloud configuration.
+    cloudName: "homecloud"
+
+    JCasC:
+      # -- Enables default Jenkins configuration via configuration as code plugin
+      defaultConfig: true
+
+    ingress:
+      enabled: true
+      annotations:
+        kubernetes.io/ingress.class: "traefik"
+        traefik.ingress.kubernetes.io/router.entrypoints: web
+      ingressClassName: traefik
+      path: /
+      hostName: jenkins.loeffelmeister.de
+
+    testEnabled: true
+
+    persistence:
+      # -- Enable the use of a Jenkins PVC
+      enabled: true
+
+      # jenkins data Persistent Volume Storage Class
+      # If defined, storageClassName: <storageClass>
+      # If set to "-", storageClassName: "", which disables dynamic provisioning
+      # If undefined (the default) or set to null, no storageClassName spec is
+      #   set, choosing the default provisioner (gp2 on AWS, standard on GKE, AWS & OpenStack)
+      # -- Storage class for the PVC
+      storageClass: longhorn
+      accessMode: "ReadWriteOnce"
+      size: "20Gi"

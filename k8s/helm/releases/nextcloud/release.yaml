@@ -14,13 +14,7 @@ spec:
         name: nextcloud-repo
       version: ">=6.6.9"
   interval: 1m0s
-  cronjob:
-    enabled: true
-    resources: {}
-    lifecycle: {}
-    securityContext: {}
-    command:
-      - /cron.sh
+
   values:
     nextcloud:
       host: nextcloud.internal.loeffelmeister.de
@@ -36,6 +30,13 @@ spec:
       accessMode: ReadWriteOnce
       size: 500Gi
 
+    cronjob:
+      enabled: true
+      resources: {}
+      lifecycle: {}
+      securityContext: {}
+      command:
+        - /cron.sh
     redis:
       enabled: true
       auth:

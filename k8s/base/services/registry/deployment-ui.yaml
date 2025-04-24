@@ -35,7 +35,9 @@ spec:
             - name: SINGLE_REGISTRY
               value: "true"
             - name: REGISTRY_TITLE
-              value: "Loeffelmeister Registry UI"
+              value: "Loeffelmeister Registry"
+            - name: REGISTRY_URL
+              value: "https://cr.lffl.me"
             - name: DELETE_IMAGES
               value: "true"
             - name: SHOW_CONTENT_DIGEST

@@ -16,8 +16,8 @@ spec:
         app: registry-ui
     spec:
       containers:
-        - image: registry:3
-          name: registry
+        - image: joxit/docker-registry-ui:2.5.7
+          name: registry-ui
           livenessProbe:
             httpGet:
               path: /

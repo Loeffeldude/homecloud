@@ -18,18 +18,18 @@ spec:
       containers:
         - image: registry:3
           name: registry
-          livenessProbe:
-            httpGet:
-              path: /_status/healthz
-              port: 5000
-            initialDelaySeconds: 90
-            timeoutSeconds: 10
-          readinessProbe:
-            httpGet:
-              path: /_status/healthz
-              port: 5000
-            initialDelaySeconds: 30
-            timeoutSeconds: 10
+          # livenessProbe:
+          #   httpGet:
+          #     path: /_status/healthz
+          #     port: 5000
+          #   initialDelaySeconds: 90
+          #   timeoutSeconds: 10
+          # readinessProbe:
+          #   httpGet:
+          #     path: /_status/healthz
+          #     port: 5000
+          #   initialDelaySeconds: 30
+          #   timeoutSeconds: 10
           resources: {}
           env:
             - name: REGISTRY_HTTP_HEADERS_Access-Control-Allow-Origin

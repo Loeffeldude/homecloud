@@ -7,4 +7,5 @@ resources:
   - redis.yaml
   - config.yaml
   - deployment.yaml
+  - deployment-ui.yaml
   - ingress.yaml

@@ -108,7 +108,6 @@ data:
     server {
         listen       80;
         server_name  localhost;
-        resolver 127.0.0.11 valid=30s;
 
         set $keycloak "https://auth.loeffelmeister.de";
         set $registry "http://registry.registry.svc.cluster.local:5000";
@@ -177,14 +176,8 @@ data:
           proxy_pass $keycloak;
         }
 
-        location /ui {
-          rewrite  ^/ui/(.*) /$1 break;
-          proxy_pass $ui;
-        }
-
         location / {
-          root   /usr/share/nginx/html;
-          index  index.html index.htm;
+          proxy_pass $ui;
         }
 
         error_page   500 502 503 504  /50x.html;

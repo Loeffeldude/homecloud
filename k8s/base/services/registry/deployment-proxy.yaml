@@ -19,6 +19,11 @@ spec:
       containers:
         - image: nginx:1.28.0-alpine
           name: registry-ui-proxy
+          # Add this to ensure NGINX creates a PID file in a standardized location
+          args:
+            - nginx
+            - -g
+            - "daemon off; pid /tmp/nginx.pid;"
           livenessProbe:
             httpGet:
               path: /
@@ -37,6 +42,9 @@ spec:
           volumeMounts:
             - name: nginx-conf
               mountPath: /etc/nginx/conf.d/
+            - name: shared-tmp
+              mountPath: /tmp
+
         # Config watcher sidecar container
         - name: config-watcher
           image: alpine:latest
@@ -70,3 +78,5 @@ spec:
         - name: nginx-conf
           configMap:
             name: registry-ui-proxy-config
+        - name: shared-tmp
+          emptyDir: {}

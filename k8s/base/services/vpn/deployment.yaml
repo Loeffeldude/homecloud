@@ -19,7 +19,7 @@ spec:
       hostNetwork: false
       initContainers:
         - name: copy-config
-          image: busybox
+          image: busybox:1.37.0
           command:
             - /bin/sh
             - -c
@@ -34,7 +34,7 @@ spec:
               mountPath: /secret
       containers:
         - name: wireguard
-          image: linuxserver/wireguard
+          image: linuxserver/wireguard:1.0.20210914
           securityContext:
             capabilities:
               add:
@@ -68,7 +68,7 @@ spec:
               readOnly: true
         # i am behind 7 proxies kiddo B-)
         - name: proxy
-          image: nginx:alpine
+          image: nginx:1.28.0-alpine
           ports:
             - containerPort: 80
           volumeMounts:

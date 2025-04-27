@@ -42,6 +42,8 @@ spec:
           env:
             - name: INTERNAL_SUBNET
               value: "10.13.13.0/24"
+            - name: KEEPDNS
+              value: "true" # Add this to prevent DNS changes
           livenessProbe:
             exec:
               command:

@@ -1,8 +1,7 @@
-import os
 from pathlib import Path
-import sys
 
-CLI_ROOT = Path(os.path.abspath(sys.argv[0])).parent
+
+CLI_ROOT = Path(__file__).parent.parent
 PROJECT_ROOT = CLI_ROOT.parent
 
 LOGS_DIR = PROJECT_ROOT / "logs"

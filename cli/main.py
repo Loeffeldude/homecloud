@@ -2,7 +2,6 @@ import os
 from pathlib import Path
 import typer
 import hs_cli.commands
-import sys
 
 app = typer.Typer(
     name="hs-cli",
@@ -15,6 +14,7 @@ app = typer.Typer(
 app.add_typer(hs_cli.commands.app)
 
 if __name__ == "__main__":
+    import os
+
+    os.chdir(str(Path(os.getcwd()).parent.absolute()))
     app()
-
-

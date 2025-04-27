@@ -39,7 +39,7 @@ spec:
               mountPath: /etc/nginx/conf.d/
         # Config watcher sidecar container
         - name: config-watcher
-          image: nginx:1.28.0-alpine
+          image: alpine:latest
           command:
             - /bin/sh
             - -c
@@ -49,14 +49,23 @@ spec:
               while true; do
                 inotifywait -e modify,create,delete,move -r /etc/nginx/conf.d/
                 echo "Config change detected, reloading NGINX..."
-                nginx -s reload
-                echo "NGINX configuration reloaded"
+                # Find and signal nginx directly
+                NGINX_MASTER_PID=$(ps -o pid,cmd ax | grep "nginx: master" | grep -v grep | awk '{print $1}')
+                if [ -n "$NGINX_MASTER_PID" ]; then
+                  echo "Sending SIGHUP to NGINX master process $NGINX_MASTER_PID"
+                  kill -HUP $NGINX_MASTER_PID
+                  echo "NGINX configuration reload signal sent successfully"
+                else
+                  echo "NGINX master process not found"
+                fi
               done
           resources: {}
           volumeMounts:
             - name: nginx-conf
               mountPath: /etc/nginx/conf.d/
               readOnly: true
+            - name: shared-tmp
+              mountPath: /tmp
       volumes:
         - name: nginx-conf
           configMap:

@@ -41,3 +41,14 @@ spec:
         - name: nginx-conf
           configMap:
             name: registry-ui-proxy-config
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: registry-ui-proxy
+  namespace: registry
+spec:
+  selector:
+    app: registry-ui-proxy
+  ports:
+    - port: 80

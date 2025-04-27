@@ -37,6 +37,7 @@ spec:
               name: paperless-media
             - mountPath: "/data/consume"
               name: paperless-consume
+          resources: {}
           env:
             - name: PAPERLESS_REDIS
               value: "redis://redis:6379"
@@ -62,6 +63,16 @@ spec:
               value: "0.0.0.0"
             - name: PAPERLESS_PORT
               value: "8000"
+            # SSO
+            - name: PAPERLESS_DISABLE_REGULAR_LOGIN
+              value: "true"
+            - name: PAPERLESS_REDIRECT_LOGIN_TO_SSO
+              value: "true"
+            - name: PAPERLESS_SOCIALACCOUNT_PROVIDERS
+              valueFrom:
+                secretKeyRef:
+                  name: paperless-oidc
+                  key: allauth-config
           readinessProbe:
             httpGet:
               path: /

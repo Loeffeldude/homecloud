@@ -107,7 +107,7 @@ data:
   registry.conf: |
     server {
         listen       80;
-        server_name  localhost;
+        server_name  cr-ui.lffl.me;
         resolver kube-dns.kube-system.svc.cluster.local valid=30s;
 
         set $keycloak "https://auth.loeffelmeister.de";

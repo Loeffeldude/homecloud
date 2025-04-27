@@ -108,6 +108,7 @@ data:
     server {
         listen       80;
         server_name  localhost;
+        resolver kube-dns.kube-system.svc.cluster.local 8.8.8.8 valid=30s;
 
         set $keycloak "https://auth.loeffelmeister.de";
         set $registry "http://registry.registry.svc.cluster.local:5000";

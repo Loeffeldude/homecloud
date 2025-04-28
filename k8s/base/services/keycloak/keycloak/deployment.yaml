@@ -54,7 +54,9 @@ spec:
             - name: KC_HEALTH_ENABLED
               value: "true"
             - name: KC_PROXY_HEADERS
-              value: forwarded
+              value: xforwarded
+            - name: KC_PROXY
+              value: edge
             - name: KUBERNETES_NAMESPACE
               valueFrom:
                 fieldRef:

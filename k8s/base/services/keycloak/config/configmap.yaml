@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: keycloak-config
+data:
+  KC_DB: postgres
+  KC_FEATURES: docker,hostname:v2
+  KC_HTTP_ENABLED: "true"
+  KC_HEALTH_ENABLED: "true"
+  KC_HOSTNAME_STRICT: "true"
+  KC_PROXY_HEADERS: xforwarded
+  POSTGRES_DB: keycloak
+  HOSTNAME: keycloak.example.com

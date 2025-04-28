@@ -6,3 +6,4 @@ resources:
   - ./services/registry
   - ./services/vpn
   - ./services/paperless
+  - ./services/keycloak

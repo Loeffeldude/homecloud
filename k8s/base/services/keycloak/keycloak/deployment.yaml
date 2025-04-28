@@ -39,7 +39,7 @@ spec:
                   key: POSTGRES_PASSWORD
             - name: KC_HOSTNAME
               valueFrom:
-                configMapRef:
+                configMapKeyRef:
                   name: keycloak-config
                   key: HOSTNAME
           resources:

@@ -45,8 +45,6 @@ spec:
                 configMapKeyRef:
                   name: keycloak-config
                   key: HOSTNAME
-            - name: KC_CACHE
-              value: "ispn"
             - name: KC_CACHE_STACK
               value: "kubernetes"
             - name: KEYCLOAK_PRODUCTION

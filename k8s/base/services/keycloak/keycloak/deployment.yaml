@@ -4,7 +4,7 @@ metadata:
   name: keycloak
   namespace: keycloak
 spec:
-  replicas: 1
+  replicas: 2 # Start with 2 replicas, scale as needed
   selector:
     matchLabels:
       app: keycloak
@@ -16,9 +16,12 @@ spec:
       containers:
         - name: keycloak
           image: quay.io/keycloak/keycloak:26.2.0
-          args: ["start", "--http-enabled=true"]
+          args: ["start", "--http-enabled=true", "--optimized"]
           ports:
-            - containerPort: 8080
+            - name: http
+              containerPort: 8080
+            - name: jgroups
+              containerPort: 7800
           envFrom:
             - configMapRef:
                 name: keycloak-config
@@ -42,9 +45,23 @@ spec:
                 configMapKeyRef:
                   name: keycloak-config
                   key: HOSTNAME
+            - name: KC_CACHE
+              value: "ispn"
+            - name: KC_CACHE_STACK
+              value: "kubernetes"
+            - name: JGROUPS_DISCOVERY_PROTOCOL
+              value: "kubernetes.KUBE_PING"
+            - name: JGROUPS_DISCOVERY_PROPERTIES
+              value: "namespace=$(KUBERNETES_NAMESPACE)"
+            - name: KUBERNETES_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: JAVA_OPTS_APPEND
+              value: "-Djgroups.bind.address=global -Djgroups.join_timeout=10000"
           resources:
             requests:
-              memory: "512Mi"
+              memory: "1Gi"
               cpu: "500m"
             limits:
               memory: "2Gi"
@@ -55,9 +72,11 @@ spec:
               port: 8080
             initialDelaySeconds: 30
             periodSeconds: 10
+            timeoutSeconds: 5
           livenessProbe:
             httpGet:
               path: /health/live
               port: 8080
             initialDelaySeconds: 60
             periodSeconds: 30
+            timeoutSeconds: 10

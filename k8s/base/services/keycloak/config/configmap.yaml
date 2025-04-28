@@ -12,3 +12,4 @@ data:
   KC_PROXY_HEADERS: xforwarded
   POSTGRES_DB: keycloak
   HOSTNAME: keycloak.example.com
+  KC_SPI_CONNECTIONS_JGROUPS_PROVIDER: kubernetes

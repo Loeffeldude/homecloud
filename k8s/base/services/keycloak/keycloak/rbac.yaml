@@ -1,0 +1,23 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: keycloak-jgroups
+  namespace: keycloak
+rules:
+  - apiGroups: [""]
+    resources: ["pods"]
+    verbs: ["get", "list"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: keycloak-jgroups
+  namespace: keycloak
+subjects:
+  - kind: ServiceAccount
+    name: default
+    namespace: keycloak
+roleRef:
+  kind: Role
+  name: keycloak-jgroups
+  apiGroup: rbac.authorization.k8s.io

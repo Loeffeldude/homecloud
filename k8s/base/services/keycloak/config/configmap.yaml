@@ -11,5 +11,5 @@ data:
   KC_HOSTNAME_STRICT: "true"
   KC_PROXY_HEADERS: xforwarded
   POSTGRES_DB: keycloak
-  HOSTNAME: keycloak.example.com
+  HOSTNAME: auth.loeffelmeister.de
   KC_SPI_CONNECTIONS_JGROUPS_PROVIDER: kubernetes

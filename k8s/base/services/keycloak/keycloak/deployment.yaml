@@ -4,7 +4,7 @@ metadata:
   name: keycloak
   namespace: keycloak
 spec:
-  replicas: 2
+  replicas: 2 # Start with 2 replicas, scale as needed
   selector:
     matchLabels:
       app: keycloak
@@ -48,12 +48,19 @@ spec:
             - name: KC_CACHE
               value: "ispn"
             - name: KC_CACHE_STACK
-              value: "dns"
+              value: "kubernetes"
+            - name: KEYCLOAK_PRODUCTION
+              value: "true"
+            - name: KC_HOSTNAME_STRICT
+              value: "true"
+            - name: KC_HOSTNAME_STRICT_HTTPS
+              value: "false"
+            - name: KUBERNETES_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
             - name: JAVA_OPTS_APPEND
-              value: >-
-                -Djgroups.dns.query=keycloak-headless.keycloak.svc.cluster.local
-                -Djgroups.bind_addr=match-interface:eth0
-                -Djgroups.join_timeout=10000
+              value: "-Djgroups.dns.query=fch-keycloak-headless.keycloak.svc.cluster.local"
           resources:
             requests:
               memory: "1Gi"

@@ -40,11 +40,13 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: "traefik"
     # Same annotations as your Keycloak ingress
-    traefik.ingress.kubernetes.io/trusted-ips: "10.42.0.0/16,10.13.13.0/24"
+
+    # Trust ALL IPs (for testing only)
+    traefik.ingress.kubernetes.io/trusted-ips: "*"
+    # Ensure Traefik doesn't override headers
+    traefik.ingress.kubernetes.io/headers-trust: "*"
+    # Preserve host header
     traefik.ingress.kubernetes.io/preserve-host: "true"
-    traefik.ingress.kubernetes.io/proxy-host: "true"
-    traefik.ingress.kubernetes.io/proxy-proto: "true"
-    traefik.ingress.kubernetes.io/proxy-port: "true"
 spec:
   rules:
     - host: headerecho.loeffelmeister.de

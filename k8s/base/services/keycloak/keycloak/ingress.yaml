@@ -1,24 +1,17 @@
-apiVersion: networking.k8s.io/v1
-kind: Ingress
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
 metadata:
   name: keycloak
   namespace: keycloak
-  annotations:
-    kubernetes.io/ingress.class: "traefik"
-    traefik.ingress.kubernetes.io/trusted-ips: "10.42.0.0/16,10.13.13.0/24"
-    traefik.ingress.kubernetes.io/preserve-host: "true"
-    traefik.ingress.kubernetes.io/proxy-host: "true"
-    traefik.ingress.kubernetes.io/proxy-proto: "true"
-    traefik.ingress.kubernetes.io/proxy-port: "true"
 spec:
-  rules:
-    - host: auth.loeffelmeister.de
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: keycloak
-                port:
-                  number: 8080
+  routes:
+    - match: Host(`auth.loeffelmeister.de`)
+      kind: Rule
+      services:
+        - name: keycloak
+          port: 8080
+          sticky:
+            cookie:
+              name: AUTH_SESSION_ID
+              secure: true
+              httpOnly: true

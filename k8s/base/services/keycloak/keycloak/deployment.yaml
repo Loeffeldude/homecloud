@@ -16,7 +16,7 @@ spec:
       containers:
         - name: keycloak
           image: quay.io/keycloak/keycloak:26.2.0
-          args: ["start", "--http-enabled=true"]
+          args: ["start"]
           ports:
             - name: http
               containerPort: 8080
@@ -45,6 +45,8 @@ spec:
                 configMapKeyRef:
                   name: keycloak-config
                   key: HOSTNAME
+            - name: KC_CACHE
+              value: "ispn"
             - name: KC_CACHE_STACK
               value: "kubernetes"
             - name: KEYCLOAK_PRODUCTION
@@ -62,7 +64,7 @@ spec:
                 fieldRef:
                   fieldPath: metadata.namespace
             - name: JAVA_OPTS_APPEND
-              value: "-Djgroups.dns.query=fch-keycloak-headless.keycloak.svc.cluster.local"
+              value: "-Djgroups.dns.query=keycloak-headless.keycloak.svc.cluster.local"
           resources:
             requests:
               memory: "1Gi"

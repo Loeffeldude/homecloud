@@ -7,9 +7,5 @@ metadata:
     app: keycloak
 spec:
   clusterIP: None
-  ports:
-    - name: jgroups
-      port: 7800
-      targetPort: 7800
   selector:
     app: keycloak

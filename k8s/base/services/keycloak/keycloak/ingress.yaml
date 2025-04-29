@@ -12,6 +12,5 @@ spec:
           port: 8080
           sticky:
             cookie:
-              name: AUTH_SESSION_ID
               secure: true
               httpOnly: true

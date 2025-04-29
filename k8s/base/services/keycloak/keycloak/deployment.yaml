@@ -47,8 +47,8 @@ spec:
                   key: HOSTNAME
             - name: KC_CACHE
               value: "ispn"
-            - name: KC_CACHE_STACK
-              value: "kubernetes"
+            # - name: KC_CACHE_STACK
+            #   value: "kubernetes"
             - name: KEYCLOAK_PRODUCTION
               value: "true"
             - name: KC_HOSTNAME_STRICT

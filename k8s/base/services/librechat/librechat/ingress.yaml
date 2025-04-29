@@ -16,7 +16,7 @@ spec:
   entryPoints:
     - web
   routes:
-    - match: Host(`chat.loeffelmeister.de`) && PathPrefix(`/api/`)
+    - match: Host(`chat.internal.loeffelmeister.de`) && PathPrefix(`/api/`)
       kind: Rule
       middlewares:
         - name: client-max-body-size
@@ -25,7 +25,7 @@ spec:
         - name: api
           port: 3080
           scheme: http
-    - match: Host(`chat.loeffelmeister.de`) && PathPrefix(`/`)
+    - match: Host(`chat.internal.loeffelmeister.de`) && PathPrefix(`/`)
       kind: Rule
       middlewares:
         - name: client-max-body-size

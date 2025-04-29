@@ -1,0 +1,77 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: librechat-api
+  namespace: librechat
+  labels:
+    app: librechat-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: librechat-api
+  template:
+    metadata:
+      labels:
+        app: librechat-api
+    spec:
+      containers:
+        - name: librechat-api
+          image: ghcr.io/danny-avila/librechat-dev-api:latest
+          ports:
+            - containerPort: 3080
+          resources: {}
+          envFrom:
+            - secretRef:
+                name: librechat-env
+          env:
+            - name: HOST
+              value: "0.0.0.0"
+            - name: NODE_ENV
+              value: "production"
+            - name: MONGO_URI
+              value: "mongodb://mongodb.librechat.svc.cluster.local:27017/LibreChat"
+            - name: MEILI_HOST
+              value: "http://meilisearch.librechat.svc.cluster.local:7700"
+            - name: RAG_API_URL
+              value: "http://rag_api.librechat.svc.cluster.local:8000"
+          volumeMounts:
+            - name: config-volume
+              mountPath: /app/librechat.yaml
+              subPath: librechat.yaml
+            - name: images-volume
+              mountPath: /app/client/public/images
+            - name: uploads-volume
+              mountPath: /app/uploads
+            - name: logs-volume
+              mountPath: /app/api/logs
+      volumes:
+        - name: config-volume
+          configMap:
+            name: librechat-config
+            items:
+              - key: librechat.yaml
+                path: librechat.yaml
+        - name: images-volume
+          persistentVolumeClaim:
+            claimName: librechat-images
+        - name: uploads-volume
+          persistentVolumeClaim:
+            claimName: librechat-uploads
+        - name: logs-volume
+          persistentVolumeClaim:
+            claimName: librechat-logs
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: librechat-api
+  namespace: librechat
+spec:
+  selector:
+    app: librechat-api
+  ports:
+    - protocol: TCP
+      port: 3080
+      targetPort: 3080
+  type: ClusterIP

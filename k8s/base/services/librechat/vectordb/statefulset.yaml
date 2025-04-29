@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: vectordb
+  namespace: librechat
+spec:
+  serviceName: vectordb
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vectordb
+  template:
+    metadata:
+      labels:
+        app: vectordb
+    spec:
+      containers:
+        - name: vectordb
+          image: ankane/pgvector:latest
+          env:
+            - name: POSTGRES_DB
+              valueFrom:
+                secretKeyRef:
+                  name: vectordb-secrets
+                  key: POSTGRES_DB
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: vectordb-secrets
+                  key: POSTGRES_USER
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: vectordb-secrets
+                  key: POSTGRES_PASSWORD
+          envFrom:
+            - secretRef:
+                name: librechat-env
+          ports:
+            - containerPort: 5432
+              name: postgres
+          volumeMounts:
+            - name: pgdata2
+              mountPath: /var/lib/postgresql/data
+          resources: {}
+  volumeClaimTemplates:
+    - metadata:
+        name: pgdata2
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 10Gi

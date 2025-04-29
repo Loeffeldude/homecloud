@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: meilisearch
+  namespace: librechat
+spec:
+  serviceName: meilisearch
+  replicas: 1
+  selector:
+    matchLabels:
+      app: meilisearch
+  template:
+    metadata:
+      labels:
+        app: meilisearch
+    spec:
+      containers:
+        - name: meilisearch
+          image: getmeili/meilisearch:v1.12.3
+          resources: {}
+          ports:
+            - containerPort: 7700
+          env:
+            - name: MEILI_HOST
+              value: "http://meilisearch.librechat.svc.cluster.local:7700"
+            - name: MEILI_NO_ANALYTICS
+              value: "true"
+          envFrom:
+            - secretRef:
+                name: librechat-env
+          volumeMounts:
+            - name: meilisearch-data
+              mountPath: /meili_data
+      volumes:
+        - name: meilisearch-data
+          persistentVolumeClaim:
+            claimName: meilisearch-data

@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rag-api
+  namespace: librechat
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rag-api
+  template:
+    metadata:
+      labels:
+        app: rag-api
+    spec:
+      initContainers:
+        - name: wait-for-vectordb
+          image: busybox
+          command:
+            [
+              "sh",
+              "-c",
+              "until nc -z vectordb.librechat.svc.cluster.local 5432; do echo waiting for vectordb; sleep 3; done",
+            ]
+      containers:
+        - name: rag-api
+          image: ghcr.io/danny-avila/librechat-rag-api-dev-lite:latest
+          ports:
+            - containerPort: 8000
+          envFrom:
+            - secretRef:
+                name: librechat-env
+          env:
+            - name: DB_HOST
+              value: "vectordb.librechat.svc.cluster.local"
+            - name: POSTGRES_DB
+              valueFrom:
+                secretKeyRef:
+                  name: vectordb-secrets
+                  key: POSTGRES_DB
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: vectordb-secrets
+                  key: POSTGRES_USER
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: vectordb-secrets
+                  key: POSTGRES_PASSWORD
+          resources: {}
+      restartPolicy: Always

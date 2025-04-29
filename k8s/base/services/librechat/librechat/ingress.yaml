@@ -1,0 +1,36 @@
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: client-max-body-size
+  namespace: librechat
+spec:
+  requestBody:
+    maxRequestBodyBytes: 26214400 # 25MB
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: rag-api-ingress
+  namespace: librechat
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: Host(`chat.loeffelmeister.de`) && PathPrefix(`/api/`)
+      kind: Rule
+      middlewares:
+        - name: client-max-body-size
+          namespace: librechat
+      services:
+        - name: api
+          port: 3080
+          scheme: http
+    - match: Host(`chat.loeffelmeister.de`) && PathPrefix(`/`)
+      kind: Rule
+      middlewares:
+        - name: client-max-body-size
+          namespace: librechat
+      services:
+        - name: api
+          port: 3080
+          scheme: http

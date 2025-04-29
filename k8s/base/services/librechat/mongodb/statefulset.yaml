@@ -27,15 +27,3 @@ spec:
         - name: mongodb-data
           persistentVolumeClaim:
             claimName: mongodb-data
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: mongodb
-  namespace: librechat
-spec:
-  selector:
-    app: mongodb
-  ports:
-    - port: 27017
-      targetPort: 27017

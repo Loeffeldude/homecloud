@@ -1,0 +1,28 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: librechat
+
+resources:
+  - namespace.yaml
+  - environment.yaml
+
+  - librechat/config.yaml
+  - librechat/deployment.yaml
+  - librechat/ingress.yaml
+  - librechat/pvc.yaml
+
+  - melilesearch/pvc.yaml
+  - melilesearch/service.yaml
+  - melilesearch/statefulset.yaml
+
+  - mongodb/pvc.yaml
+  - mongodb/service.yaml
+  - mongodb/statefulset.yaml
+
+  - ragapi/deployment.yaml
+  - ragapi/service.yaml
+
+  - vectordb/secrets.yaml
+  - vectordb/service.yaml
+  - vectordb/statefulset.yaml

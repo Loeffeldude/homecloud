@@ -66,6 +66,10 @@ spec:
             # SSO
             - name: PAPERLESS_DISABLE_REGULAR_LOGIN
               value: "true"
+            - name: PAPERLESS_APPS
+              value: "allauth.socialaccount.providers.openid_connect"
+            - name: PAPERLESS_SOCIAL_AUTO_SIGNUP
+              value: "true"
             - name: PAPERLESS_REDIRECT_LOGIN_TO_SSO
               value: "true"
             - name: PAPERLESS_SOCIALACCOUNT_PROVIDERS

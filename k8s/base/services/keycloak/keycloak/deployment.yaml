@@ -4,7 +4,7 @@ metadata:
   name: keycloak
   namespace: keycloak
 spec:
-  replicas: 2 # Start with 2 replicas, scale as needed
+  replicas: 1
   selector:
     matchLabels:
       app: keycloak

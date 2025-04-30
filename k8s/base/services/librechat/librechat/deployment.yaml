@@ -46,25 +46,60 @@ spec:
             - name: logs-volume
               mountPath: /app/api/logs
             # MCP
-            - name: obsidian-volume
-              mountPath: /home/user/LibreChat/obsidian
-            - name: files-volume
-              mountPath: /home/user/LibreChat/files
-        - name: webdav-mounter
-          image: cr.lffl.me/webdav-mounter:latest
-          securityContext:
-            privileged: true
-          resources: {}
-
+            - name: webdav-obsidian
+              mountPath: /home/user/librechat/obsidian
+            - name: webdav-files
+              mountPath: /home/user/librechat/files
+        - name: webdav-sync-obsidian
+          image: owncloud/ocis-sync:latest
           volumeMounts:
-            - name: webdav-config
-              mountPath: /config
-            - name: obsidian-volume
-              mountPath: /mnt/obsidian
-            - name: files-volume
-              mountPath: /mnt/files
-      imagePullSecrets:
-        - name: lfflme-creds
+            - name: webdav-obsidian
+              mountPath: /shared-webdav
+          resources: {}
+          env:
+            - name: WEBDAV_URL
+              value: "https://nextcloud.internal.loeffelmeister.de/remote.php/dav/files/loeffel/obsidian/"
+            - name: WEBDAV_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: webdav-config
+                  key: username
+            - name: WEBDAV_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: webdav-config
+                  key: password
+          command: ["/bin/sh"]
+          args:
+            [
+              "-c",
+              "ocis-sync --local-dir /shared-webdav --remote-url $WEBDAV_URL --username $WEBDAV_USERNAME --password $WEBDAV_PASSWORD",
+            ]
+        - name: webdav-sync-files
+          image: owncloud/ocis-sync:latest
+          volumeMounts:
+            - name: webdav-files
+              mountPath: /shared-webdav
+          resources: {}
+          env:
+            - name: WEBDAV_URL
+              value: "https://nextcloud.internal.loeffelmeister.de/remote.php/dav/files/loeffel/librechat/files"
+            - name: WEBDAV_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: webdav-config
+                  key: username
+            - name: WEBDAV_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: webdav-config
+                  key: password
+          command: ["/bin/sh"]
+          args:
+            [
+              "-c",
+              "ocis-sync --local-dir /shared-webdav --remote-url $WEBDAV_URL --username $WEBDAV_USERNAME --password $WEBDAV_PASSWORD",
+            ]
       volumes:
         - name: config-volume
           configMap:
@@ -81,15 +116,9 @@ spec:
         - name: logs-volume
           persistentVolumeClaim:
             claimName: librechat-logs
-        - name: webdav-config
-          secret:
-            secretName: webdav-mount-config
-            items:
-              - key: mounts.json
-                path: mounts.json
-        - name: obsidian-volume
+        - name: webdav-obsidian
           emptyDir: {}
-        - name: files-volume
+        - name: webdav-files
           emptyDir: {}
 ---
 apiVersion: v1

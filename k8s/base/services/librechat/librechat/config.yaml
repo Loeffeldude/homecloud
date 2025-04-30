@@ -116,7 +116,7 @@ data:
         args:
           - -y
           - "@modelcontextprotocol/server-filesystem"
-          - /home/user/LibreChat/files
+          - /home/user/librechat/files
         iconPath: /home/user/LibreChat/client/public/assets/logo.svg
       mcp-obsidian:
         type: stdio
@@ -125,4 +125,4 @@ data:
         args:
           - -y
           - "mcp-obsidian"
-          - /home/user/LibreChat/obsidian
+          - /home/user/librechat/obsidian

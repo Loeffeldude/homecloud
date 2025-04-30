@@ -55,8 +55,7 @@ spec:
           securityContext:
             privileged: true
           resources: {}
-          imagePullSecrets:
-            - name: lfflme-creds
+
           volumeMounts:
             - name: webdav-config
               mountPath: /config
@@ -64,6 +63,8 @@ spec:
               mountPath: /mnt/obsidian
             - name: files-volume
               mountPath: /mnt/files
+      imagePullSecrets:
+        - name: lfflme-creds
       volumes:
         - name: config-volume
           configMap:

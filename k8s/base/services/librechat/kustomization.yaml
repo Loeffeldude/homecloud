@@ -5,6 +5,8 @@ resources:
   - namespace.yaml
   - environment.yaml
 
+  - pullsecrets.yaml
+
   - librechat/config.yaml
   - librechat/deployment.yaml
   - librechat/ingress.yaml

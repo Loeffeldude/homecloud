@@ -34,7 +34,7 @@ spec:
             - name: MEILI_HOST
               value: "http://meilisearch.librechat.svc.cluster.local:7700"
             - name: RAG_API_URL
-              value: "http://rag_api.librechat.svc.cluster.local:8000"
+              value: "http://rag-api.librechat.svc.cluster.local:8000"
           volumeMounts:
             - name: config-volume
               mountPath: /app/librechat.yaml
@@ -45,6 +45,25 @@ spec:
               mountPath: /app/uploads
             - name: logs-volume
               mountPath: /app/api/logs
+            # MCP
+            - name: obsidian-volume
+              mountPath: /home/user/LibreChat/obsidian
+            - name: files-volume
+              mountPath: /home/user/LibreChat/files
+        - name: webdav-mounter
+          image: cr.lffl.me/webdav-mounter:latest
+          securityContext:
+            privileged: true
+          resources: {}
+          imagePullSecrets:
+            - name: lfflme-creds
+          volumeMounts:
+            - name: webdav-config
+              mountPath: /config
+            - name: obsidian-volume
+              mountPath: /mnt/obsidian
+            - name: files-volume
+              mountPath: /mnt/files
       volumes:
         - name: config-volume
           configMap:
@@ -61,6 +80,16 @@ spec:
         - name: logs-volume
           persistentVolumeClaim:
             claimName: librechat-logs
+        - name: webdav-config
+          secret:
+            secretName: webdav-mount-config
+            items:
+              - key: mounts.json
+                path: mounts.json
+        - name: obsidian-volume
+          emptyDir: {}
+        - name: files-volume
+          emptyDir: {}
 ---
 apiVersion: v1
 kind: Service

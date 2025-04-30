@@ -99,24 +99,17 @@ data:
         - "librechat.ai"
         - "google.com"
 
-    # Example MCP Servers Object Structure
     mcpServers:
-      puppeteer:
-        type: stdio
-        command: npx
-        args:
-          - -y
-          - "@modelcontextprotocol/server-puppeteer"
       paperless:
         type: stdio
         command: npx
         args:
           - -y
           - "@nloui/paperless-mcp@1.0.0"
-          - paperless.internal.loeffelmeister.de
+          - https://paperless.internal.loeffelmeister.de
           - ${PAPERLESS_NGX_API_KEY}
       filesystem:
-        # type: stdio
+        type: stdio
         command: npx
         args:
           - -y
@@ -124,6 +117,7 @@ data:
           - /home/user/LibreChat/files
         iconPath: /home/user/LibreChat/client/public/assets/logo.svg
       mcp-obsidian:
+        type: stdio
         command: npx
         args:
           - -y

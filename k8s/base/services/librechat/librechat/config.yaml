@@ -103,6 +103,7 @@ data:
       paperless:
         type: stdio
         command: npx
+        initTimeout: 30000
         args:
           - -y
           - "@nloui/paperless-mcp@1.0.0"
@@ -110,6 +111,7 @@ data:
           - ${PAPERLESS_NGX_API_KEY}
       filesystem:
         type: stdio
+        initTimeout: 30000
         command: npx
         args:
           - -y
@@ -118,6 +120,7 @@ data:
         iconPath: /home/user/LibreChat/client/public/assets/logo.svg
       mcp-obsidian:
         type: stdio
+        initTimeout: 30000
         command: npx
         args:
           - -y

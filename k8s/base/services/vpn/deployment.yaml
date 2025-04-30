@@ -43,13 +43,13 @@ spec:
             - name: INTERNAL_SUBNET
               value: "10.13.13.0/24"
             - name: KEEPDNS
-              value: "true" # Add this to prevent DNS changes
+              value: "true"
           livenessProbe:
             exec:
               command:
                 - /bin/sh
                 - -c
-                - "ping -c 1 10.13.13.1" # ping VPN peer
+                - "ping -c 1 10.13.13.1"
             initialDelaySeconds: 30
             periodSeconds: 30
             timeoutSeconds: 5
@@ -68,7 +68,7 @@ spec:
             - name: modules
               mountPath: /lib/modules
               readOnly: true
-        # i am behind 7 proxies kiddo B-)
+        # i am behind 7 proxies kiddo 😎
         - name: proxy
           image: nginx:1.28.0-alpine
           ports:
@@ -131,6 +131,9 @@ data:
         server_name _;
 
         access_log /var/log/nginx/access.log headers;
+
+        # we let our vps ingress handle body size limits
+        client_max_body_size 0;
 
         location / {
             add_header X-Debug-Via 'nginx-debug';

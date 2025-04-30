@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-CONFIG_FILE="/config/mounts.yaml"
+CONFIG_FILE="/config/mounts.json"
 
 if [ ! -f "$CONFIG_FILE" ]; then
   echo "Config file $CONFIG_FILE not found!"

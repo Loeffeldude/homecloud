@@ -80,6 +80,18 @@ spec:
                 secretKeyRef:
                   name: paperless-oidc
                   key: allauth-config
+            - name: PAPERLESS_GMAIL_OAUTH_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: paperless-gmail
+                  key: client_id
+            - name: PAPERLESS_GMAIL_OAUTH_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: paperless-gmail
+                  key: client_secret
+            - name: PAPERLESS_OAUTH_CALLBACK_BASE_URL
+              value: https://paperless.internal.loeffelmeister.de
           readinessProbe:
             httpGet:
               path: /

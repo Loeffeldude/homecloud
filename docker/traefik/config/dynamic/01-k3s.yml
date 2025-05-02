@@ -1,16 +1,23 @@
 # forward port 6443
 
 # Configuration for the Wireguard VPN
-
-http:
+tcp:
   routers:
     k3s:
-      rule: "Host(`k3s.internal.loeffelmeister.de`)"
+      rule: "HostSNI(`k3s.internal.loeffelmeister.de`)"
       entryPoints:
-        - web
-      priority: 999
+        - websecure
       service: k3s
+      tls:
+        passthrough: true
 
+  services:
+    k3s:
+      loadBalancer:
+        servers:
+          - url: "http://10.13.13.2:6443"
+http:
+  routers:
     otherloeffelmeister:
       rule: "HostRegexp(`{subdomain:[a-z0-9-]+}.loeffelmeister.de`) || Host(`loeffelmeister.de`) || HostRegexp(`{subdomain:[a-z0-9-]+}.lffl.me`) || Host(`lffl.me`)"
       entryPoints:
@@ -33,11 +40,6 @@ http:
       loadBalancer:
         servers:
           - url: "http://10.13.13.2:80"
-
-    k3s:
-      loadBalancer:
-        servers:
-          - url: "http://10.13.13.2:6443"
 
     otherloeffelmeister:
       loadBalancer:

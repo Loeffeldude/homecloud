@@ -51,39 +51,33 @@ spec:
             - name: webdav-files
               mountPath: /home/user/librechat/files
         - name: webdav-sync-obsidian
-          image: owncloud/ocis-sync:latest
+          image: juanitomint/nextcloud-client
           volumeMounts:
             - name: webdav-obsidian
-              mountPath: /shared-webdav
+              mountPath: /media/nextcloud
           resources: {}
           env:
-            - name: WEBDAV_URL
-              value: "https://nextcloud.internal.loeffelmeister.de/remote.php/dav/files/loeffel/obsidian/"
-            - name: WEBDAV_USERNAME
+            - name: NC_URL
+              value: "https://nextcloud.internal.loeffelmeister.de/"
+            - name: NC_USER
               valueFrom:
                 secretKeyRef:
                   name: webdav-config
                   key: username
-            - name: WEBDAV_PASSWORD
+            - name: NC_PASS
               valueFrom:
                 secretKeyRef:
                   name: webdav-config
                   key: password
-          command: ["/bin/sh"]
-          args:
-            [
-              "-c",
-              "ocis-sync --local-dir /shared-webdav --remote-url $WEBDAV_URL --username $WEBDAV_USERNAME --password $WEBDAV_PASSWORD",
-            ]
         - name: webdav-sync-files
           image: owncloud/ocis-sync:latest
           volumeMounts:
             - name: webdav-files
-              mountPath: /shared-webdav
+              mountPath: /media/nextcloud
           resources: {}
           env:
-            - name: WEBDAV_URL
-              value: "https://nextcloud.internal.loeffelmeister.de/remote.php/dav/files/loeffel/librechat/files"
+            - name: NC_URL
+              value: "https://nextcloud.internal.loeffelmeister.de/"
             - name: WEBDAV_USERNAME
               valueFrom:
                 secretKeyRef:
@@ -94,12 +88,6 @@ spec:
                 secretKeyRef:
                   name: webdav-config
                   key: password
-          command: ["/bin/sh"]
-          args:
-            [
-              "-c",
-              "ocis-sync --local-dir /shared-webdav --remote-url $WEBDAV_URL --username $WEBDAV_USERNAME --password $WEBDAV_PASSWORD",
-            ]
       volumes:
         - name: config-volume
           configMap:

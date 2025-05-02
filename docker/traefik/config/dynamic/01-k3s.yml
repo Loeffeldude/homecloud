@@ -8,7 +8,6 @@ tcp:
       entryPoints:
         - websecure
       service: k3s
-      priority: 999
       tls:
         passthrough: true
 

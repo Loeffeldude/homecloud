@@ -150,14 +150,10 @@ data:
             listen 80;
             server_name _;
 
-            access_log /var/log/nginx/access.log headers;
-
             # we let our vps ingress handle body size limits
             client_max_body_size 0;
 
             location / {
-                add_header X-Debug-Via 'nginx-debug';
-
                 proxy_set_header Host $host;
                 proxy_set_header X-Real-IP $remote_addr;
                 proxy_pass http://traefik.kube-system.svc.cluster.local:80;

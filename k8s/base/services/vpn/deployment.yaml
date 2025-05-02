@@ -61,7 +61,7 @@ spec:
                 - "ping -c 1 10.13.13.1 && wg show vps_tunnel | grep -q 'latest handshake'"
             initialDelaySeconds: 10
             periodSeconds: 10
-            timeoutSeconds: 5
+            timeoutSeconds: 10
           volumeMounts:
             - name: config
               mountPath: /config
@@ -126,20 +126,29 @@ data:
                        'X-Forwarded-Host: "$http_x_forwarded_host" '
                        'X-Forwarded-Port: "$http_x_forwarded_port"';
 
-    server {
-        listen 80;
-        server_name _;
+    http {
+        server {
+            listen 80;
+            server_name _;
 
-        access_log /var/log/nginx/access.log headers;
+            access_log /var/log/nginx/access.log headers;
 
-        # we let our vps ingress handle body size limits
-        client_max_body_size 0;
+            # we let our vps ingress handle body size limits
+            client_max_body_size 0;
 
-        location / {
-            add_header X-Debug-Via 'nginx-debug';
+            location / {
+                add_header X-Debug-Via 'nginx-debug';
 
-            proxy_set_header Host $host;
-            proxy_set_header X-Real-IP $remote_addr;
-            proxy_pass http://traefik.kube-system.svc.cluster.local:80;
+                proxy_set_header Host $host;
+                proxy_set_header X-Real-IP $remote_addr;
+                proxy_pass http://traefik.kube-system.svc.cluster.local:80;
+            }
+        }
+    }
+
+    stream {
+        server {
+            listen 6443;
+            proxy_pass kubernetes.default.svc.cluster.local:6443;
         }
     }

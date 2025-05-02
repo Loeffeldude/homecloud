@@ -8,15 +8,8 @@ http:
       rule: "Host(`k3s.internal.loeffelmeister.de`)"
       entryPoints:
         - web
-        - websecure
-      tls:
-        certResolver: myresolver
-        domains:
-          - main: internal.loeffelmeister.de
-            sans:
-              - "*.internal.loeffelmeister.de"
       priority: 999
-      service: internal
+      service: k3s
 
     otherloeffelmeister:
       rule: "HostRegexp(`{subdomain:[a-z0-9-]+}.loeffelmeister.de`) || Host(`loeffelmeister.de`) || HostRegexp(`{subdomain:[a-z0-9-]+}.lffl.me`) || Host(`lffl.me`)"

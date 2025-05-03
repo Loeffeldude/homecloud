@@ -3,7 +3,7 @@ kind: Kustomization
 resources:
   - repositories.yaml
   - releases/secrets/release.yml
-  - releases/monitoring
+  # - releases/monitoring
   - releases/longhorn
   - releases/nextcloud
   - releases/penpot

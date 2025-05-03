@@ -13,4 +13,5 @@ spec:
         name: prometheus-community
       version: v71.2.0
   interval: 1m0s
-  values: {}
+  values:
+    namespaceOverride: "monitoring"

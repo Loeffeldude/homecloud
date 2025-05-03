@@ -23,8 +23,6 @@ spec:
             - name: jgroups
               containerPort: 7800
           envFrom:
-            - configMapRef:
-                name: keycloak-config
             - secretRef:
                 name: keycloak-secrets
           env:
@@ -50,6 +48,8 @@ spec:
             # - name: KC_CACHE_STACK
             #   value: "kubernetes"
             - name: KEYCLOAK_PRODUCTION
+              value: "true"
+            - name: KC_HOSTNAME_BACKCHANNEL_DYNAMIC
               value: "true"
             - name: KC_HOSTNAME_STRICT
               value: "true"

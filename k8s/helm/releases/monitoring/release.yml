@@ -86,6 +86,22 @@ spec:
       enabled: true
       adminUser: admin
       adminPassword: prom-operator
+      
+      - GF_AUTH_DISABLE_LOGIN_FORM=true
+      - GF_AUTH_BASIC_ENABLED=false
+      - GF_AUTH_OAUTH_AUTO_LOGIN=true
+      - GF_SERVER_ROOT_URL=https://${GRAFANA_SUBDOMAIN}.${DOMAIN}
+      - GF_AUTH_GENERIC_OAUTH_ENABLED=true
+      - GF_AUTH_GENERIC_OAUTH_NAME=Keycloak
+      - GF_AUTH_GENERIC_OAUTH_CLIENT_ID=${KEYCLOAK_CLIENT_ID}
+      - GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET=${KEYCLOAK_CLIENT_SECRET}
+      - GF_AUTH_GENERIC_OAUTH_AUTH_URL=https://auth.loeffelmeister.de/realms/${KEYCLOAK_REALM}/protocol/openid-connect/auth
+      - GF_AUTH_GENERIC_OAUTH_TOKEN_URL=https://${KEYCLOAK_DOMAIN}/realms/${KEYCLOAK_REALM}/protocol/openid-connect/token
+      - GF_AUTH_GENERIC_OAUTH_API_URL=https://${KEYCLOAK_DOMAIN}/realms/${KEYCLOAK_REALM}/protocol/openid-connect/userinfo
+      - GF_AUTH_GENERIC_OAUTH_SCOPES=openid email profile roles
+      - GF_AUTH_GENERIC_OAUTH_ROLE_ATTRIBUTE_PATH= contains(roles[*], 'admin') && 'Admin' || contains(roles[*], 'editor') && 'Editor' || 'Viewer'
+      - GF_AUTH_GENERIC_OAUTH_ALLOW_ASSIGN_GRAFANA_ADMIN=true
+      - GF_AUTH_GENERIC_OAUTH_ADMIN_GROUPS=admin
 
       # # To make Grafana persistent (Using Statefulset)
       persistence:

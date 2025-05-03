@@ -6,11 +6,11 @@ metadata:
 spec:
   chart:
     spec:
-      chart: monitoring
+      chart: kube-prometheus-stack
       reconcileStrategy: ChartVersion
       sourceRef:
         kind: HelmRepository
-        name: monitoring-repo
-      version: v1.8.1
+        name: prometheus-community
+      version: v71.2.0
   interval: 1m0s
   values: {}

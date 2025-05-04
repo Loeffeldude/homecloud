@@ -28,7 +28,7 @@ spec:
       enabled: true
       storageClass: "longhorn"
       accessMode: ReadWriteOnce
-      size: 500Gi
+      size: 100Gi
 
     cronjob:
       enabled: true

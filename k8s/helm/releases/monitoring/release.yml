@@ -90,7 +90,8 @@ spec:
         passwordKey: password
 
       envFromSecret: grafan-auth
-
+      env:
+        GF_SERVER_ROOT_URL: https://grafana.loeffelmeister.de
       # To make Grafana persistent (Using Statefulset)
       persistence:
         enabled: true

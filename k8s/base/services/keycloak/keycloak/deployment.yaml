@@ -33,16 +33,17 @@ spec:
                 secretKeyRef:
                   name: keycloak-secrets
                   key: POSTGRES_USER
+            - name: KC_FEATURES
+              value: "docker,hostname:v2"
+            - name: KC_HTTP_ENABLED
+              value: "true"
             - name: KC_DB_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: keycloak-secrets
                   key: POSTGRES_PASSWORD
             - name: KC_HOSTNAME
-              valueFrom:
-                configMapKeyRef:
-                  name: keycloak-config
-                  key: HOSTNAME
+              value: auth.loeffelmeister.de
             - name: KC_CACHE
               value: "ispn"
             # - name: KC_CACHE_STACK

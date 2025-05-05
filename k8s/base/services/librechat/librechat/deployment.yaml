@@ -50,44 +50,6 @@ spec:
               mountPath: /home/user/librechat/obsidian
             - name: webdav-files
               mountPath: /home/user/librechat/files
-        - name: webdav-sync-obsidian
-          image: juanitomint/nextcloud-client
-          volumeMounts:
-            - name: webdav-obsidian
-              mountPath: /media/nextcloud
-          resources: {}
-          env:
-            - name: NC_URL
-              value: "https://nextcloud.internal.loeffelmeister.de/"
-            - name: NC_USER
-              valueFrom:
-                secretKeyRef:
-                  name: webdav-config
-                  key: username
-            - name: NC_PASS
-              valueFrom:
-                secretKeyRef:
-                  name: webdav-config
-                  key: password
-        - name: webdav-sync-files
-          image: owncloud/ocis-sync:latest
-          volumeMounts:
-            - name: webdav-files
-              mountPath: /media/nextcloud
-          resources: {}
-          env:
-            - name: NC_URL
-              value: "https://nextcloud.internal.loeffelmeister.de/"
-            - name: WEBDAV_USERNAME
-              valueFrom:
-                secretKeyRef:
-                  name: webdav-config
-                  key: username
-            - name: WEBDAV_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: webdav-config
-                  key: password
       volumes:
         - name: config-volume
           configMap:

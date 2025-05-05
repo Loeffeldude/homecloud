@@ -90,7 +90,6 @@ def seal(
         default=None, help="the output file"
     ),
 ):
-    CERT_PATH = settings.K8S_DIR / "secrets_cert.pem"
     input_file_path = input_file_path.absolute()
 
     if not output_file_path:
@@ -108,7 +107,7 @@ def seal(
             raise typer.Exit(1)
 
     with output_file_path.open("w") as output_file:
-        seal_file(output_file)
+        output_file.write(seal_file(input_file_path))
 
     stderr_console.print(
         f"[green] Sealed {input_file_path} to {output_file_path} [/green]"

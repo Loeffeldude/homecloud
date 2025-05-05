@@ -8,5 +8,5 @@ spec:
     - match: Host(`grafana.loeffelmeister.de`)
       kind: Rule
       services:
-        - name: grafana
+        - name: monitoring-release-grafana
           port: 80

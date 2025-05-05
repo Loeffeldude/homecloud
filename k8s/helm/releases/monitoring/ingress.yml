@@ -1,0 +1,12 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: grafana
+  namespace: monitoring
+spec:
+  routes:
+    - match: Host(`grafana.loeffelmeister.de`)
+      kind: Rule
+      services:
+        - name: grafana
+          port: 80

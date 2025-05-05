@@ -43,7 +43,7 @@ spec:
                   name: keycloak-secrets
                   key: POSTGRES_PASSWORD
             - name: KC_HOSTNAME
-              value: auth.loeffelmeister.de
+              value: https://auth.loeffelmeister.de
             - name: KC_CACHE
               value: "ispn"
             # - name: KC_CACHE_STACK

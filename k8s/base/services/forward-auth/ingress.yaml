@@ -1,0 +1,14 @@
+apiVersion:  traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: forward-auth
+  namespace: auth-system
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: Host(`forwardauth.loeffelmeister.de`)
+      kind: Rule
+      services:
+        - name: keycloak-forward-auth
+          port: 4181

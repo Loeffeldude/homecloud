@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: keycloak-forward-auth
+  namespace: forward-auth
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: keycloak-forward-auth
+  template:
+    metadata:
+      labels:
+        app: keycloak-forward-auth
+    spec:
+      containers:
+        - name: keycloak-forward-auth
+          image: thomseddon/traefik-forward-auth:latest
+          resources: {}
+          env:
+            - name: PROVIDERS_OIDC_ISSUER_URL
+              value: "https://auth.loeffelmeister.de/realms/loeffel"
+            - name: PROVIDERS_OIDC_CLIENT_ID
+              value: "forward-auth"
+            - name: PROVIDERS_OIDC_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  key: client-secret
+                  name: forward-auth-secret
+            - name: SECRET
+              valueFrom:
+                secretKeyRef:
+                  key: secret
+                  name: forward-auth-secret
+            - name: COOKIE_DOMAIN
+              value: ".loeffelmeister.de"
+            - name: AUTH_HOST
+              value: "forwardauth.loeffelmeister.de"

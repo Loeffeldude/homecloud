@@ -8,3 +8,4 @@ resources:
   - releases/nextcloud
   - releases/penpot
   - releases/jenkins
+  - releases/github-arc

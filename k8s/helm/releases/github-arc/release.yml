@@ -1,0 +1,70 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: github-arc-system
+  namespace: github-arc-system
+spec:
+  chart:
+    spec:
+      chart: gha-runner-scale-set-controller
+      reconcileStrategy: ChartVersion
+      sourceRef:
+        kind: HelmRepository
+        name: github-arc-system
+  interval: 1m0s
+  values:
+    namespaceOverride: github-arc-system
+    env:
+    ## Define environment variables for the controller pod
+    #  - name: "ENV_VAR_NAME_1"
+    #    value: "ENV_VAR_VALUE_1"
+    #  - name: "ENV_VAR_NAME_2"
+    #    valueFrom:
+    #      secretKeyRef:
+    #        key: ENV_VAR_NAME_2
+    #        name: secret-name
+    #        optional: true
+    flags:
+      ## Log level can be set here with one of the following values: "debug", "info", "warn", "error".
+      ## Defaults to "debug".
+      logLevel: "debug"
+      ## Log format can be set with one of the following values: "text", "json"
+      ## Defaults to "text"
+      logFormat: "text"
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: github-arc-runner
+  namespace: github-arc-runner
+spec:
+  chart:
+    spec:
+      chart: gha-runner-scale-set
+      reconcileStrategy: ChartVersion
+      sourceRef:
+        kind: HelmRepository
+        name: github-arc-runner
+  interval: 1m0s
+  values:
+    githubConfigUrl: "https://github.com/Loeffeldude"
+    githubConfigSecret: github-token
+
+    maxRunners: 3
+
+    # Container mode is an object that provides out-of-box configuration
+    # for dind and kubernetes mode. Template will be modified as documented under the
+    # template object.
+    #
+    # If any customization is required for dind or kubernetes mode, containerMode should remain
+    # empty, and configuration should be applied to the template.
+    containerMode:
+      type: "dind" ## type can be set to dind or kubernetes
+      # ## the following is required when containerMode.type=kubernetes
+      # kubernetesModeWorkVolumeClaim:
+      #   accessModes: ["ReadWriteMany"]
+      #   # For local testing, use https://github.com/openebs/dynamic-localpv-provisioner/blob/develop/docs/quickstart.md to provide dynamic provision volume with storageClassName: openebs-hostpath
+      #   storageClassName: "longhorn"
+      #   resources:
+      #     requests:
+      #       storage: 10Gi

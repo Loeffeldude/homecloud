@@ -3,6 +3,7 @@ kind: Kustomization
 resources:
   # disabled because isp does not allow port forwarding :(
   # - ./services/dyndns/
+  - ingress-config.yml
   - ./services/forward-auth
   - ./services/registry
   - ./services/vpn

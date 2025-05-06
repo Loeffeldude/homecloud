@@ -11,3 +11,6 @@ spec:
           trustedIPs:
             - "10.42.0.0/16"
             - "10.13.13.0/24"
+    providers:
+      kubernetesCRD:
+         allowCrossNamespace: true

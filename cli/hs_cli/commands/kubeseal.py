@@ -93,10 +93,15 @@ def seal(
     input_file_path = input_file_path.absolute()
 
     if not output_file_path:
+        name_match = re.match(r"(.*)\.secretraw.ya?ml", input_file_path.name)
+
+        if name_match:
+            out_name = f"{name_match.group(1)}{input_file_path.suffix}"
+        else:
+            out_name = f"{input_file_path.stem}-sealed{input_file_path.suffix}"
+
         output_file_path = pathlib.Path(str(input_file_path.parent))
-        output_file_path = (
-            output_file_path / f"{input_file_path.stem}-sealed{input_file_path.suffix}"
-        )
+        output_file_path = output_file_path / out_name
 
     if output_file_path.exists():
         should_overwrite = typer.confirm(

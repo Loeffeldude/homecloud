@@ -10,7 +10,7 @@ spec:
       reconcileStrategy: ChartVersion
       sourceRef:
         kind: HelmRepository
-        name: github-arc-system
+        name: github-arc-system-repo
   interval: 1m0s
   values:
     namespaceOverride: github-arc-system
@@ -44,7 +44,7 @@ spec:
       reconcileStrategy: ChartVersion
       sourceRef:
         kind: HelmRepository
-        name: github-arc-runner
+        name: github-arc-runner-repo
   interval: 1m0s
   values:
     githubConfigUrl: "https://github.com/Loeffeldude"

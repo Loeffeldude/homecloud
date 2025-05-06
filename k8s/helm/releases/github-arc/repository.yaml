@@ -1,7 +1,7 @@
 apiVersion: source.toolkit.fluxcd.io/v1beta2
 kind: OCIRepository
 metadata:
-  name: github-arc-system
+  name: github-arc-system-repo
   namespace: github-arc-system
 spec:
   interval: 5m0s
@@ -12,7 +12,7 @@ spec:
 apiVersion: source.toolkit.fluxcd.io/v1beta2
 kind: OCIRepository
 metadata:
-  name: github-arc-runner
+  name: github-arc-runner-repo
   namespace: github-arc-runner
 spec:
   interval: 5m0s

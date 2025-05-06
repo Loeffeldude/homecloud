@@ -18,6 +18,8 @@ spec:
           image: thomseddon/traefik-forward-auth:latest
           resources: {}
           env:
+            - name: DEFAULT_PROVIDER
+              value: "oidc"
             - name: PROVIDERS_OIDC_ISSUER_URL
               value: "https://auth.loeffelmeister.de/realms/loeffel"
             - name: PROVIDERS_OIDC_CLIENT_ID

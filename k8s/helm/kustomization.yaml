@@ -9,3 +9,4 @@ resources:
   - releases/penpot
   - releases/jenkins
   - releases/github-arc
+  - releases/kubetail

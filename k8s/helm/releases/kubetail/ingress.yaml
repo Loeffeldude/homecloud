@@ -1,0 +1,15 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: kubetail
+  namespace: kubetail
+spec:
+  routes:
+    - match: Host(`kubetail.loeffelmeister.de`)
+      kind: Rule
+      services:
+        - name: kubetail-dashboard
+          port: 8080
+      middlewares:
+        - name: keycloak-forward-auth
+          namespace: auth-system

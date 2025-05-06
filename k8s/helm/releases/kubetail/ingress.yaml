@@ -4,6 +4,8 @@ metadata:
   name: kubetail
   namespace: kubetail
 spec:
+  entryPoints:
+    - web
   routes:
     - match: Host(`kubetail.loeffelmeister.de`)
       kind: Rule

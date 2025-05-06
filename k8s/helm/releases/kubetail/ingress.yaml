@@ -15,3 +15,11 @@ spec:
       middlewares:
         - name: keycloak-forward-auth
           namespace: forward-auth
+    - match: Host(`kubetail.loeffelmeister.de`) && Path(`/graphql`)
+      kind: Rule
+      services:
+        - name: kubetail-cluster-api
+          port: 8080
+      middlewares:
+        - name: forward-auth-proto-https
+          namespace: forward-auth

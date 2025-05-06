@@ -8,3 +8,5 @@ spec:
     address: http://keycloak-forward-auth.forward-auth.svc.cluster.local:4181
     authResponseHeaders:
       - X-Forwarded-User
+    customRequestHeaders:
+      X-Forwarded-Proto: "https"

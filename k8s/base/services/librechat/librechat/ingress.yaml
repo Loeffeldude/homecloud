@@ -7,13 +7,7 @@ spec:
   entryPoints:
     - web
   routes:
-    - match: Host(`chat.internal.loeffelmeister.de`) && PathPrefix(`/api/`)
-      kind: Rule
-      services:
-        - name: librechat-api
-          port: 3080
-          scheme: http
-    - match: Host(`chat.internal.loeffelmeister.de`) && PathPrefix(`/`)
+    - match: Host(`chat.loeffelmeister.de`)
       kind: Rule
       services:
         - name: librechat-api

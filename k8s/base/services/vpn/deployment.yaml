@@ -45,6 +45,10 @@ spec:
             - |
               ip link show vps_tunnel && ip link del vps_tunnel || echo "Interface doesn't exist"
               exit 0
+      securityContext:
+        sysctls:
+          - name: net.ipv4.ip_forward
+            value: "1"
       containers:
         - name: wireguard
           image: linuxserver/wireguard:1.0.20210914

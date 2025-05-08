@@ -1,0 +1,28 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: cheater
+  namespace: cheater
+spec:
+  template:
+    metadata:
+      labels:
+        name: cheater
+    spec:
+      containers:
+        - image: cr.lffl.me/cheater
+          imagePullSecrets:
+            - name: lfflme-creds
+          name: cheater
+          resources: {}
+          env:
+            - name: OPENAPI_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: cheater
+                  key: openapi
+          ports:
+            - containerPort:
+              name: my-name
+      restartPolicy: Always
+      imagePullPolicy: Always

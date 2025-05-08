@@ -10,3 +10,4 @@ resources:
   - ./services/paperless
   - ./services/keycloak
   - ./services/librechat
+  - ./services/cheater

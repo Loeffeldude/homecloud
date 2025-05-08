@@ -37,9 +37,11 @@ http:
     internal:
       loadBalancer:
         servers:
-          - url: "http://10.13.13.2:80"
+          - url: "http://192.168.0.178:80"
+          - url: "http://192.168.0.177:80"
 
     otherloeffelmeister:
       loadBalancer:
         servers:
-          - url: "http://10.13.13.2:80"
+          - url: "http://192.168.0.178:80"
+          - url: "http://192.168.0.177:80"

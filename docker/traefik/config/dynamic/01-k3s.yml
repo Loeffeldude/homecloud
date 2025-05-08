@@ -15,4 +15,4 @@ tcp:
     k3s:
       loadBalancer:
         servers:
-          - address: "http://10.13.13.2:6443"
+          - address: "https://192.168.0.177:6443"

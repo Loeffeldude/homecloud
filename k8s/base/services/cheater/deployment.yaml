@@ -14,8 +14,7 @@ spec:
     spec:
       containers:
         - image: cr.lffl.me/cheater:latest
-          imagePullSecrets:
-            - name: lfflme-creds
+
           name: cheater
           resources: {}
           env:
@@ -30,3 +29,5 @@ spec:
               name: cheater
       restartPolicy: Always
       imagePullPolicy: Always
+    imagePullSecrets:
+      - name: lfflme-creds

@@ -32,6 +32,19 @@ spec:
               mountPath: /config
             - name: wireguard-config
               mountPath: /secret
+        - name: cleanup-interface
+          image: linuxserver/wireguard:1.0.20210914
+          securityContext:
+            privileged: true
+            capabilities:
+              add:
+                - NET_ADMIN
+          command:
+            - /bin/sh
+            - -c
+            - |
+              ip link show vps_tunnel && ip link del vps_tunnel || echo "Interface doesn't exist"
+              exit 0
       containers:
         - name: wireguard
           image: linuxserver/wireguard:1.0.20210914

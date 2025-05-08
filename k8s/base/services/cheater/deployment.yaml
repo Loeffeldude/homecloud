@@ -25,7 +25,8 @@ spec:
                   name: cheater
                   key: openapi
           ports:
-            - containerPort:
-              name: my-name
+            - containerPort: 3000
+
+              name: cheater
       restartPolicy: Always
       imagePullPolicy: Always

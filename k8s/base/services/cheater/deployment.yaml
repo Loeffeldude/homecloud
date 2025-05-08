@@ -13,7 +13,7 @@ spec:
         app: cheater
     spec:
       containers:
-        - image: cr.lffl.me/cheater
+        - image: cr.lffl.me/cheater:latest
           imagePullSecrets:
             - name: lfflme-creds
           name: cheater

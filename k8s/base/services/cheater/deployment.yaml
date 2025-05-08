@@ -10,7 +10,7 @@ spec:
   template:
     metadata:
       labels:
-        name: cheater
+        app: cheater
     spec:
       containers:
         - image: cr.lffl.me/cheater

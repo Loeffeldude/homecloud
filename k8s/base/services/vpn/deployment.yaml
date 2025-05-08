@@ -45,7 +45,7 @@ spec:
             - name: KEEPDNS
               value: "true"
             - name: ALLOWED_IPS
-              value: "10.13.13.0/24,192.168.0.0/16,10.42.0.0/16,10.43.0.0/16"
+              value: "10.13.13.0/24, 192.168.0.0/16, 10.42.0.0/16, 10.43.0.0/16"
           livenessProbe:
             exec:
               command:

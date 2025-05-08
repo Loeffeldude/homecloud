@@ -45,7 +45,7 @@ spec:
             - name: KEEPDNS
               value: "true"
             - name: ALLOWED_IPS
-              value: "10.13.13.0/24, 192.168.0.0/16, 10.42.0.0/16, 10.43.0.0/16"
+              value: "10.13.13.0/24,192.168.0.0/16,10.42.0.0/16,10.43.0.0/16"
           livenessProbe:
             exec:
               command:
@@ -80,9 +80,6 @@ spec:
         #       mountPath: /etc/nginx/nginx.conf
         #       subPath: default.conf
       volumes:
-        - name: nginx-conf
-          configMap:
-            name: wireguard-proxy-config
         - name: wireguard-config
           secret:
             secretName: wireguard-config
@@ -112,61 +109,3 @@ spec:
     type: Directory
   accessModes:
     - ReadOnlyMany
----
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: wireguard-proxy-config
-  namespace: vpn
-data:
-  default.conf: |
-    user  nginx;
-    worker_processes  auto;
-
-    error_log  /var/log/nginx/error.log notice;
-    pid        /run/nginx.pid;
-
-
-    events {
-        worker_connections  1024;
-    }
-
-
-    http {
-        include       /etc/nginx/mime.types;
-        default_type  application/octet-stream;
-
-        log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
-                          '$status $body_bytes_sent "$http_referer" '
-                          '"$http_user_agent" "$http_x_forwarded_for"';
-
-        access_log  /var/log/nginx/access.log  main;
-
-        sendfile        on;
-        #tcp_nopush     on;
-
-        keepalive_timeout  65;
-
-        #gzip  on;
-
-        server {
-            listen 80;
-            server_name _;
-
-            # we let our vps ingress handle body size limits
-            client_max_body_size 0;
-
-            location / {
-                proxy_set_header Host $host;
-                proxy_set_header X-Real-IP $remote_addr;
-                proxy_pass http://traefik.kube-system.svc.cluster.local:80;
-            }
-        }
-    }
-
-    stream {
-        server {
-            listen 6443;
-            proxy_pass kubernetes.default.svc.cluster.local:6443;
-        }
-    }

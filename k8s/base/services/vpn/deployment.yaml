@@ -44,6 +44,8 @@ spec:
               value: "10.13.13.0/24"
             - name: KEEPDNS
               value: "true"
+            - name: ALLOWED_IPS
+              value: "10.13.13.0/24, 192.168.0.0/16, 10.42.0.0/16, 10.43.0.0/16"
           livenessProbe:
             exec:
               command:
@@ -69,14 +71,14 @@ spec:
               mountPath: /lib/modules
               readOnly: true
         # i am behind 7 proxies kiddo 😎
-        - name: proxy
-          image: nginx:1.28.0-alpine
-          ports:
-            - containerPort: 80
-          volumeMounts:
-            - name: nginx-conf
-              mountPath: /etc/nginx/nginx.conf
-              subPath: default.conf
+        # - name: proxy
+        #   image: nginx:1.28.0-alpine
+        #   ports:
+        #     - containerPort: 80
+        #   volumeMounts:
+        #     - name: nginx-conf
+        #       mountPath: /etc/nginx/nginx.conf
+        #       subPath: default.conf
       volumes:
         - name: nginx-conf
           configMap:

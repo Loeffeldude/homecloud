@@ -12,13 +12,15 @@ spec:
       labels:
         app: cheater
     spec:
+      imagePullSecrets:
+        - name: lfflme-creds
       containers:
-        - image: cr.lffl.me/cheater:latest
+        - image: cr.lffl.me/cheating:latest
 
           name: cheater
           resources: {}
           env:
-            - name: OPENAPI_KEY
+            - name: OPENAI_API_KEY
               valueFrom:
                 secretKeyRef:
                   name: cheater
@@ -29,5 +31,3 @@ spec:
               name: cheater
       restartPolicy: Always
       imagePullPolicy: Always
-    imagePullSecrets:
-      - name: lfflme-creds

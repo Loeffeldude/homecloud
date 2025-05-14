@@ -28,6 +28,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: photo-upload-sqlite-db
+  namespace: photo-upload
 spec:
   accessModes:
     - ReadWriteOnce

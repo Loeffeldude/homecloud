@@ -108,13 +108,13 @@ spec:
               mountPath: /usr/src/app/db.sqlite3
               subPath: db.sqlite3
       volumes:
-        - name: media
+        - name: photo-upload-media
           persistentVolumeClaim:
             claimName: photo-upload-media
-        - name: static
+        - name: photo-upload-static
           persistentVolumeClaim:
             claimName: photo-upload-static
-        - name: static
+        - name: photo-upload-sqlite-db
           persistentVolumeClaim:
             claimName: photo-upload-sqlite-db
 

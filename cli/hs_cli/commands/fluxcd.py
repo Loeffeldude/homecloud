@@ -84,14 +84,17 @@ def get_github_repo_name_and_user() -> GitHubRepoInfo:
 
 
 def verify_flux_install():
-    res = subprocess.run(
-        ["flux", "--version"],
-        check=True,
-        stderr=subprocess.PIPE,
-        stdout=subprocess.PIPE,
-    )
+    try:
+        res = subprocess.run(
+            ["flux", "--version"],
+            check=False,
+            stderr=subprocess.PIPE,
+            stdout=subprocess.PIPE,
+        )
 
-    return res.returncode == 0
+        return res.returncode == 0
+    except:
+        return False
 
 
 def install_flux():

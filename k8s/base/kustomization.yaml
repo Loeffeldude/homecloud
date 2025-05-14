@@ -10,4 +10,5 @@ resources:
   - ./services/paperless
   - ./services/keycloak
   - ./services/librechat
-  - ./services/cheater
+  # - ./services/cheater
+  - ./services/photo-upload

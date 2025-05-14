@@ -16,6 +16,7 @@ spec:
         - name: lfflme-creds
       initContainers:
         - image: cr.lffl.me/photo_upload:latest
+          imagePullPolicy: Always
           name: photo-upload-migrate
           command: ["uv", "run", "python", "manage.py", "migrate"]
           resources: {}
@@ -35,9 +36,9 @@ spec:
             - containerPort: 80
           volumeMounts:
             - name: photo-upload-sqlite-db
-              mountPath: /usr/src/app/db.sqlite3
-              subPath: db.sqlite3
+              mountPath: /usr/src/app/data/
         - image: cr.lffl.me/photo_upload:latest
+          imagePullPolicy: Always
           name: photo-upload-static-collect
           command: ["uv", "run", "python", "manage.py", "collectstatic"]
           resources: {}
@@ -59,8 +60,7 @@ spec:
             - name: photo-upload-static
               mountPath: /usr/share/nginx/html/static
             - name: photo-upload-sqlite-db
-              mountPath: /usr/src/app/db.sqlite3
-              subPath: db.sqlite3
+              mountPath: /usr/src/app/data
       containers:
         - image: nginx:1.28.0-alpine
           name: photo-upload-media
@@ -85,6 +85,7 @@ spec:
             - name: photo-upload-static
               mountPath: /usr/share/nginx/html/static
         - image: cr.lffl.me/photo_upload:latest
+          imagePullPolicy: Always
           name: photo-upload
           resources: {}
           env:
@@ -108,8 +109,7 @@ spec:
             - name: photo-upload-static
               mountPath: /usr/src/app/photo_upload/static
             - name: photo-upload-sqlite-db
-              mountPath: /usr/src/app/db.sqlite3
-              subPath: db.sqlite3
+              mountPath: /usr/src/app/data
       volumes:
         - name: photo-upload-media
           persistentVolumeClaim:

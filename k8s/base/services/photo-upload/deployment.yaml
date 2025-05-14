@@ -25,7 +25,8 @@ spec:
                 secretKeyRef:
                   name: photo-upload
                   key: secret
-            - name: ALLOWED_HOSTS=https://hochzeit.lffl.me
+            - name: ALLOWED_HOSTS
+              value: https://hochzeit.lffl.me
             - name: TRUSTED_ORIGINS
               value: "https://hochzeit.lffl.me"
             - name: DEBUG
@@ -46,7 +47,8 @@ spec:
                 secretKeyRef:
                   name: photo-upload
                   key: secret
-            - name: ALLOWED_HOSTS=https://hochzeit.lffl.me
+            - name: ALLOWED_HOSTS
+              value: https://hochzeit.lffl.me
             - name: TRUSTED_ORIGINS
               value: "https://hochzeit.lffl.me"
             - name: DEBUG
@@ -91,7 +93,8 @@ spec:
                 secretKeyRef:
                   name: photo-upload
                   key: secret
-            - name: ALLOWED_HOSTS=https://hochzeit.lffl.me
+            - name: ALLOWED_HOSTS
+              value: https://hochzeit.lffl.me
             - name: TRUSTED_ORIGINS
               value: "https://hochzeit.lffl.me"
             - name: DEBUG

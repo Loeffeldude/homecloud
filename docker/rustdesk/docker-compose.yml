@@ -7,24 +7,23 @@ services:
       - ./data:/root
     expose:
       - "21115"
-      - "21116/tcp"
-      - "21116/udp"
+      - "21116"
     labels:
       - "traefik.enable=true"
       # TCP NAT test
       - "traefik.tcp.routers.rdsk-nat.rule=HostSNI(`rdsk.loeffelmeister.de`)"
       - "traefik.tcp.routers.rdsk-nat.entrypoints=rsdesk-21115"
       - "traefik.tcp.routers.rdsk-nat.service=rdsk-nat"
-      - "traefik.tcp.services.rdsk-nat.loadbalancer.server.port=rsdesk-21115"
+      - "traefik.tcp.services.rdsk-nat.loadbalancer.server.port=21115"
       # TCP connection
       - "traefik.tcp.routers.rdsk-conn-tcp.rule=HostSNI(`rdsk.loeffelmeister.de`)"
       - "traefik.tcp.routers.rdsk-conn-tcp.entrypoints=rsdesk-21116-tcp"
       - "traefik.tcp.routers.rdsk-conn-tcp.service=rdsk-conn-tcp"
-      - "traefik.tcp.services.rdsk-conn-tcp.loadbalancer.server.port=rsdesk-21116"
+      - "traefik.tcp.services.rdsk-conn-tcp.loadbalancer.server.port=21116"
       # UDP registration/heartbeat
       - "traefik.udp.routers.rdsk-conn-udp.entrypoints=rsdesk-21116-udp"
       - "traefik.udp.routers.rdsk-conn-udp.service=rdsk-conn-udp"
-      - "traefik.udp.services.rdsk-conn-udp.loadbalancer.server.port=rsdesk-21116"
+      - "traefik.udp.services.rdsk-conn-udp.loadbalancer.server.port=21116"
     depends_on:
       - hbbr
     restart: unless-stopped

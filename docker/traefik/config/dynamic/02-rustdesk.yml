@@ -1,0 +1,9 @@
+entryPoints:
+  21115:
+    address: ":21115"
+  21116-tcp:
+    address: ":21116/tcp"
+  21116-udp:
+    address: ":21116/udp"
+  21117:
+    address: ":21117"

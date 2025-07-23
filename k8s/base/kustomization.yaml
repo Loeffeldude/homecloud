@@ -12,3 +12,4 @@ resources:
   - ./services/librechat
   # - ./services/cheater
   - ./services/photo-upload
+  - ./services/fdroid

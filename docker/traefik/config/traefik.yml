@@ -16,6 +16,14 @@ providers:
     watch: true # Watches the directory for changes
 
 entryPoints:
+  rsdesk-21115:
+    address: ":21115"
+  rsdesk-21116-tcp:
+    address: ":21116/tcp"
+  rsdesk-21116-udp:
+    address: ":21116/udp"
+  rsdesk-21117:
+    address: ":21117"
   web:
     address: ":80" # HTTP entrypoint
     http:

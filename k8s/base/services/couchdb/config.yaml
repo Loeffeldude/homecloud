@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: couchdb-config
+  namespace: couchdb
+data:
+  local.ini: |
+    [chttpd]
+    require_valid_user = true
+    max_http_request_size = 67108864
+    enable_cors = true
+
+    [httpd]
+    require_valid_user = true
+    WWW-Authenticate = Basic realm="administrator"
+
+    [cors]
+    credentials = true
+    origins = app://obsidian.md
+    headers = accept, authorization, content-type, origin, referer
+    methods = GET, PUT, POST, HEAD, DELETE
+
+    [couchdb]
+    max_document_size = 67108864

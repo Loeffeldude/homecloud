@@ -36,6 +36,9 @@ spec:
             - name: RAG_API_URL
               value: "http://rag-api.librechat.svc.cluster.local:8000"
           volumeMounts:
+            - name: vertex-ai-config
+              mountPath: /app/data/
+              subPath: auth.json
             - name: config-volume
               mountPath: /app/librechat.yaml
               subPath: librechat.yaml
@@ -51,6 +54,10 @@ spec:
             - name: webdav-files
               mountPath: /home/user/librechat/files
       volumes:
+        - name: vertex-ai-config
+          secret:
+            secret-name: vertex-ai-secret
+            subPath: auth.json
         - name: config-volume
           configMap:
             name: librechat-config

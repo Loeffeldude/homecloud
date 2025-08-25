@@ -12,6 +12,7 @@ resources:
   - librechat/ingress.yaml
   - librechat/pvc.yaml
   - librechat/secret.yaml
+  - librechat/vertex.yaml
 
   - melilesearch/pvc.yaml
   - melilesearch/service.yaml

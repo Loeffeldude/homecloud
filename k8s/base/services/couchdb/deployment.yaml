@@ -24,6 +24,11 @@ spec:
                 secretKeyRef:
                   name: couchdb-admin-login
                   key: username
+            - name: COUCHDB_CREATE_DATABASES
+              valueFrom:
+                secretKeyRef:
+                  name: couchdb-admin-login
+                  key: dbName
             - name: COUCHDB_PASSWORD
               valueFrom:
                 secretKeyRef:

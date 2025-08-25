@@ -3,7 +3,7 @@ kind: Kustomization
 namespace: couchdb
 resources:
   - namespace.yaml
-  - secrets.secretraw.yaml
+  - secrets.yaml
   - pvc.yaml
   - deployment.yaml
   - service.yaml

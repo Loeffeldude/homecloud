@@ -5,9 +5,3 @@ resources:
   - namespace.yaml
   - repository.yaml
   - release.yaml
-secretGenerator:
-  - name: mcp-values
-    files:
-      - values.yaml=values.yaml
-configurations:
-  - kustomizeconfig.yaml

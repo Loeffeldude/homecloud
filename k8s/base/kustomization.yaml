@@ -11,6 +11,7 @@ resources:
   - ./services/keycloak
   - ./services/librechat
   # - ./services/cheater
+  - ./services/searxng
   - ./services/photo-upload
   - ./services/fdroid
   - ./services/couchdb

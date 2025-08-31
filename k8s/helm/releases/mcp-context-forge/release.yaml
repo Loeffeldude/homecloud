@@ -1,13 +1,15 @@
-apiVersion: source.toolkit.fluxcd.io/v1
-kind: HelmChart
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
 metadata:
   name: mcp-context-forge
   namespace: mcp-context-forge
 spec:
-  chart: charts/mcp-stack
-  sourceRef:
-    kind: GitRepository
-    name: mcp-context-forge
+  interval: 5m
+  chart:
+    chart: charts/mcp-stack
+    sourceRef:
+      kind: GitRepository
+      name: mcp-context-forge
     interval: 1m
   valuesFrom:
     - kind: Secret

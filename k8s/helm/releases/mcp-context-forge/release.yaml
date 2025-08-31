@@ -6,11 +6,12 @@ metadata:
 spec:
   interval: 5m
   chart:
-    chart: charts/mcp-stack
-    sourceRef:
-      kind: GitRepository
-      name: mcp-context-forge
-    interval: 1m
+    spec:
+      chart: charts/mcp-stack
+      sourceRef:
+        kind: GitRepository
+        name: mcp-context-forge
+      interval: 1m
   valuesFrom:
     - kind: Secret
       name: mcp-context-forge-values

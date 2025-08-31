@@ -5,6 +5,7 @@ resources:
   - releases/secrets
   - releases/longhorn
   # - releases/monitoring
+  - releases/mcp-context-forge
   - releases/nextcloud
   - releases/penpot
   - releases/jenkins

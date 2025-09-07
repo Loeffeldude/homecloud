@@ -103,21 +103,21 @@ data:
       personalize: true
       tokenLimit: 2000
       messageWindowSize: 5
-    agent:
-        provider: "openAI"
-        model: "gpt-4"
-        instructions: |
-          Store memory using only the specified validKeys. For user_preferences: save
-          explicitly stated preferences about communication style, topics of interest,
-          or workflow preferences. For conversation_context: save important facts or
-          ongoing projects mentioned. For learned_facts: save objective information
-          about the user. For personal_information: save only what the user explicitly
-          shares about themselves. Delete outdated or incorrect information promptly.
-        model_parameters:
-          temperature: 0.2
-          max_tokens: 2000
-          top_p: 0.8
-          frequency_penalty: 0.1
+      agent:
+          provider: "openAI"
+          model: "gpt-4"
+          instructions: |
+            Store memory using only the specified validKeys. For user_preferences: save
+            explicitly stated preferences about communication style, topics of interest,
+            or workflow preferences. For conversation_context: save important facts or
+            ongoing projects mentioned. For learned_facts: save objective information
+            about the user. For personal_information: save only what the user explicitly
+            shares about themselves. Delete outdated or incorrect information promptly.
+          model_parameters:
+            temperature: 0.2
+            max_tokens: 2000
+            top_p: 0.8
+            frequency_penalty: 0.1
     mcpServers:
       paperless:
         type: stdio

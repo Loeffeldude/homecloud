@@ -99,7 +99,8 @@ data:
         - "librechat.ai"
         - "google.com"
     memory:
-      disabled: false
+      # a bit too expensive right now ...
+      disabled: true
       personalize: true
       tokenLimit: 2000
       messageWindowSize: 5

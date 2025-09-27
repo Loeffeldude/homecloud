@@ -21,7 +21,11 @@ spec:
         volumeMounts:
           - mountPath: /target
             name: plugins
-
+      - name: velero-plugin-for-csi
+        image: velero/velero-plugin-for-csi:v0.5.0
+        volumeMounts:
+          - mountPath: /target
+            name: plugins
     configuration:
       backupStorageLocation:
         - name: default
@@ -56,6 +60,9 @@ spec:
         schedule: "0 2 * * *"
         useOwnerReferencesInBackup: false
         template:
+          snapshotVolumes: true
+          volumeSnapshotLocations:
+            - provider: csi
           ttl: "720h"
           includedNamespaces:
             - "*"

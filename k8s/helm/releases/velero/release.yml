@@ -23,8 +23,6 @@ spec:
             name: plugins
 
     configuration:
-      provider: aws
-
       backupStorageLocation:
         - name: default
           provider: aws
@@ -41,7 +39,7 @@ spec:
         - name: default
           provider: aws
           config:
-            region: us-east-1
+            region: eu-central
           credential:
             name: cloud-credentials
             key: cloud

@@ -20,3 +20,11 @@ repos:
         language: system
         pass_filenames: false
         files: ^k8s/.*$
+  - repo: local
+    hooks:
+      - id: no-secret-commited
+        name: No Secret in Commit
+        entry: bash -c 'poetry -C cli/ run python main.py ci check_for_secrets'
+        language: system
+        pass_filenames: false
+        files: ^k8s/.*$

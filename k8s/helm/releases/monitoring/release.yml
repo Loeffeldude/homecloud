@@ -103,6 +103,8 @@ spec:
         finalizers:
           - kubernetes.io/pvc-protection
 
+    kubeApiServer:
+      enabled: true
     ## Component scraping etcd
     ##
     kubeEtcd:

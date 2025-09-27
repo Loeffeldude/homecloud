@@ -7,7 +7,8 @@ resources:
   # - releases/monitoring
   - releases/mcp-context-forge
   - releases/nextcloud
-  - releases/penpot
-  - releases/jenkins
-  - releases/github-arc
+  - releases/velero
+  # - releases/penpot
+  # - releases/jenkins
+  # - releases/github-arc
   - releases/kubetail

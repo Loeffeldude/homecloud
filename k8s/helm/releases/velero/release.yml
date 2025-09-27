@@ -26,11 +26,11 @@ spec:
       backupStorageLocation:
         - name: default
           provider: aws
-          bucket: velero-backups
+          bucket: lffl-me
           config:
             region: eu-central
             s3ForcePathStyle: "true"
-            s3Url: https://lffl-me.nbg1.your-objectstorage.com
+            s3Url: https://nbg1.your-objectstorage.com
           credential:
             name: cloud-credentials
             key: cloud

@@ -107,9 +107,6 @@ spec:
           secret:
             secretName: qbittorrent
             defaultMode: 0600
-            items:
-              - key: wg0.conf
-                path: wg0.conf
         - name: localtime
           hostPath:
             path: /etc/localtime

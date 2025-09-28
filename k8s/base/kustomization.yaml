@@ -12,7 +12,7 @@ resources:
   - ./services/librechat
   # - ./services/cheater
   - ./services/searxng
-  - ./services/photo-upload
-  - ./services/fdroid
-  - ./services/couchdb
+  # - ./services/photo-upload
+  # - ./services/fdroid
+  # - ./services/couchdb
   - ./services/media

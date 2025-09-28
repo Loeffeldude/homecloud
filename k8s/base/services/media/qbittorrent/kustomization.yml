@@ -6,4 +6,4 @@ resources:
   - service.yml
   - ingress.yml
   - pvc.yml
-  - secret.secretraw.yml
+  - secret.yml

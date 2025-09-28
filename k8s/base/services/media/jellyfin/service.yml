@@ -10,7 +10,7 @@ spec:
       name: webui
     - port: 7359
       targetPort: 7359
-      name: udp
+      name: discovery
       protocol: UDP
   selector:
-    app: qbittorrent
+    app: jellyfin

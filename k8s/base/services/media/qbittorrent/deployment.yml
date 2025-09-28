@@ -12,6 +12,21 @@ spec:
       labels:
         app: qbittorrent
     spec:
+      initContainers:
+        - name: copy-wg-config
+          image: busybox:1.36
+          command:
+            - sh
+            - -c
+            - |
+              cp /secrets/wg0.conf /wg/wg0.conf
+              chmod 600 /wg/wg0.conf
+          volumeMounts:
+            - name: wireguard-secret
+              mountPath: /secrets
+              readOnly: true
+            - name: wg-config
+              mountPath: /wg
       containers:
         - name: qbittorrent
           image: binhex/arch-qbittorrentvpn:latest
@@ -89,13 +104,11 @@ spec:
               mountPath: /data
             - name: config
               mountPath: /config
-            - name: wireguard-config
-              mountPath: /config/wireguard/wg0.conf
-              subPath: wg0.conf
+            - name: wg-config
+              mountPath: /config/wireguard
             - name: localtime
               mountPath: /etc/localtime
               readOnly: true
-          resources: {}
       volumes:
         - name: data
           persistentVolumeClaim:
@@ -103,10 +116,15 @@ spec:
         - name: config
           persistentVolumeClaim:
             claimName: qbittorrent-config
-        - name: wireguard-config
+        - name: wireguard-secret
           secret:
             secretName: qbittorrent
             defaultMode: 0600
+            items:
+              - key: wg0.conf
+                path: wg0.conf
+        - name: wg-config
+          emptyDir: {}
         - name: localtime
           hostPath:
             path: /etc/localtime

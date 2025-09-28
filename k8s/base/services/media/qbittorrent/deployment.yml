@@ -116,6 +116,9 @@ spec:
             - name: localtime
               mountPath: /etc/localtime
               readOnly: true
+            - name: modules
+              mountPath: /lib/modules
+              readOnly: true
       volumes:
         - name: data
           persistentVolumeClaim:
@@ -123,6 +126,10 @@ spec:
         - name: config
           persistentVolumeClaim:
             claimName: qbittorrent-config
+        - name: modules
+          hostPath:
+            path: /lib/modules
+            type: Directory
         - name: wireguard-secret
           secret:
             secretName: qbittorrent

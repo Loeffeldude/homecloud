@@ -21,11 +21,14 @@ services:
       - TZ=UTC
       - SERVERURL=loeffelmeister.de
       - SERVERPORT=51820
-      - SERVER_ALLOWEDIPS_PEER_homecloud=10.13.13.0/24
-      - PEERS=1
-      - PEERDNS=auto
+      - SERVER_ALLOWEDIPS_PEER_homecloud=10.13.13.0/24,10.42.1.1/32,10.42.0.1/32
+      - SERVER_ALLOWEDIPS_PEER_ms7e57=10.13.13.0/24
+      - SERVER_ALLOWEDIPS_PEER_t500=10.13.13.0/24
+      - SERVER_ALLOWEDIPS_PEER_t15=10.13.13.0/24
+      - SERVER_ALLOWEDIPS_PEER_m1=10.13.13.0/24
+      - PEERS=homecloud,ms7e57,t500,t15,m1
       - INTERNAL_SUBNET=10.13.13.0
-      - ALLOWEDIPS=0.0.0.0/0
+      - ALLOWEDIPS=10.13.13.0/24
       - PERSISTENTKEEPALIVE_PEERS=15s
       - LOG_CONFS=true
     ports:

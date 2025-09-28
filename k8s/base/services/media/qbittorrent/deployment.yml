@@ -31,9 +31,15 @@ spec:
         - name: qbittorrent
           image: binhex/arch-qbittorrentvpn:latest
           securityContext:
+            sysctls:
+              - name: net.ipv4.conf.all.src_valid_mark
+                value: "1"
+              - name: net.ipv4.conf.default.src_valid_mark
+                value: "1"
             capabilities:
               add:
                 - NET_ADMIN
+                - NET_RAW
           env:
             - name: VPN_ENABLED
               value: "yes"

@@ -19,8 +19,8 @@ spec:
             - sh
             - -c
             - |
-              cp /secrets/wg0.conf /wg/wg0.conf
-              chmod 600 /wg/wg0.conf
+              cp /secrets/wg0.conf /wg/wg_proton.conf
+              chmod 600 /wg/wg_proton.conf
           volumeMounts:
             - name: wireguard-secret
               mountPath: /secrets

@@ -1,0 +1,16 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: jellyfin
+  namespace: media
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`jellyfin.lffl.internal`)
+      kind: Rule
+      services:
+        - name: jellyfin
+          port: 8096
+  tls:
+    secretName: self-signed-cert

@@ -58,7 +58,7 @@ spec:
             - name: STRICT_PORT_FORWARD
               value: "yes"
             - name: USERSPACE_WIREGUARD
-              value: "no"
+              value: "yes"
             - name: ENABLE_SOCKS
               value: "yes"
             - name: SOCKS_USER

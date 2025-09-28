@@ -1,0 +1,107 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: qbittorrent
+  namespace: media
+spec:
+  selector:
+    matchLabels:
+      app: qbittorrent
+  template:
+    metadata:
+      labels:
+        app: qbittorrent
+    spec:
+      containers:
+        - name: qbittorrent
+          image: binhex/arch-qbittorrentvpn:latest
+          securityContext:
+            capabilities:
+              add:
+                - NET_ADMIN
+          env:
+            - name: VPN_ENABLED
+              value: "yes"
+            - name: VPN_USER
+              valueFrom:
+                secretKeyRef:
+                  name: qbittorrent
+                  key: vpn-user
+            - name: VPN_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: qbittorrent
+                  key: vpn-pass
+            - name: VPN_PROV
+              value: "protonvpn"
+            - name: VPN_CLIENT
+              value: "wireguard"
+            - name: ENABLE_STARTUP_SCRIPTS
+              value: "no"
+            - name: ENABLE_PRIVOXY
+              value: "yes"
+            - name: STRICT_PORT_FORWARD
+              value: "yes"
+            - name: USERSPACE_WIREGUARD
+              value: "no"
+            - name: ENABLE_SOCKS
+              value: "yes"
+            - name: SOCKS_USER
+              value: "admin"
+            - name: SOCKS_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: qbittorrent
+                  key: socks-pass
+            - name: LAN_NETWORK
+              value: "192.168.1.0/24"
+            - name: NAME_SERVERS
+              value: "1.1.1.1,1.0.0.1"
+            - name: VPN_INPUT_PORTS
+              value: "1234"
+            - name: VPN_OUTPUT_PORTS
+              value: "5678"
+            - name: DEBUG
+              value: "false"
+            - name: WEBUI_PORT
+              value: "8080"
+            - name: UMASK
+              value: "000"
+            - name: PUID
+              value: "0"
+            - name: PGID
+              value: "0"
+          ports:
+            - containerPort: 8080
+              name: webui
+            - containerPort: 8118
+              name: privoxy
+            - containerPort: 9118
+              name: socks
+            - containerPort: 58946
+              name: torrent-tcp
+              protocol: TCP
+            - containerPort: 58946
+              name: torrent-udp
+              protocol: UDP
+          volumeMounts:
+            - name: data
+              mountPath: /data
+            - name: config
+              mountPath: /config
+            - name: localtime
+              mountPath: /etc/localtime
+              readOnly: true
+          resources: {}
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: media-data
+        - name: config
+          persistentVolumeClaim:
+            claimName: qbittorrent-config
+        - name: localtime
+          hostPath:
+            path: /etc/localtime
+            type: File
+      restartPolicy: Always

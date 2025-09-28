@@ -1,0 +1,35 @@
+# lscr.io/linuxserver/radarr:5.27.5
+#
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: radarr
+  namespace: media
+spec:
+  selector:
+    matchLabels:
+      app: radarr
+  template:
+    metadata:
+      labels:
+        app: radarr
+    spec:
+      containers:
+        - name: radarr
+          image: lscr.io/linuxserver/radarr:5.27.5
+          ports:
+            - containerPort: 7878
+              name: webui
+          volumeMounts:
+            - name: config
+              mountPath: /config
+            - name: data
+              mountPath: /downloads
+      volumes:
+        - name: config
+          persistentVolumeClaim:
+            claimName: radarr-config
+        - name: data
+          persistentVolumeClaim:
+            claimName: media-data
+      restartPolicy: Always

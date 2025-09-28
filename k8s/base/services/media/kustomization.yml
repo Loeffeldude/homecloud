@@ -5,4 +5,8 @@ resources:
   - namespace.yml
   - pvc.yml
   - jellyfin/
+  - jellyseer/
+  - radarr/
+  - prowlarr/
+  - sonarr/
   - qbittorrent/

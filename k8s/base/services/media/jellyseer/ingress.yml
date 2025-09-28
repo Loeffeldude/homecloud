@@ -1,0 +1,16 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: jellyseer
+  namespace: media
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`jellyseer.lffl.internal`)
+      kind: Rule
+      services:
+        - name: jellyseer
+          port: 5055
+  tls:
+    secretName: self-signed-cert

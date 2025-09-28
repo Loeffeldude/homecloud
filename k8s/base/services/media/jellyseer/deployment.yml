@@ -1,0 +1,30 @@
+# lscr.io/linuxserver/jellyseer:5.27.5
+#
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jellyseer
+  namespace: media
+spec:
+  selector:
+    matchLabels:
+      app: jellyseer
+  template:
+    metadata:
+      labels:
+        app: jellyseer
+    spec:
+      containers:
+        - name: jellyseer
+          image: fallenbagel/jellyseerr:2.7.3
+          ports:
+            - containerPort: 5055
+              name: webui
+          volumeMounts:
+            - name: config
+              mountPath: /app/config
+      volumes:
+        - name: config
+          persistentVolumeClaim:
+            claimName: jellyseer-config
+      restartPolicy: Always

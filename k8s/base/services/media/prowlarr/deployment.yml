@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: prownlarr
+  namespace: media
+spec:
+  selector:
+    matchLabels:
+      app: prownlarr
+  template:
+    metadata:
+      labels:
+        app: prownlarr
+    spec:
+      containers:
+        - name: prownlarr
+          image: linuxserver/prowlarr:2.0.5
+          ports:
+            - containerPort: 9696
+              name: webui
+          volumeMounts:
+            - name: config
+              mountPath: /config
+      volumes:
+        - name: config
+          persistentVolumeClaim:
+            claimName: prownlarr-config
+      restartPolicy: Always

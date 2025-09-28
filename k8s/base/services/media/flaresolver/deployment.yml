@@ -18,11 +18,9 @@ spec:
           ports:
             - containerPort: 8191
               name: proxy
-      volumes:
-        - name: config
-          persistentVolumeClaim:
-            claimName: flaresolver-config
-        - name: data
-          persistentVolumeClaim:
-            claimName: media-data
+          environment:
+            - name: CAPTCHA_SOLVER
+              value: none
+            - name: TZ
+              value: Europe/Berlin
       restartPolicy: Always

@@ -89,6 +89,9 @@ spec:
               mountPath: /data
             - name: config
               mountPath: /config
+            - name: wireguard-config
+              mountPath: /config/wireguard/wg0.conf
+              subPath: wg0.conf
             - name: localtime
               mountPath: /etc/localtime
               readOnly: true
@@ -100,6 +103,13 @@ spec:
         - name: config
           persistentVolumeClaim:
             claimName: qbittorrent-config
+        - name: wireguard-config
+          secret:
+            secretName: qbittorrent
+            defaultMode: 0600
+            items:
+              - key: wg0.conf
+                path: wg0.conf
         - name: localtime
           hostPath:
             path: /etc/localtime

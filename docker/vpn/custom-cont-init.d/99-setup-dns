@@ -1,0 +1,45 @@
+#!/usr/bin/with-contenv bash
+
+echo "**** Setting up custom DNS with dnsmasq ****"
+
+# Install dnsmasq if not present
+if ! command -v dnsmasq &> /dev/null; then
+    apk add --no-cache dnsmasq
+fi
+
+# Create dnsmasq config
+cat > /etc/dnsmasq.conf << 'EOF'
+# Custom DNS configuration for homecloud VPN
+# Resolve *.lffl.internal to 10.42.0.1
+address=/lffl.internal/10.42.0.1
+
+# Use Google DNS for everything else
+server=8.8.8.8
+server=8.8.4.4
+
+# Don't read /etc/resolv.conf
+no-resolv
+
+# Listen on VPN interface
+listen-address=10.13.13.1
+
+# Cache size
+cache-size=1000
+
+# Don't run as daemon (s6 will manage it)
+no-daemon
+EOF
+
+# Create s6 service for dnsmasq
+mkdir -p /etc/services.d/dnsmasq
+
+cat > /etc/services.d/dnsmasq/run << 'EOF'
+#!/usr/bin/with-contenv bash
+
+echo "Starting dnsmasq..."
+exec dnsmasq --conf-file=/etc/dnsmasq.conf
+EOF
+
+chmod +x /etc/services.d/dnsmasq/run
+
+echo "**** DNS setup complete ****"

@@ -13,6 +13,15 @@ spec:
       labels:
         app: samba
     spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: kubernetes.io/hostname
+                operator: In
+                values:
+                - homeserver-2
       containers:
       - name: samba
         image: dperson/samba

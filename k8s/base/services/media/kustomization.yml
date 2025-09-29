@@ -11,3 +11,4 @@ resources:
   - prowlarr/
   - sonarr/
   - qbittorrent/
+  - samba/

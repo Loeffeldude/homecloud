@@ -12,6 +12,15 @@ spec:
       labels:
         app: qbittorrent
     spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: kubernetes.io/hostname
+                operator: In
+                values:
+                - homeserver-2
       securityContext:
         sysctls:
           - name: net.ipv4.conf.all.src_valid_mark

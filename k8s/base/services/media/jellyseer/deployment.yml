@@ -14,6 +14,15 @@ spec:
       labels:
         app: jellyseer
     spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: kubernetes.io/hostname
+                operator: In
+                values:
+                - homeserver-2
       containers:
         - name: jellyseer
           image: fallenbagel/jellyseerr:2.7.3

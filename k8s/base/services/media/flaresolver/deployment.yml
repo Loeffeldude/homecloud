@@ -12,6 +12,15 @@ spec:
       labels:
         app: flaresolver
     spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: kubernetes.io/hostname
+                operator: In
+                values:
+                - homeserver-2
       containers:
         - name: flaresolver
           image: ghcr.io/flaresolverr/flaresolverr:latest

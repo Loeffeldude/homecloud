@@ -12,6 +12,15 @@ spec:
       labels:
         app: prownlarr
     spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: kubernetes.io/hostname
+                operator: In
+                values:
+                - homeserver-2
       containers:
         - name: prownlarr
           image: linuxserver/prowlarr:2.0.5

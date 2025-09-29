@@ -15,7 +15,11 @@ spec:
       containers:
         - name: jellyfin
           image: linuxserver/jellyfin:10.10.7
-          #- JELLYFIN_PublishedServerUrl=http://192.168.0.5
+          env:
+            - name: PUID
+              value: "911"
+            - name: PGID
+              value: "911"
           ports:
             - containerPort: 8096
               name: webui

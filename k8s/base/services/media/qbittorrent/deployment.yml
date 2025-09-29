@@ -91,9 +91,9 @@ spec:
             - name: UMASK
               value: "000"
             - name: PUID
-              value: "0"
+              value: "911"
             - name: PGID
-              value: "0"
+              value: "911"
           ports:
             - containerPort: 8080
               name: webui
@@ -109,7 +109,7 @@ spec:
               protocol: UDP
           volumeMounts:
             - name: data
-              mountPath: /data
+              mountPath: /downloads
             - name: config
               mountPath: /config
             - name: wg-config

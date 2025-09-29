@@ -20,6 +20,9 @@ server=8.8.4.4
 # Don't read /etc/resolv.conf
 no-resolv
 
+# Only bind to specified interfaces
+bind-interfaces
+
 # Listen on VPN interface
 listen-address=10.13.13.1
 

@@ -5,3 +5,4 @@ resources:
   - ./repository.yaml
   - ./release.yml
   - ./secret.yml
+  - ./ingress.yml

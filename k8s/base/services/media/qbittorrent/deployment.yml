@@ -36,7 +36,7 @@ spec:
             - sh
             - -c
             - |
-              cp /secrets/openvpn.ovpn /wg/wg_proton.conf
+              cp /secrets/openvpn.ovpn /openvpn/openvpn.ovpn
               chmod 600 /openvpn/openvpn.ovpn
           volumeMounts:
             - name: openvpn-secret

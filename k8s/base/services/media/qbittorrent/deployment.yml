@@ -30,12 +30,12 @@ spec:
       initContainers:
         - name: copy-wg-config
           image: busybox:1.36
+          # cp /secrets/wg0.conf /wg/wg_proton.conf
+          # chmod 600 /wg/wg_proton.conf
           command:
             - sh
             - -c
             - |
-              # cp /secrets/wg0.conf /wg/wg_proton.conf
-              # chmod 600 /wg/wg_proton.conf
               cp /secrets/openvpn.ovpn /wg/wg_proton.conf
               chmod 600 /openvpn/openvpn.ovpn
           volumeMounts:

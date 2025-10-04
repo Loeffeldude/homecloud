@@ -16,11 +16,11 @@ spec:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
             nodeSelectorTerms:
-            - matchExpressions:
-              - key: kubernetes.io/hostname
-                operator: In
-                values:
-                - homeserver-2
+              - matchExpressions:
+                  - key: kubernetes.io/hostname
+                    operator: In
+                    values:
+                      - homeserver-2
       securityContext:
         sysctls:
           - name: net.ipv4.conf.all.src_valid_mark
@@ -34,14 +34,16 @@ spec:
             - sh
             - -c
             - |
-              cp /secrets/wg0.conf /wg/wg_proton.conf
-              chmod 600 /wg/wg_proton.conf
+              # cp /secrets/wg0.conf /wg/wg_proton.conf
+              # chmod 600 /wg/wg_proton.conf
+              cp /secrets/openvpn.ovpn /wg/wg_proton.conf
+              chmod 600 /openvpn/openvpn.ovpn
           volumeMounts:
-            - name: wireguard-secret
+            - name: openvpn-secret
               mountPath: /secrets
               readOnly: true
-            - name: wg-config
-              mountPath: /wg
+            - name: openvpn-config
+              mountPath: /openvpn
       containers:
         - name: qbittorrent
           image: binhex/arch-qbittorrentvpn:latest
@@ -67,7 +69,7 @@ spec:
             - name: VPN_PROV
               value: "protonvpn"
             - name: VPN_CLIENT
-              value: "wireguard"
+              value: "openvpn"
             - name: ENABLE_STARTUP_SCRIPTS
               value: "no"
             - name: ENABLE_PRIVOXY
@@ -121,8 +123,10 @@ spec:
               mountPath: /downloads
             - name: config
               mountPath: /config
-            - name: wg-config
-              mountPath: /config/wireguard
+            # - name: wg-config
+            #   mountPath: /config/wireguard
+            - name: openvpn-config
+              mountPath: /config/openvpn
             - name: localtime
               mountPath: /etc/localtime
               readOnly: true
@@ -140,14 +144,23 @@ spec:
           hostPath:
             path: /lib/modules
             type: Directory
-        - name: wireguard-secret
+        # - name: wireguard-secret
+        #   secret:
+        #     secretName: qbittorrent
+        #     defaultMode: 0600
+        #     items:
+        #       - key: wg0.conf
+        #         path: wg0.conf
+        - name: openvpn-secret
           secret:
             secretName: qbittorrent
             defaultMode: 0600
             items:
-              - key: wg0.conf
-                path: wg0.conf
+              - key: openvpn.ovpn
+                path: openvpn.ovpn
         - name: wg-config
+          emptyDir: {}
+        - name: openvpn-config
           emptyDir: {}
         - name: localtime
           hostPath:

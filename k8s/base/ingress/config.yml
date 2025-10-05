@@ -24,4 +24,7 @@ spec:
     providers:
       kubernetesCRD:
          allowCrossNamespace: true
+    additionalArguments:
+      - "--entryPoints.smb.address=:445/tcp"
 ---
+

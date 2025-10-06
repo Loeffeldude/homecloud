@@ -8,5 +8,5 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 450Gi
+      storage: 575Gi
   storageClassName: longhorn

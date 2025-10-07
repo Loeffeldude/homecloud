@@ -4,7 +4,7 @@ metadata:
   name: traefik
   namespace: kube-system
 spec:
-  valuesContent: |-
+  valuesContent: |
     ports:
       web:
         forwardedHeaders:
@@ -27,4 +27,3 @@ spec:
     additionalArguments:
       - "--entryPoints.smb.address=:445/tcp"
 ---
-

@@ -4,3 +4,4 @@ resources:
   - config.yml
   - cert.yml
   - secret.yml
+  - dashboard.yml

@@ -13,4 +13,4 @@ spec:
         - name: radarr
           port: 7878
   tls:
-    secretName: self-signed-cert
+    secretName: kube-system/self-signed-cert

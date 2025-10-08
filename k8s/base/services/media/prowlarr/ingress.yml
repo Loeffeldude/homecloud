@@ -13,4 +13,4 @@ spec:
         - name: prownlarr
           port: 9696
   tls:
-    secretName: self-signed-cert
+    secretName: kube-system/self-signed-cert

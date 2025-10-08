@@ -19,7 +19,7 @@ spec:
       smb:
         port: 445
         expose:
-          defualt: true
+          default: true
         exposedPort: 445
         protocol: TCP
     providers:

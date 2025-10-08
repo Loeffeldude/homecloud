@@ -12,5 +12,6 @@ spec:
       services:
         - name: sonarr
           port: 8989
-  tls:
-    secretName: kube-system/self-signed-cert
+      middlewares:
+        - name: keycloak-forward-auth
+          namespace: forward-auth

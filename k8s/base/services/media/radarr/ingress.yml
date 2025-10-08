@@ -12,5 +12,6 @@ spec:
       services:
         - name: radarr
           port: 7878
-  tls:
-    secretName: kube-system/self-signed-cert
+      middlewares:
+        - name: keycloak-forward-auth
+          namespace: forward-auth

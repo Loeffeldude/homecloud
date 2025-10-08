@@ -12,5 +12,3 @@ spec:
       services:
         - name: jellyseer
           port: 5055
-  tls:
-    secretName: kube-system/self-signed-cert

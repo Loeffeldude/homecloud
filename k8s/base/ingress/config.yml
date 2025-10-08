@@ -18,7 +18,8 @@ spec:
             - "10.13.13.0/24"
       smb:
         port: 445
-        expose: true
+        expose:
+          defualt: true
         exposedPort: 445
         protocol: TCP
     providers:

@@ -26,8 +26,14 @@ spec:
         - name: samba
           image: dperson/samba
           ports:
-            - containerPort: 139
             - containerPort: 445
+              protocol: TCP
+            - containerPort: 139
+              protocol: TCP
+            - containerPort: 138
+              protocol: UDP
+            - containerPort: 137
+              protocol: UDP
           env:
             - name: NMBD
               value: "true"

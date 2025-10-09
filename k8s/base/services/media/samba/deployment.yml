@@ -36,25 +36,26 @@ spec:
               protocol: UDP
           env:
             - name: NMBD
-              value: "true"
+              value: "yes"
             - name: WORKGROUP
               value: "WORKGROUP"
-            - name: SHARE
-              value: "media;/media;yes;no;yes;all;none;;"
             - name: USER
               valueFrom:
                 secretKeyRef:
                   name: samba-credentials
-                  key: username
-            - name: PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: samba-credentials
-                  key: password
+                  key: combined
+            - name: SHARE
+              value: "media;/media;yes;no;yes;all;none;;"
             - name: USERID
               value: "911"
             - name: GROUPID
               value: "911"
+            # Optional but recommended
+            - name: TZ
+              value: "UTC" # Set your timezone
+            # Enable permissions fix
+            - name: PERMISSIONS
+              value: "yes"
           volumeMounts:
             - name: media-data
               mountPath: /media

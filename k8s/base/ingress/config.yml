@@ -28,9 +28,23 @@ spec:
           default: true
         exposedPort: 139
         protocol: TCP
+      netbios-ns:
+        port: 137
+        expose:
+          default: true
+        exposedPort: 137
+        protocol: UDP
+      netbios-dgm:
+        port: 138
+        expose:
+          default: true
+        exposedPort: 138
+        protocol: UDP
     providers:
       kubernetesCRD:
          allowCrossNamespace: true
     additionalArguments:
       - "--entryPoints.smb.address=:445/tcp"
----
+      - "--entryPoints.netbios.address=:139/tcp"
+      - "--entryPoints.netbios-ns.address=:137/udp"
+      - "--entryPoints.netbios-dgm.address=:138/udp"

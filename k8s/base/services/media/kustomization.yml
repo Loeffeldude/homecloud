@@ -7,9 +7,10 @@ resources:
   - flaresolver/
   - jellyfin/
   - jellyseer/
-  - radarr/
+  - organizr/
   - prowlarr/
-  - sonarr/
   - qbittorrent/
+  - radarr/
   - samba/
+  - sonarr/
   - unpackerr/

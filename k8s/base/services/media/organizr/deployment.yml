@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: organizr
+  namespace: media
+spec:
+  selector:
+    matchLabels:
+      app: organizr
+  template:
+    metadata:
+      labels:
+        app: organizr
+    spec:
+      containers:
+        - name: organizr
+          image: ghcr.io/organizr/organizr:latest
+          env:
+            - name: PUID
+              value: "911"
+            - name: PGID
+              value: "911"
+          ports:
+            - containerPort: 80
+              name: webui
+          volumeMounts:
+            - name: config
+              mountPath: /config
+      volumes:
+        - name: config
+          persistentVolumeClaim:
+            claimName: organizr-config
+      restartPolicy: Always

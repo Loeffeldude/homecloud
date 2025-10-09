@@ -7,7 +7,9 @@ spec:
   entryPoints:
     - smb
   routes:
-  - match: HostSNI(`*`)
-    services:
-    - name: samba
-      port: 445
+    - match: HostSNI(`*`)
+      services:
+        - name: samba
+          port: 445
+        - name: netbios
+          port: 139

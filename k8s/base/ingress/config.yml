@@ -22,6 +22,12 @@ spec:
           default: true
         exposedPort: 445
         protocol: TCP
+      netbios:
+        port: 139
+        expose:
+          default: true
+        exposedPort: 139
+        protocol: TCP
     providers:
       kubernetesCRD:
          allowCrossNamespace: true

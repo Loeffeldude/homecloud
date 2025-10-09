@@ -17,46 +17,50 @@ spec:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
             nodeSelectorTerms:
-            - matchExpressions:
-              - key: kubernetes.io/hostname
-                operator: In
-                values:
-                - homeserver-2
+              - matchExpressions:
+                  - key: kubernetes.io/hostname
+                    operator: In
+                    values:
+                      - homeserver-2
       containers:
-      - name: samba
-        image: dperson/samba
-        ports:
-        - containerPort: 139
-        - containerPort: 445
-        env:
-        - name: SHARE
-          value: "media;/media;yes;no;yes;all;none;;"
-        - name: USER
-          valueFrom:
-            secretKeyRef:
-              name: samba-credentials
-              key: username
-        - name: PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: samba-credentials
-              key: password
-        - name: USERID
-          value: "911"
-        - name: GROUPID
-          value: "911"
-        volumeMounts:
-        - name: media-data
-          mountPath: /media
-          readOnly: true
-        resources:
-          requests:
-            memory: "64Mi"
-            cpu: "50m"
-          limits:
-            memory: "256Mi"
-            cpu: "200m"
+        - name: samba
+          image: dperson/samba
+          ports:
+            - containerPort: 139
+            - containerPort: 445
+          env:
+            - name: NMBD
+              value: "true"
+            - name: WORKGROUP
+              value: "WORKGROUP"
+            - name: SHARE
+              value: "media;/media;yes;no;yes;all;none;;"
+            - name: USER
+              valueFrom:
+                secretKeyRef:
+                  name: samba-credentials
+                  key: username
+            - name: PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: samba-credentials
+                  key: password
+            - name: USERID
+              value: "911"
+            - name: GROUPID
+              value: "911"
+          volumeMounts:
+            - name: media-data
+              mountPath: /media
+              readOnly: true
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "50m"
+            limits:
+              memory: "256Mi"
+              cpu: "200m"
       volumes:
-      - name: media-data
-        persistentVolumeClaim:
-          claimName: media-data
+        - name: media-data
+          persistentVolumeClaim:
+            claimName: media-data

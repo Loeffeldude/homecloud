@@ -13,6 +13,9 @@ spec:
         name: prometheus-community
       version: v71.2.0
   interval: 1m0s
+  valuesFrom:
+    - kind: Secret
+      name: discord-webhook-values
   values:
     namespaceOverride: "monitoring"
 
@@ -80,22 +83,6 @@ spec:
                 - severity = "critical"
         receivers:
           - name: "null"
-          - name: "discord"
-            webhook_configs:
-              - url_file: /etc/alertmanager/secrets/discord-webhook/webhook_url
-                send_resolved: true
-                http_config:
-                  follow_redirects: true
-                title: 'Alert: {{ .GroupLabels.alertname }}'
-                text: 'Severity: {{ .CommonLabels.severity }} | Instance: {{ .CommonLabels.instance }} | {{ .CommonAnnotations.summary }}'
-          - name: "discord-critical"
-            webhook_configs:
-              - url_file: /etc/alertmanager/secrets/discord-webhook/webhook_url
-                send_resolved: true
-                http_config:
-                  follow_redirects: true
-                title: 'CRITICAL: {{ .GroupLabels.alertname }}'
-                text: '@everyone CRITICAL ALERT | Instance: {{ .CommonLabels.instance }} | {{ .CommonAnnotations.summary }}'
         templates:
           - "/etc/alertmanager/config/*.tmpl"
 
@@ -109,16 +96,6 @@ spec:
               resources:
                 requests:
                   storage: 5Gi
-        secrets:
-          - discord-webhook
-        containers:
-          - name: alertmanager
-            env:
-              - name: DISCORD_WEBHOOK_URL
-                valueFrom:
-                  secretKeyRef:
-                    name: discord-webhook
-                    key: webhook_url
 
     ## Using default values from https://github.com/grafana/helm-charts/blob/main/charts/grafana/values.yaml
     ##

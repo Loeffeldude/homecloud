@@ -81,25 +81,29 @@ spec:
         receivers:
           - name: "null"
           - name: "discord"
-            discord_configs:
-              - webhook_url: "${DISCORD_WEBHOOK_URL}"
+            webhook_configs:
+              - url_file: /etc/alertmanager/secrets/discord-webhook/webhook_url
+                send_resolved: true
+                http_config:
+                  follow_redirects: true
+                # Discord webhook format
                 title: "🚨 Homelab Alert"
-                message: |
-                  **Alert**: {{ .GroupLabels.alertname }}
-                  **Severity**: {{ .CommonLabels.severity }}
-                  **Instance**: {{ .CommonLabels.instance }}
-                  **Summary**: {{ .CommonAnnotations.summary }}
-                  **Description**: {{ .CommonAnnotations.description }}
+                text: |
+                  {
+                    "content": "**Alert**: {{ .GroupLabels.alertname }}\n**Severity**: {{ .CommonLabels.severity }}\n**Instance**: {{ .CommonLabels.instance }}\n**Summary**: {{ .CommonAnnotations.summary }}\n**Description**: {{ .CommonAnnotations.description }}"
+                  }
           - name: "discord-critical"
-            discord_configs:
-              - webhook_url: "${DISCORD_WEBHOOK_URL}"
+            webhook_configs:
+              - url_file: /etc/alertmanager/secrets/discord-webhook/webhook_url
+                send_resolved: true
+                http_config:
+                  follow_redirects: true
+                # Discord webhook format
                 title: "🔥 CRITICAL: Homelab Alert"
-                message: |
-                  @everyone **CRITICAL ALERT**
-                  **Alert**: {{ .GroupLabels.alertname }}
-                  **Instance**: {{ .CommonLabels.instance }}
-                  **Summary**: {{ .CommonAnnotations.summary }}
-                  **Description**: {{ .CommonAnnotations.description }}
+                text: |
+                  {
+                    "content": "@everyone **CRITICAL ALERT**\n**Alert**: {{ .GroupLabels.alertname }}\n**Instance**: {{ .CommonLabels.instance }}\n**Summary**: {{ .CommonAnnotations.summary }}\n**Description**: {{ .CommonAnnotations.description }}"
+                  }
         templates:
           - "/etc/alertmanager/config/*.tmpl"
 

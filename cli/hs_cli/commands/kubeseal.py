@@ -92,6 +92,7 @@ def install_kubeseak():
 def seal(
     ctx: typer.Context,
     input_file_path: pathlib.Path,
+    overwrite: typing.Annotated[bool, typer.Option("--overwrite", "-y")] = False,
     output_file_path: typing.Optional[pathlib.Path] = typer.Argument(
         default=None, help="the output file"
     ),
@@ -109,7 +110,7 @@ def seal(
         output_file_path = pathlib.Path(str(input_file_path.parent))
         output_file_path = output_file_path / out_name
 
-    if output_file_path.exists():
+    if output_file_path.exists() and not overwrite:
         should_overwrite = typer.confirm(
             f"[red]file at {str(output_file_path.absolute())} exists. Do you want to override it?"
         )

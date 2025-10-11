@@ -78,6 +78,12 @@ spec:
             - receiver: "null"
               matchers:
                 - alertname = "Watchdog"
+            - receiver: "null"
+              matchers:
+                - alertname = "KubeControllerManagerDown"
+            - receiver: "null"
+              matchers:
+                - alertname = "KubeSchedulerDown"
             - receiver: "discord-critical"
               matchers:
                 - severity = "critical"

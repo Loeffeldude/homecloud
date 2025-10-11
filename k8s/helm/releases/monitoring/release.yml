@@ -86,24 +86,14 @@ spec:
                 send_resolved: true
                 http_config:
                   follow_redirects: true
-                # Discord webhook format
-                title: "🚨 Homelab Alert"
-                text: |
-                  {
-                    "content": "**Alert**: {{ .GroupLabels.alertname }}\n**Severity**: {{ .CommonLabels.severity }}\n**Instance**: {{ .CommonLabels.instance }}\n**Summary**: {{ .CommonAnnotations.summary }}\n**Description**: {{ .CommonAnnotations.description }}"
-                  }
+                # Discord webhook JSON payload
           - name: "discord-critical"
             webhook_configs:
               - url_file: /etc/alertmanager/secrets/discord-webhook/webhook_url
                 send_resolved: true
                 http_config:
                   follow_redirects: true
-                # Discord webhook format
-                title: "🔥 CRITICAL: Homelab Alert"
-                text: |
-                  {
-                    "content": "@everyone **CRITICAL ALERT**\n**Alert**: {{ .GroupLabels.alertname }}\n**Instance**: {{ .CommonLabels.instance }}\n**Summary**: {{ .CommonAnnotations.summary }}\n**Description**: {{ .CommonAnnotations.description }}"
-                  }
+                # Discord webhook JSON payload
         templates:
           - "/etc/alertmanager/config/*.tmpl"
 

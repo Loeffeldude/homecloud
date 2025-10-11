@@ -3,6 +3,7 @@ kind: Kustomization
 resources:
   - ./namespace.yaml
   - ./secret.yaml
+  - ./discord-webhook.yaml
   - ./repository.yaml
   - ./release.yml
   - ./ingress.yml

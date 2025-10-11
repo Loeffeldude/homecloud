@@ -82,7 +82,7 @@ spec:
           - name: "null"
           - name: "discord"
             discord_configs:
-              - webhook_url_file: /etc/alertmanager/secrets/discord-webhook/webhook_url
+              - webhook_url: "${DISCORD_WEBHOOK_URL}"
                 title: "🚨 Homelab Alert"
                 message: |
                   **Alert**: {{ .GroupLabels.alertname }}
@@ -92,7 +92,7 @@ spec:
                   **Description**: {{ .CommonAnnotations.description }}
           - name: "discord-critical"
             discord_configs:
-              - webhook_url_file: /etc/alertmanager/secrets/discord-webhook/webhook_url
+              - webhook_url: "${DISCORD_WEBHOOK_URL}"
                 title: "🔥 CRITICAL: Homelab Alert"
                 message: |
                   @everyone **CRITICAL ALERT**
@@ -115,6 +115,14 @@ spec:
                   storage: 5Gi
         secrets:
           - discord-webhook
+        containers:
+          - name: alertmanager
+            env:
+              - name: DISCORD_WEBHOOK_URL
+                valueFrom:
+                  secretKeyRef:
+                    name: discord-webhook
+                    key: webhook_url
 
     ## Using default values from https://github.com/grafana/helm-charts/blob/main/charts/grafana/values.yaml
     ##

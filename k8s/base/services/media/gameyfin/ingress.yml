@@ -1,0 +1,14 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: gameyfin
+  namespace: media
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`gameyfin.lffl.internal`)
+      kind: Rule
+      services:
+        - name: gameyfin
+          port: 8080

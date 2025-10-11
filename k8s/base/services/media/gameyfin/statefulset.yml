@@ -1,0 +1,81 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: gameyfin
+  namespace: media
+spec:
+  selector:
+    matchLabels:
+      app: gameyfin
+  serviceName: gameyfin
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: gameyfin
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: kubernetes.io/hostname
+                operator: In
+                values:
+                - homeserver-2
+      containers:
+        - name: gameyfin
+          image: ghcr.io/gameyfin/gameyfin:2
+          env:
+            - name: APP_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: gameyfin-secret
+                  key: app-key
+            - name: PUID
+              value: "911"
+            - name: PGID
+              value: "911"
+          ports:
+            - containerPort: 8080
+              name: webui
+          volumeMounts:
+            - name: config
+              mountPath: /opt/gameyfin/db
+            - name: data
+              mountPath: /opt/gameyfin/data
+            - name: logs
+              mountPath: /opt/gameyfin/logs
+            - name: media-data
+              mountPath: /media
+              subPath: games
+      volumes:
+        - name: media-data
+          persistentVolumeClaim:
+            claimName: media-data
+      restartPolicy: Always
+  volumeClaimTemplates:
+    - metadata:
+        name: config
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 5Gi
+        storageClassName: longhorn
+    - metadata:
+        name: data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 5Gi
+        storageClassName: longhorn
+    - metadata:
+        name: logs
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 1Gi
+        storageClassName: longhorn

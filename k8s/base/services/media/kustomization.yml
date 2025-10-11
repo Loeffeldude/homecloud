@@ -5,6 +5,7 @@ resources:
   - namespace.yml
   - pvc.yml
   - flaresolver/
+  - gameyfin/
   - jellyfin/
   - jellyseer/
   - organizr/

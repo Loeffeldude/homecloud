@@ -3,6 +3,8 @@ kind: Service
 metadata:
   name: flaresolver
   namespace: media
+  labels:
+    app: flaresolver
 spec:
   ports:
     - port: 8191

@@ -9,7 +9,7 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: flaresolverr
+      app: flaresolver
   endpoints:
   - port: prometheus
     path: /metrics

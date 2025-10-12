@@ -3,6 +3,8 @@ kind: Service
 metadata:
   name: qbittorrent-exporter
   namespace: media
+  labels:
+    app: qbittorrent-exporter
 spec:
   ports:
     - port: 8000

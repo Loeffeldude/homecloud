@@ -1,0 +1,46 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: vpn-alerts
+  namespace: vpn
+  labels:
+    release: monitoring-release
+spec:
+  groups:
+  - name: vpn.rules
+    rules:
+    - alert: VPNDown
+      expr: up{job="vpn/wireguard-homecloud"} == 0
+      for: 1m
+      labels:
+        severity: critical
+      annotations:
+        summary: "VPN connection is down"
+        description: "The VPN pod {{ $labels.instance }} has been down for more than 1 minute"
+
+    - alert: VPNPodNotReady
+      expr: kube_pod_status_ready{condition="false",namespace="vpn",pod=~"wireguard-homecloud.*"} == 1
+      for: 2m
+      labels:
+        severity: critical
+      annotations:
+        summary: "VPN pod not ready"
+        description: "VPN pod {{ $labels.pod }} in namespace {{ $labels.namespace }} is not ready"
+
+    - alert: VPNPodRestarting
+      expr: increase(kube_pod_container_status_restarts_total{namespace="vpn",pod=~"wireguard-homecloud.*"}[10m]) > 0
+      for: 0m
+      labels:
+        severity: warning
+      annotations:
+        summary: "VPN pod restarting"
+        description: "VPN pod {{ $labels.pod }} has restarted {{ $value }} times in the last 10 minutes"
+
+    - alert: VPNHealthCheckFailing
+      expr: probe_success{job="blackbox",instance=~".*vpn.*"} == 0
+      for: 2m
+      labels:
+        severity: critical
+      annotations:
+        summary: "VPN health check failing"
+        description: "VPN connectivity check has been failing for more than 2 minutes"

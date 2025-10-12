@@ -1,0 +1,256 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: qbittorrent-dashboard
+  namespace: monitoring
+  labels:
+    grafana_dashboard: "1"
+data:
+  qbittorrent-dashboard.json: |
+    {
+      "id": null,
+      "title": "qBittorrent",
+      "tags": ["qbittorrent", "torrent", "media"],
+      "style": "dark",
+      "timezone": "browser",
+      "panels": [
+        {
+          "id": 1,
+          "title": "qBittorrent Status",
+          "type": "stat",
+          "targets": [
+            {
+              "expr": "qbittorrent_up",
+              "refId": "A"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "mappings": [
+                {
+                  "options": {
+                    "0": {"text": "Down", "color": "red"},
+                    "1": {"text": "Up", "color": "green"}
+                  },
+                  "type": "value"
+                }
+              ]
+            }
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 6,
+            "x": 0,
+            "y": 0
+          }
+        },
+        {
+          "id": 2,
+          "title": "Connection Status",
+          "type": "stat",
+          "targets": [
+            {
+              "expr": "qbittorrent_connected",
+              "refId": "A"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "mappings": [
+                {
+                  "options": {
+                    "0": {"text": "Disconnected", "color": "red"},
+                    "1": {"text": "Connected", "color": "green"}
+                  },
+                  "type": "value"
+                }
+              ]
+            }
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 6,
+            "x": 6,
+            "y": 0
+          }
+        },
+        {
+          "id": 3,
+          "title": "DHT Nodes",
+          "type": "stat",
+          "targets": [
+            {
+              "expr": "qbittorrent_dht_nodes",
+              "refId": "A"
+            }
+          ],
+          "gridPos": {
+            "h": 8,
+            "w": 6,
+            "x": 12,
+            "y": 0
+          }
+        },
+        {
+          "id": 4,
+          "title": "Firewalled",
+          "type": "stat",
+          "targets": [
+            {
+              "expr": "qbittorrent_firewalled",
+              "refId": "A"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "mappings": [
+                {
+                  "options": {
+                    "0": {"text": "No", "color": "green"},
+                    "1": {"text": "Yes", "color": "orange"}
+                  },
+                  "type": "value"
+                }
+              ]
+            }
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 6,
+            "x": 18,
+            "y": 0
+          }
+        },
+        {
+          "id": 5,
+          "title": "Download Speed",
+          "type": "graph",
+          "targets": [
+            {
+              "expr": "rate(qbittorrent_dl_info_data[5m])",
+              "legendFormat": "Download Rate",
+              "refId": "A"
+            }
+          ],
+          "yAxes": [
+            {
+              "unit": "Bps"
+            }
+          ],
+          "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 0,
+            "y": 8
+          }
+        },
+        {
+          "id": 6,
+          "title": "Upload Speed",
+          "type": "graph",
+          "targets": [
+            {
+              "expr": "rate(qbittorrent_up_info_data[5m])",
+              "legendFormat": "Upload Rate",
+              "refId": "A"
+            }
+          ],
+          "yAxes": [
+            {
+              "unit": "Bps"
+            }
+          ],
+          "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 12,
+            "y": 8
+          }
+        },
+        {
+          "id": 7,
+          "title": "Total Downloaded",
+          "type": "stat",
+          "targets": [
+            {
+              "expr": "qbittorrent_alltime_dl_total",
+              "refId": "A"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "bytes"
+            }
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 6,
+            "x": 0,
+            "y": 16
+          }
+        },
+        {
+          "id": 8,
+          "title": "Total Uploaded",
+          "type": "stat",
+          "targets": [
+            {
+              "expr": "qbittorrent_alltime_ul_total",
+              "refId": "A"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "bytes"
+            }
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 6,
+            "x": 6,
+            "y": 16
+          }
+        },
+        {
+          "id": 9,
+          "title": "Torrents by Status",
+          "type": "piechart",
+          "targets": [
+            {
+              "expr": "sum(qbittorrent_torrents_count) by (status)",
+              "legendFormat": "{{status}}",
+              "refId": "A"
+            }
+          ],
+          "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 12,
+            "y": 16
+          }
+        },
+        {
+          "id": 10,
+          "title": "Torrents by Category",
+          "type": "table",
+          "targets": [
+            {
+              "expr": "qbittorrent_torrents_count",
+              "format": "table",
+              "refId": "A"
+            }
+          ],
+          "gridPos": {
+            "h": 8,
+            "w": 24,
+            "x": 0,
+            "y": 24
+          }
+        }
+      ],
+      "time": {
+        "from": "now-1h",
+        "to": "now"
+      },
+      "refresh": "30s"
+    }

@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: qbittorrent-exporter
+  namespace: media
+spec:
+  selector:
+    matchLabels:
+      app: qbittorrent-exporter
+  template:
+    metadata:
+      labels:
+        app: qbittorrent-exporter
+    spec:
+      containers:
+        - name: qbittorrent-exporter
+          image: ghcr.io/esanchezm/prometheus-qbittorrent-exporter:latest
+          ports:
+            - containerPort: 8000
+              name: metrics
+          env:
+            - name: QBITTORRENT_HOST
+              value: "qbittorrent"
+            - name: QBITTORRENT_PORT
+              value: "8080"
+            - name: QBITTORRENT_USER
+              valueFrom:
+                secretKeyRef:
+                  name: qbittorrent-exporter-credentials
+                  key: username
+            - name: QBITTORRENT_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: qbittorrent-exporter-credentials
+                  key: password
+            - name: EXPORTER_PORT
+              value: "8000"
+            - name: METRICS_PREFIX
+              value: "qbittorrent"
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "100m"
+      restartPolicy: Always

@@ -29,7 +29,7 @@ spec:
               name: proxy
             - containerPort: 8192
               name: prometheus
-          environment:
+          env:
             - name: CAPTCHA_SOLVER
               value: none
             - name: PROMETHEUS_ENABLED

@@ -48,8 +48,10 @@ spec:
             key: cloud
 
     metrics:
-      enabled: false
+      enabled: true
       scrapeInterval: 30s
+      serviceMonitor:
+        enabled: true
 
     deployNodeAgent: true
 

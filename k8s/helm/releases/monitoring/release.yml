@@ -84,6 +84,9 @@ spec:
             - receiver: "null"
               matchers:
                 - alertname = "KubeSchedulerDown"
+            - receiver: "null"
+              matchers:
+                - alertname = "KubeVersionMismatch"
             - receiver: "discord-critical"
               matchers:
                 - severity = "critical"

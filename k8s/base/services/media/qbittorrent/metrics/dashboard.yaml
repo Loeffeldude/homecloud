@@ -127,7 +127,7 @@ data:
           "type": "graph",
           "targets": [
             {
-              "expr": "rate(qbittorrent_dl_info_data[5m])",
+              "expr": "rate(qbittorrent_dl_info_data_total[5m])",
               "legendFormat": "Download Rate",
               "refId": "A"
             }
@@ -150,7 +150,7 @@ data:
           "type": "graph",
           "targets": [
             {
-              "expr": "rate(qbittorrent_up_info_data[5m])",
+              "expr": "rate(qbittorrent_up_info_data_total[5m])",
               "legendFormat": "Upload Rate",
               "refId": "A"
             }

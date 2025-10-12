@@ -5,6 +5,7 @@ metadata:
   namespace: media
   labels:
     app: qbittorrent-exporter
+    release: monitoring-release
 spec:
   selector:
     matchLabels:

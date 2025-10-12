@@ -1,0 +1,192 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: flaresolverr-dashboard
+  namespace: monitoring
+  labels:
+    grafana_dashboard: "1"
+data:
+  flaresolverr-dashboard.json: |
+    {
+      "id": null,
+      "title": "FlareSolverr",
+      "tags": ["flaresolverr", "media"],
+      "style": "dark",
+      "timezone": "browser",
+      "panels": [
+        {
+          "id": 1,
+          "title": "Request Rate",
+          "type": "stat",
+          "targets": [
+            {
+              "expr": "sum(rate(flaresolverr_request_total[5m]))",
+              "refId": "A"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "reqps"
+            }
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 6,
+            "x": 0,
+            "y": 0
+          }
+        },
+        {
+          "id": 2,
+          "title": "Success Rate",
+          "type": "stat",
+          "targets": [
+            {
+              "expr": "sum(rate(flaresolverr_request_total{result=\"solved\"}[5m])) / sum(rate(flaresolverr_request_total[5m])) * 100",
+              "refId": "A"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "percent"
+            }
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 6,
+            "x": 6,
+            "y": 0
+          }
+        },
+        {
+          "id": 3,
+          "title": "Average Request Duration",
+          "type": "stat",
+          "targets": [
+            {
+              "expr": "rate(flaresolverr_request_duration_sum[5m]) / rate(flaresolverr_request_duration_count[5m])",
+              "refId": "A"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "s"
+            }
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 6,
+            "x": 12,
+            "y": 0
+          }
+        },
+        {
+          "id": 4,
+          "title": "Total Requests",
+          "type": "stat",
+          "targets": [
+            {
+              "expr": "sum(flaresolverr_request_total)",
+              "refId": "A"
+            }
+          ],
+          "gridPos": {
+            "h": 8,
+            "w": 6,
+            "x": 18,
+            "y": 0
+          }
+        },
+        {
+          "id": 5,
+          "title": "Request Rate by Domain",
+          "type": "graph",
+          "targets": [
+            {
+              "expr": "sum(rate(flaresolverr_request_total[5m])) by (domain)",
+              "legendFormat": "{{domain}}",
+              "refId": "A"
+            }
+          ],
+          "yAxes": [
+            {
+              "unit": "reqps"
+            }
+          ],
+          "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 0,
+            "y": 8
+          }
+        },
+        {
+          "id": 6,
+          "title": "Request Results",
+          "type": "piechart",
+          "targets": [
+            {
+              "expr": "sum(flaresolverr_request_total{result=\"solved\"})",
+              "legendFormat": "Solved",
+              "refId": "A"
+            },
+            {
+              "expr": "sum(flaresolverr_request_total{result!=\"solved\"})",
+              "legendFormat": "Failed",
+              "refId": "B"
+            }
+          ],
+          "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 12,
+            "y": 8
+          }
+        },
+        {
+          "id": 7,
+          "title": "Request Duration Histogram",
+          "type": "heatmap",
+          "targets": [
+            {
+              "expr": "sum(rate(flaresolverr_request_duration_bucket[5m])) by (le)",
+              "refId": "A"
+            }
+          ],
+          "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 0,
+            "y": 16
+          }
+        },
+        {
+          "id": 8,
+          "title": "Request Duration by Domain",
+          "type": "graph",
+          "targets": [
+            {
+              "expr": "rate(flaresolverr_request_duration_sum[5m]) by (domain) / rate(flaresolverr_request_duration_count[5m]) by (domain)",
+              "legendFormat": "{{domain}}",
+              "refId": "A"
+            }
+          ],
+          "yAxes": [
+            {
+              "unit": "s"
+            }
+          ],
+          "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 12,
+            "y": 16
+          }
+        }
+      ],
+      "time": {
+        "from": "now-1h",
+        "to": "now"
+      },
+      "refresh": "30s"
+    }

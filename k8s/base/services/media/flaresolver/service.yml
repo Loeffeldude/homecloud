@@ -8,5 +8,8 @@ spec:
     - port: 8191
       targetPort: 8191
       name: proxy
+    - port: 8192
+      targetPort: 8192
+      name: prometheus
   selector:
     app: flaresolver

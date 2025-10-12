@@ -2,6 +2,23 @@ volumes:
   etc_wireguard:
 
 services:
+  pihole:
+    image: pihole/pihole:latest
+    container_name: pihole
+    networks:
+      web: {}
+      wg:
+        ipv4_address: 10.42.42.44
+    environment:
+      TZ: "Europe/Berlin"
+      WEBPASSWORD: ${PIHOLE_PASSWORD}
+      DNS1: 1.1.1.1
+      DNS2: 1.0.0.1
+      ServerIP: 10.13.13.50
+    volumes:
+      - pihole_data:/etc/pihole
+      - ./dns_masq:/etc/dnsmasq.d
+    restart: unless-stopped
   wg-easy:
     image: ghcr.io/wg-easy/wg-easy:15
     container_name: wg-easy

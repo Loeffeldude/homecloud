@@ -1,0 +1,110 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: velero-dashboard
+  namespace: monitoring
+  labels:
+    grafana_dashboard: "1"
+data:
+  velero-dashboard.json: |
+    {
+      "dashboard": {
+        "id": null,
+        "title": "Velero Backups",
+        "tags": ["velero", "backup"],
+        "style": "dark",
+        "timezone": "browser",
+        "panels": [
+          {
+            "id": 1,
+            "title": "Backup Success Rate",
+            "type": "stat",
+            "targets": [
+              {
+                "expr": "rate(velero_backup_success_total[5m]) / rate(velero_backup_attempt_total[5m]) * 100",
+                "refId": "A"
+              }
+            ],
+            "gridPos": {
+              "h": 8,
+              "w": 12,
+              "x": 0,
+              "y": 0
+            }
+          },
+          {
+            "id": 2,
+            "title": "Recent Backups",
+            "type": "table",
+            "targets": [
+              {
+                "expr": "velero_backup_last_successful_timestamp",
+                "refId": "A"
+              }
+            ],
+            "gridPos": {
+              "h": 8,
+              "w": 12,
+              "x": 12,
+              "y": 0
+            }
+          },
+          {
+            "id": 3,
+            "title": "Backup Duration",
+            "type": "graph",
+            "targets": [
+              {
+                "expr": "velero_backup_duration_seconds",
+                "refId": "A"
+              }
+            ],
+            "gridPos": {
+              "h": 8,
+              "w": 24,
+              "x": 0,
+              "y": 8
+            }
+          },
+          {
+            "id": 4,
+            "title": "Failed Backups",
+            "type": "stat",
+            "targets": [
+              {
+                "expr": "increase(velero_backup_failure_total[24h])",
+                "refId": "A"
+              }
+            ],
+            "gridPos": {
+              "h": 8,
+              "w": 12,
+              "x": 0,
+              "y": 16
+            }
+          },
+          {
+            "id": 5,
+            "title": "Restore Success Rate",
+            "type": "stat",
+            "targets": [
+              {
+                "expr": "rate(velero_restore_success_total[5m]) / rate(velero_restore_attempt_total[5m]) * 100",
+                "refId": "A"
+              }
+            ],
+            "gridPos": {
+              "h": 8,
+              "w": 12,
+              "x": 12,
+              "y": 16
+            }
+          }
+        ],
+        "time": {
+          "from": "now-6h",
+          "to": "now"
+        },
+        "refresh": "30s"
+      }
+    }

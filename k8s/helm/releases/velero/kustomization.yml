@@ -5,3 +5,4 @@ resources:
   - release.yml
   - namespace.yml
   - secret.yaml
+  - dashboard.yaml

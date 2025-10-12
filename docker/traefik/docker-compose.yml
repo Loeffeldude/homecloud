@@ -21,7 +21,10 @@ services:
       - "./config/dynamic:/etc/traefik/dynamic"
     networks:
       - web
+      - wg-easy_wg
 
 networks:
   web:
+    external: true
+  wg-easy_wg:
     external: true

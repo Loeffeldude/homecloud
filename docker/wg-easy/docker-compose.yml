@@ -8,13 +8,13 @@ services:
     networks:
       web: {}
       wg:
-        ipv4_address: 10.13.13.42
+        ipv4_address: 10.42.42.42
         ipv6_address: fdcc:ad94:bacf:61a3::2a
     volumes:
       - etc_wireguard:/etc/wireguard
       - /lib/modules:/lib/modules:ro
     ports:
-      # - "51820:51820/udp"
+      - "51820:51820/udp"
       - "51821:51821/tcp"
     restart: unless-stopped
     cap_add:
@@ -32,8 +32,6 @@ services:
       - "traefik.http.routers.wg-easy.entrypoints=websecure"
       - "traefik.http.routers.wg-easy.service=wg-easy"
       - "traefik.http.services.wg-easy.loadbalancer.server.port=51821"
-      - "traefik.http.routers.wg-easy.middlewares=wg-easy-auth"
-      - "traefik.http.middlewares.wg-easy-auth.basicauth.users=${AUTH_USERNAME}:${AUTH_PASSWORD}"
 networks:
   web:
     external: true
@@ -43,5 +41,5 @@ networks:
     ipam:
       driver: default
       config:
-        - subnet: 10.13.13.0/24
+        - subnet: 10.42.42.0/24
         - subnet: fdcc:ad94:bacf:61a3::/64

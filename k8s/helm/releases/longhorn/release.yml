@@ -14,5 +14,8 @@ spec:
       version: v1.8.1
   interval: 1m0s
   values:
+    metrics:
+      serviceMonitor:
+        enabled: true
     defaultSettings:
       defaultDataPath: /mnt/longhorn

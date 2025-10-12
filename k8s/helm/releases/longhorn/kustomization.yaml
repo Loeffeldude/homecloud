@@ -6,3 +6,4 @@ resources:
   - ./release.yml
   - ./secret.yml
   - ./ingress.yml
+  - ./dashboard.yaml

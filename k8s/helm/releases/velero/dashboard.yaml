@@ -8,7 +8,6 @@ metadata:
 data:
   velero-dashboard.json: |
     {
-      "dashboard": {
         "id": null,
         "title": "Velero Backups",
         "tags": ["velero", "backup"],
@@ -106,5 +105,4 @@ data:
           "to": "now"
         },
         "refresh": "30s"
-      }
     }

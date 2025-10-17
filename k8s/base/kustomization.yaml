@@ -12,4 +12,5 @@ resources:
   - ./services/librechat
   - ./services/searxng
   # - ./services/couchdb
+  - ./services/cyberchef
   - ./services/media

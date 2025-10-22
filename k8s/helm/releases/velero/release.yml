@@ -26,6 +26,7 @@ spec:
       backupStorageLocation:
         - name: default
           provider: aws
+          prefix: velero
           bucket: lffl-me
           config:
             region: eu-central

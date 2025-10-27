@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: ldap
+  name: openldap
   namespace: ldap
 spec:
-  serviceName: ldap
+  serviceName: openldap
   replicas: 1
   selector:
     matchLabels:
-      app: ldap
+      app: openldap
   template:
     metadata:
       labels:
-        app: ldap
+        app: openldap
     spec:
       containers:
-        - name: ldap
+        - name: openldap
           image: osixia/openldap:1.5.0
           env:
             - name: LDAP_ORGANISATION
@@ -25,12 +25,12 @@ spec:
             - name: LDAP_ADMIN_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: ldap-secrets
+                  name: openldap-secrets
                   key: LDAP_ADMIN_PASSWORD
             - name: LDAP_CONFIG_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: ldap-secrets
+                  name: openldap-secrets
                   key: LDAP_ADMIN_PASSWORD
           ports:
             - containerPort: 389
@@ -38,9 +38,9 @@ spec:
             - containerPort: 636
               name: ldaps
           volumeMounts:
-            - name: ldap-data
+            - name: openldap-data
               mountPath: /var/lib/ldap
-            - name: ldap-config
+            - name: openldap-config
               mountPath: /etc/ldap/slapd.d
           resources:
             requests:
@@ -51,7 +51,7 @@ spec:
               cpu: "500m"
   volumeClaimTemplates:
     - metadata:
-        name: ldap-data
+        name: openldap-data
       spec:
         accessModes:
           - ReadWriteOnce
@@ -59,7 +59,7 @@ spec:
           requests:
             storage: 5Gi
     - metadata:
-        name: ldap-config
+        name: openldap-config
       spec:
         accessModes:
           - ReadWriteOnce

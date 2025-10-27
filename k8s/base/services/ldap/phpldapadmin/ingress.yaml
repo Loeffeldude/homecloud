@@ -12,6 +12,3 @@ spec:
       services:
         - name: phpldapadmin
           port: 80
-      middlewares:
-        - name: keycloak-forward-auth
-          namespace: forward-auth

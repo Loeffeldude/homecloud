@@ -38,5 +38,5 @@ spec:
             claimName: sonarr-config
         - name: data
           persistentVolumeClaim:
-            claimName: media-data
+            claimName: media-data-hostpath
       restartPolicy: Always

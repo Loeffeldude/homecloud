@@ -10,3 +10,38 @@ spec:
     requests:
       storage: 100Gi
   storageClassName: longhorn
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: media-data-hostpath
+spec:
+  capacity:
+    storage: 1Ti
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  hostPath:
+    path: /mnt/nfs/media
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - homeserver-2
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: media-data-hostpath
+  namespace: media
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Ti
+  volumeName: media-data-hostpath
+  storageClassName: ""

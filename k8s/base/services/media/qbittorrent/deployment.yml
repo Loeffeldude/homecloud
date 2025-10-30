@@ -136,7 +136,7 @@ spec:
       volumes:
         - name: data
           persistentVolumeClaim:
-            claimName: media-data
+            claimName: media-data-hostpath
         - name: config
           persistentVolumeClaim:
             claimName: qbittorrent-config

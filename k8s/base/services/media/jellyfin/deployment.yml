@@ -46,5 +46,5 @@ spec:
             claimName: jellyfin-config
         - name: data
           persistentVolumeClaim:
-            claimName: media-data
+            claimName: media-data-hostpath
       restartPolicy: Always

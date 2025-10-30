@@ -52,5 +52,5 @@ spec:
       volumes:
         - name: downloads
           persistentVolumeClaim:
-            claimName: media-data
+            claimName: media-data-hostpath
       restartPolicy: Always

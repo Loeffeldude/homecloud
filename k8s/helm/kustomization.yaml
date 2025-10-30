@@ -12,4 +12,3 @@ resources:
   # - releases/jenkins
   # - releases/github-arc
   - releases/kubetail
-  - releases/nfs-csi

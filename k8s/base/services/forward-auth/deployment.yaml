@@ -35,6 +35,6 @@ spec:
                   key: secret
                   name: forward-auth-secret
             - name: COOKIE_DOMAIN
-              value: "loeffelmeister.de"
+              value: ".loeffelmeister.de"
             - name: AUTH_HOST
               value: "forwardauth.loeffelmeister.de"

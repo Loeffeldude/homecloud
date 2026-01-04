@@ -1,0 +1,131 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vpn-proxy
+  namespace: media
+spec:
+  selector:
+    matchLabels:
+      app: vpn-proxy
+  template:
+    metadata:
+      labels:
+        app: vpn-proxy
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: kubernetes.io/hostname
+                    operator: In
+                    values:
+                      - homeserver-2
+      securityContext:
+        sysctls:
+          - name: net.ipv4.conf.all.src_valid_mark
+            value: "1"
+          - name: net.ipv4.conf.default.src_valid_mark
+            value: "1"
+      initContainers:
+        - name: copy-openvpn-config
+          image: busybox:1.36
+          command:
+            - sh
+            - -c
+            - |
+              cp /secrets/openvpn.ovpn /openvpn/openvpn.ovpn
+              chmod 600 /openvpn/openvpn.ovpn
+          volumeMounts:
+            - name: openvpn-secret
+              mountPath: /secrets
+              readOnly: true
+            - name: openvpn-config
+              mountPath: /openvpn
+      containers:
+        - name: vpn-proxy
+          image: binhex/arch-delugevpn:latest
+          securityContext:
+            privileged: true
+            capabilities:
+              add:
+                - NET_ADMIN
+                - NET_RAW
+          env:
+            - name: VPN_ENABLED
+              value: "yes"
+            - name: VPN_USER
+              valueFrom:
+                secretKeyRef:
+                  name: vpn-proxy
+                  key: vpn-user
+            - name: VPN_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: vpn-proxy
+                  key: vpn-pass
+            - name: VPN_PROV
+              value: "protonvpn"
+            - name: VPN_CLIENT
+              value: "openvpn"
+            - name: ENABLE_PRIVOXY
+              value: "yes"
+            - name: ENABLE_SOCKS
+              value: "yes"
+            - name: SOCKS_USER
+              value: "admin"
+            - name: SOCKS_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: vpn-proxy
+                  key: socks-pass
+            - name: LAN_NETWORK
+              value: "192.168.1.0/24"
+            - name: NAME_SERVERS
+              value: "1.1.1.1,1.0.0.1"
+            - name: DEBUG
+              value: "false"
+            - name: UMASK
+              value: "000"
+            - name: PUID
+              value: "911"
+            - name: PGID
+              value: "911"
+          ports:
+            - containerPort: 8118
+              name: privoxy
+            - containerPort: 9118
+              name: socks
+          volumeMounts:
+            - name: config
+              mountPath: /config
+            - name: openvpn-config
+              mountPath: /config/openvpn
+            - name: localtime
+              mountPath: /etc/localtime
+              readOnly: true
+            - name: modules
+              mountPath: /lib/modules
+              readOnly: true
+      volumes:
+        - name: config
+          persistentVolumeClaim:
+            claimName: vpn-proxy-config
+        - name: modules
+          hostPath:
+            path: /lib/modules
+            type: Directory
+        - name: openvpn-secret
+          secret:
+            secretName: vpn-proxy
+            defaultMode: 0600
+            items:
+              - key: openvpn.ovpn
+                path: openvpn.ovpn
+        - name: openvpn-config
+          emptyDir: {}
+        - name: localtime
+          hostPath:
+            path: /etc/localtime
+            type: File
+      restartPolicy: Always

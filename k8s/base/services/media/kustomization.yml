@@ -15,3 +15,4 @@ resources:
   - samba/
   - sonarr/
   - unpackerr/
+  - vpn-proxy/

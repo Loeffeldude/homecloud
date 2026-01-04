@@ -37,7 +37,8 @@ spec:
             - name: TZ
               value: Europe/Berlin
             - name: PROXY_URL
-              value: "socks5://qbittorrent.media.svc.cluster.local:9118"
+              # https://github.com/FlareSolverr/FlareSolverr/issues/1394#issuecomment-2425045674
+              value: "socks5h://qbittorrent:9118"
             - name: PROXY_USERNAME
               value: "admin"
             - name: PROXY_PASSWORD

@@ -6,3 +6,4 @@ resources:
   - service.yml
   - ingressroute.yml
   - secret.yml
+  - config.yaml

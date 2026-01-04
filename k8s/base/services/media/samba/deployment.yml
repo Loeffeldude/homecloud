@@ -44,8 +44,8 @@ spec:
                 secretKeyRef:
                   name: samba-credentials
                   key: combined
-            - name: SHARE
-              value: "media;/media;yes;no;yes;all;none;;"
+            - name: INCLUDE
+              value: "file:///config/smb.conf"
             - name: USERID
               value: "911"
             - name: GROUPID
@@ -60,6 +60,11 @@ spec:
             - name: media-data
               mountPath: /media
               readOnly: true
+            - name: media-data
+              mountPath: /media-rw
+              subPath: stuff
+            - name: samba-config
+              mountPath: /config
           resources:
             requests:
               memory: "64Mi"
@@ -71,3 +76,6 @@ spec:
         - name: media-data
           persistentVolumeClaim:
             claimName: media-data-hostpath
+        - name: samba-config
+          configMap:
+            name: samba-config

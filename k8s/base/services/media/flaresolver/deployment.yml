@@ -36,4 +36,13 @@ spec:
               value: "true"
             - name: TZ
               value: Europe/Berlin
+            - name: PROXY_URL
+              value: "socks5://qbittorrent:9118"
+            - name: PROXY_USERNAME
+              value: "admin"
+            - name: PROXY_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: qbittorrent
+                  key: socks-pass
       restartPolicy: Always

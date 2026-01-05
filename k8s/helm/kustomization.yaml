@@ -3,6 +3,7 @@ kind: Kustomization
 resources:
   - repositories.yaml
   - releases/secrets
+  - releases/cloudnative-pg
   - releases/longhorn
   - releases/monitoring
   # - releases/mcp-context-forge

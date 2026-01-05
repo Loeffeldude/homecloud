@@ -1,0 +1,26 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: homecloud-postgres
+  namespace: cnpg-system
+spec:
+  instances: 3 # 1 primary, 2 replicas
+
+  storage:
+    size: 10Gi
+    storageClass: longhorn
+
+  postgresql:
+    parameters:
+      max_connections: "100"
+      shared_buffers: "256MB"
+
+  bootstrap:
+    initdb:
+      database: homecloud
+      owner: user
+      secret:
+        name: homecloud-postgres-user
+
+  monitoring:
+    enablePodMonitor: true

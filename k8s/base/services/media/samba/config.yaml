@@ -23,25 +23,14 @@ data:
     guest ok = yes
     create mask = 0664
     directory mask = 0775
-    veto files = /stuff/xxx/
 
     [stuff]
     path = /media-rw
     browseable = yes
     read only = no
     guest ok = no
-    valid users = admin
+    valid users = admin,user
     create mask = 0664
     directory mask = 0775
-
-    [clean]
-    path = /media
-    browseable = yes
-    read only = yes
-    guest ok = no
-    valid users = user
-    create mask = 0664
-    directory mask = 0775
-    veto files = /xxx/
-    hide dot files = yes
-    hide files = /xxx/
+    force user = smbuser
+    force group = smb

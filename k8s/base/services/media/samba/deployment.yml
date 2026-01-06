@@ -60,11 +60,9 @@ spec:
             - name: PERMISSIONS
               value: "yes"
             - name: SHARE
-              value: "media;/media;yes;yes;yes;admin"
+              value: "media;/media;yes;yes;yes"
             - name: SHARE2
-              value: "stuff;/media-rw;yes;no;no;admin"
-            - name: SHARE3
-              value: "clean;/media;yes;yes;no;user;none;admin;Media share without adult content"
+              value: "stuff;/media-rw;yes;no;no;admin,user"
           volumeMounts:
             - name: media-data
               mountPath: /media

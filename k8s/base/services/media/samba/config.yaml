@@ -15,12 +15,6 @@ data:
     printing = bsd
     printcap name = /dev/null
     disable spoolss = yes
-    server min protocol = SMB1
-    server max protocol = SMB3
-    client min protocol = SMB1
-    client max protocol = SMB3
-    smb1 enabled = yes
-    ntlm auth = yes
 
     [media]
     path = /media

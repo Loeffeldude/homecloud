@@ -30,6 +30,18 @@ data:
     browseable = yes
     read only = no
     guest ok = no
-    valid users = @users
+    valid users = admin
     create mask = 0664
     directory mask = 0775
+
+    [clean]
+    path = /media
+    browseable = yes
+    read only = yes
+    guest ok = no
+    valid users = restricted
+    create mask = 0664
+    directory mask = 0775
+    veto files = /xxx/
+    hide dot files = yes
+    hide files = /xxx/

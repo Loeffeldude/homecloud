@@ -43,19 +43,28 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: samba-credentials
-                  key: combined
+                  key: admin
+            - name: USER2
+              valueFrom:
+                secretKeyRef:
+                  name: samba-credentials
+                  key: default
             - name: INCLUDE
               value: "file:///config/smb.conf"
             - name: USERID
               value: "911"
             - name: GROUPID
               value: "911"
-            # Optional but recommended
             - name: TZ
-              value: "UTC" # Set your timezone
-            # Enable permissions fix
+              value: "UTC"
             - name: PERMISSIONS
               value: "yes"
+            - name: SHARE
+              value: "media;/media;yes;yes;yes;admin"
+            - name: SHARE2
+              value: "stuff;/media-rw;yes;no;no;admin"
+            - name: SHARE3
+              value: "clean;/media;yes;yes;no;restricted;none;admin;Media share without adult content"
           volumeMounts:
             - name: media-data
               mountPath: /media

@@ -11,6 +11,6 @@ resources:
   - releases/velero
   # - releases/penpot
   # - releases/jenkins
-  # - releases/github-arc
+  - releases/github-arc
   - releases/kubetail
   - releases/vault

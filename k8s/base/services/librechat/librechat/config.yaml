@@ -123,7 +123,7 @@ data:
       hevy:
         type: stdio
         command: npx
-        initTimeout: 30000
+        initTimeout: 50000
         args:
           - -y
           - hevy-mcp

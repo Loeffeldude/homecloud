@@ -120,6 +120,15 @@ data:
             top_p: 0.8
             frequency_penalty: 0.1
     mcpServers:
+      hevy:
+        type: stdio
+        command: npx
+        initTimeout: 30000
+        args:
+          - -y
+          - hevy-mcp
+          --hevy-api-key
+          - ${HEVY_API_KEY}
       paperless:
         type: stdio
         command: npx

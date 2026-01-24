@@ -127,8 +127,7 @@ data:
         args:
           - -y
           - hevy-mcp
-          --hevy-api-key
-          - ${HEVY_API_KEY}
+          - --hevy-api-key=${HEVY_API_KEY}
       paperless:
         type: stdio
         command: npx

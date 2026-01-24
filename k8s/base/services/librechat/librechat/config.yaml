@@ -127,7 +127,11 @@ data:
         args:
           - -y
           - hevy-mcp
-          - --hevy-api-key=${HEVY_API_KEY}
+          - "--hevy-api-key={{HEVY_API_KEY}}"
+        customUserVars:
+          HEVY_API_KEY:
+            title: "API Key"
+            description: "Enter API key"
       paperless:
         type: stdio
         command: npx
@@ -136,7 +140,11 @@ data:
           - -y
           - "@nloui/paperless-mcp@1.0.0"
           - https://paperless.internal.loeffelmeister.de
-          - ${PAPERLESS_NGX_API_KEY}
+          - {{PAPERLESS_NGX_API_KEY}}
+        customUserVars:
+          PAPERLESS_NGX_API_KEY:
+            title: "API Key"
+            description: "Enter API key"
       filesystem:
         type: stdio
         initTimeout: 30000

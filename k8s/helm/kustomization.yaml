@@ -13,4 +13,4 @@ resources:
   # - releases/jenkins
   - releases/github-arc
   - releases/kubetail
-  - releases/vault
+  # - releases/vault

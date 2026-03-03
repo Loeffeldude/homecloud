@@ -36,14 +36,12 @@ spec:
               name: discover
               protocol: UDP
           volumeMounts:
-            - name: config
+            - name: data
               mountPath: /config
+              subPath: jellyfin-config
             - name: data
               mountPath: /data
       volumes:
-        - name: config
-          persistentVolumeClaim:
-            claimName: jellyfin-config
         - name: data
           persistentVolumeClaim:
             claimName: media-data-hostpath

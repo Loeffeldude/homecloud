@@ -5,6 +5,7 @@ metadata:
   namespace: media
 spec:
   entryPoints:
+    - web
     - websecure
   routes:
     - match: Host(`jellyseer.lffl.internal`)

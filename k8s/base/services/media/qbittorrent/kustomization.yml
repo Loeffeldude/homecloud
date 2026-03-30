@@ -7,4 +7,3 @@ resources:
   - ingress.yml
   - pvc.yml
   - secret.yml
-  - metrics/

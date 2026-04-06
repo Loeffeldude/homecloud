@@ -10,7 +10,7 @@ resources:
   - ./services/paperless
   - ./services/keycloak
   - ./services/librechat
-  - ./services/searxng
+  # - ./services/searxng
   # - ./services/couchdb
   - ./services/ldap
   - ./services/cyberchef
